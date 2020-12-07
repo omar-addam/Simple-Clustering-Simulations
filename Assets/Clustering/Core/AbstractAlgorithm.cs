@@ -13,17 +13,19 @@ namespace Clustering.Core
         /// <summary>
         /// Empty constructor.
         /// </summary>
-        public AbstractAlgorithm()
-            : this("N/A")
+        /// <param name="items">List of all items to be clustered.</param>
+        public AbstractAlgorithm(List<Item> items)
+            : this("N/A", items)
         {
         }
 
         /// <summary>
         /// Minimal constructor.
         /// </summary>
-        protected AbstractAlgorithm(string name)
+        protected AbstractAlgorithm(string name, List<Item> items)
         {
             Name = name;
+            Items = items;
             Iterations = new List<Iteration>();
         }
 
@@ -44,6 +46,12 @@ namespace Clustering.Core
         /// </summary>
         [SerializeField]
         private List<Iteration> Iterations;
+
+        /// <summary>
+        /// List of all items to be clustered.
+        /// </summary>
+        [SerializeField]
+        protected readonly List<Item> Items;
 
         #endregion
 
