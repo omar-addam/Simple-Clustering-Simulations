@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Clustering.Core
@@ -45,7 +43,7 @@ namespace Clustering.Core
         /// <summary>
         /// Clone constructor
         /// </summary>
-        /// <param name="item"></param>
+        /// <param name="item">Instance to clone.</param>
         public Item(Item item)
             : this(item.Id, item.PositionX, item.PositionY)
         {
@@ -94,7 +92,6 @@ namespace Clustering.Core
         /// <summary>
         /// Uses the id of the item for hash coding.
         /// </summary>
-        /// <returns></returns>
         public override int GetHashCode()
         {
             return Id.GetHashCode();
