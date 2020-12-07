@@ -26,7 +26,7 @@ namespace Clustering.Core
         {
             Name = name;
             Items = items;
-            Iterations = new List<Item>();
+            Iterations = new List<Iteration>();
         }
 
         #endregion
