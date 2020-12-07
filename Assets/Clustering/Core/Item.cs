@@ -41,7 +41,7 @@ namespace Clustering.Core
         }
 
         /// <summary>
-        /// Clone constructor
+        /// Clone constructor.
         /// </summary>
         /// <param name="item">Instance to clone.</param>
         public Item(Item item)
@@ -98,7 +98,7 @@ namespace Clustering.Core
         }
 
         /// <summary>
-        /// Use the id of the item for comparison.
+        /// Uses the id of the item for comparison.
         /// </summary>
         public override bool Equals(object obj)
         {

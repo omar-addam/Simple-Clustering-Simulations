@@ -84,7 +84,7 @@ namespace Clustering.Core
         }
 
         /// <summary>
-        /// Use the id of the cluster for comparison.
+        /// Uses the id of the cluster for comparison.
         /// </summary>
         public override bool Equals(object obj)
         {
