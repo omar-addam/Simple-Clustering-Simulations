@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Net.Sockets;
 using UnityEngine;
 
 namespace Clustering.Core
@@ -51,7 +52,27 @@ namespace Clustering.Core
         /// <summary>
         /// Computes the clusters.
         /// </summary>
-        public abstract void Compute();
+        public void Compute()
+        {
+            // Iteration 0 represents the beginning
+            Iteration currentIteration = new Iteration(0, new List<Cluster>());
+
+            do
+            {
+                // Add the generated iteration to the list of iterations
+                Iterations.Add(currentIteration);
+
+                // Compute next iteration
+                currentIteration = ComputeNextIteration(currentIteration);
+            }
+            while (currentIteration != null);
+        }
+
+        /// <summary>
+        /// Tries to compute the next iteration. 
+        /// If there are no changes to the clusters, the method will return null, identifying the end.
+        /// </summary>
+        protected abstract Iteration ComputeNextIteration(Iteration previousIteration);
 
         /// <summary>
         /// Displays the name of this algorithm.
