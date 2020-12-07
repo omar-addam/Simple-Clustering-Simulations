@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Clustering.KMean
@@ -59,6 +60,22 @@ namespace Clustering.KMean
         /// The y position of the center of the cluster.
         /// </summary>
         public float CenterY { get { return Y; } }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Recomputes the center of the cluster based on its items.
+        /// </summary>
+        public void RecomputeCenter()
+        {
+            float x = ClusterItems.Sum(item => item.PositionX) / ClusterItems.Count;
+            float y = ClusterItems.Sum(item => item.PositionY) / ClusterItems.Count;
+
+            X = x;
+            Y = y;
+        }
 
         #endregion
 
