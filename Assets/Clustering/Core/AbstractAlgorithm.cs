@@ -51,7 +51,7 @@ namespace Clustering.Core
         /// List of all items to be clustered.
         /// </summary>
         [SerializeField]
-        protected readonly List<Item> Items;
+        protected List<Item> Items;
 
         #endregion
 
