@@ -14,4 +14,16 @@ public class IntroductionSceneManager : MonoBehaviour
 
 	#endregion
 
+	#region Initialization
+
+	/// <summary>
+	/// Executes once on start.
+	/// </summary>
+	private void Awake()
+	{
+		AlgorithmManager.Clear();
+	}
+
+	#endregion
+
 }
