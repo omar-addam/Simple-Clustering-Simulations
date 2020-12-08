@@ -1,6 +1,8 @@
-﻿using Clustering.KMean;
+﻿using Clustering.Core;
+using Clustering.KMean;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class IntroductionSceneManager : MonoBehaviour
@@ -37,6 +39,7 @@ public class IntroductionSceneManager : MonoBehaviour
 		Debug.Log("K-Mean algorithm has been selected to run against a predefined sample.");
 
 		// Select k-mean algorithm
+		AlgorithmManager.Clear();
 		AlgorithmManager.SelectKMeanAlgorithm();
 
 		// TODO: Create sample
@@ -51,7 +54,26 @@ public class IntroductionSceneManager : MonoBehaviour
 	/// </summary>
 	private void GenerateKMeanSample(KMeanAlgorithm algorithm)
 	{
-		// TODO: create sample
+		// Create items sample
+		algorithm.AlgorithmItems.Add(new Item(1, 1));
+		algorithm.AlgorithmItems.Add(new Item(1, 2));
+		algorithm.AlgorithmItems.Add(new Item(2, 1));
+		algorithm.AlgorithmItems.Add(new Item(2, 2));
+
+		algorithm.AlgorithmItems.Add(new Item(5, 1));
+		algorithm.AlgorithmItems.Add(new Item(5, 2));
+		algorithm.AlgorithmItems.Add(new Item(6, 1));
+		algorithm.AlgorithmItems.Add(new Item(6, 2));
+
+		// Create clusters sample
+		algorithm.AlgorithmIterations.Add(new Iteration
+			(
+				0, new List<Cluster>
+				{
+					new KMeanCluster(new Item(1.5f, 1.5f)),
+					new KMeanCluster(new Item(5.5f, 5.5f))
+				}
+			));
 	}
 
 	#endregion
