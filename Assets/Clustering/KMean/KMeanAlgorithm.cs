@@ -10,6 +10,14 @@ namespace Clustering.KMean
     {
 
         /// <summary>
+        /// Empty constructor.
+        /// </summary>
+        public KMeanAlgorithm()
+            : this(new List<Core.Item>())
+        { 
+        }
+
+        /// <summary>
         /// Minimal constructor.
         /// </summary>
         public KMeanAlgorithm(List<Core.Item> items) 
