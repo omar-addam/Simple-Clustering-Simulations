@@ -66,14 +66,8 @@ public class IntroductionSceneManager : MonoBehaviour
 		algorithm.AlgorithmItems.Add(new Item(6, 2));
 
 		// Create clusters sample
-		algorithm.AlgorithmIterations.Add(new Iteration
-			(
-				0, new List<Cluster>
-				{
-					new KMeanCluster(new Item(1.5f, 1.5f)),
-					new KMeanCluster(new Item(5.5f, 5.5f))
-				}
-			));
+		algorithm.Clusters.Add(new Item(1.5f, 1.5f));
+		algorithm.Clusters.Add(new Item(5.5f, 1.5f));
 	}
 
 	#endregion
