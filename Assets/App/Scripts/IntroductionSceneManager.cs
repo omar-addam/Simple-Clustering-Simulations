@@ -34,6 +34,8 @@ public class IntroductionSceneManager : MonoBehaviour
 	/// </summary>
 	public void SelectKMeanSample()
 	{
+		Debug.Log("K-Mean algorithm has been selected to run against a predefined sample.");
+
 		// Select k-mean algorithm
 		AlgorithmManager.SelectKMeanAlgorithm();
 
