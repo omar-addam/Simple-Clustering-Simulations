@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Clustering.Core;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Clustering.KMean
@@ -10,11 +12,44 @@ namespace Clustering.KMean
     {
 
         /// <summary>
+        /// Empty constructor.
+        /// </summary>
+        public KMeanAlgorithm()
+            : this(new List<Item>(), new List<Item>())
+        { 
+        }
+
+        /// <summary>
         /// Minimal constructor.
         /// </summary>
-        public KMeanAlgorithm(List<Core.Item> items) 
+        public KMeanAlgorithm(List<Core.Item> items, List<Item> clusters) 
             : base("K-Mean", items)
         {
+            ClusterSeeds = clusters;
+        }
+
+
+
+        /// <summary>
+        /// List of items used as cluster seeds.
+        /// </summary>
+        [SerializeField]
+        private List<Item> ClusterSeeds = new List<Item>();
+
+        /// <summary>
+        /// List of items used as cluster seeds.
+        /// </summary>
+        public List<Item> Clusters { get { return ClusterSeeds; } }
+
+        /// <summary>
+        /// Initializes the first set of clusters used.
+        /// </summary>
+        protected override List<Cluster> InitializeClusters()
+        {
+            List<Cluster> clusters = new List<Cluster>();
+            foreach (var seed in ClusterSeeds)
+                clusters.Add(new KMeanCluster(seed));
+            return clusters;
         }
 
 
