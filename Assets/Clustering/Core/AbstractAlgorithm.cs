@@ -75,7 +75,7 @@ namespace Clustering.Core
         public void Compute()
         {
             // Iteration 0 represents the beginning
-            Iteration currentIteration = new Iteration(0, new List<Cluster>());
+            Iteration currentIteration = new Iteration(0, InitializeClusters());
 
             do
             {
@@ -87,6 +87,11 @@ namespace Clustering.Core
             }
             while (currentIteration != null);
         }
+
+        /// <summary>
+        /// Initializes the first set of clusters used.
+        /// </summary>
+        protected abstract List<Cluster> InitializeClusters();
 
         /// <summary>
         /// Tries to compute the next iteration. 
