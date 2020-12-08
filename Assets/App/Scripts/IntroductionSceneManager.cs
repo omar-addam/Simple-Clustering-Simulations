@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Clustering.KMean;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,6 +23,33 @@ public class IntroductionSceneManager : MonoBehaviour
 	private void Awake()
 	{
 		AlgorithmManager.Clear();
+	}
+
+	#endregion
+
+	#region K-Mean Methods
+
+	/// <summary>
+	/// Selects the k-mean algorithm and runs it against an example sample.
+	/// </summary>
+	public void SelectKMeanSample()
+	{
+		// Select k-mean algorithm
+		AlgorithmManager.SelectKMeanAlgorithm();
+
+		// TODO: Create sample
+		GenerateKMeanSample((KMeanAlgorithm)AlgorithmManager.CurrentAlgorithm);
+
+		// Compute iterations
+		AlgorithmManager.CurrentAlgorithm.Compute();
+	}
+
+	/// <summary>
+	/// Creates an example sample.
+	/// </summary>
+	private void GenerateKMeanSample(KMeanAlgorithm algorithm)
+	{
+		// TODO: create sample
 	}
 
 	#endregion
