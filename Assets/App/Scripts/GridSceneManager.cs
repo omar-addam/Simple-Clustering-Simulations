@@ -1,4 +1,5 @@
 ﻿using Clustering.Core;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,11 @@ public class GridSceneManager : MonoBehaviour
 	/// </summary>
 	public AlgorithmManagerScriptableObject AlgorithmManager;
 
+	/// <summary>
+	/// The color associated with each cluster.
+	/// </summary>
+	private Dictionary<Guid, Color> ClusterColors;
+
 	#endregion
 
 	#region Initialization
@@ -28,6 +34,9 @@ public class GridSceneManager : MonoBehaviour
 	/// </summary>
 	private void Awake()
 	{
+		// Associate clusters with colors
+		InitializeClusterColors();
+
 		// Display seed items and clusters
 		DisplaySeeds();
 	}
@@ -35,6 +44,35 @@ public class GridSceneManager : MonoBehaviour
 	#endregion
 
 	#region Methods
+
+	/// <summary>
+	/// Associates clusters with unique colors.
+	/// </summary>
+	private void InitializeClusterColors()
+	{
+		ClusterColors = new Dictionary<Guid, Color>();
+		Color color = Color.magenta;
+		foreach (var cluster in AlgorithmManager.CurrentAlgorithm.AlgorithmIterations.First().IterationClusters)
+		{
+			ClusterColors.Add(cluster.Id, color);
+			color = GetNextPseudoRandomColor(color);
+		}
+	}
+
+	/// <summary>
+	/// Generates random color.
+	/// </summary>
+	private Color GetNextPseudoRandomColor(Color current)
+	{
+		int keep = new System.Random().Next(0, 2);
+		float red = UnityEngine.Random.Range(0f, 1f);
+		float green = UnityEngine.Random.Range(0f, 1f);
+		float blue = UnityEngine.Random.Range(0f, 1f);
+		Color c = new Color(red, green, blue);
+		float fixedComp = c[keep] + 0.5f;
+		c[keep] = fixedComp - Mathf.Floor(fixedComp);
+		return c;
+	}
 
 	/// <summary>
 	/// Displays the seed entities.
