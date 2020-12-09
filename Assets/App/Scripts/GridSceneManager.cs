@@ -112,13 +112,14 @@ public class GridSceneManager : MonoBehaviour
 	/// </summary>
 	private void InitializeIterationsSlider()
 	{
-		IterationsUIText.text = string.Format("Iteration: {0} / {1}", 0, AlgorithmManager.CurrentAlgorithm.AlgorithmIterations.Count);
+		IterationsUIText.text = string.Format("Iteration: {0} / {1}", 0, AlgorithmManager.CurrentAlgorithm.AlgorithmIterations.Count - 1);
 		IterationsSlider.maxValue = AlgorithmManager.CurrentAlgorithm.AlgorithmIterations.Count;
 		IterationsSlider.onValueChanged.AddListener((float value) =>
 		{
-			IterationsUIText.text = string.Format("Iteration: {0} / {1}", value, AlgorithmManager.CurrentAlgorithm.AlgorithmIterations.Count);
+			IterationsUIText.text = string.Format("Iteration: {0} / {1}", value, AlgorithmManager.CurrentAlgorithm.AlgorithmIterations.Count - 1);
 
-			// TODO: Display iteration entities
+			// Display iteration entities
+			DisplayIteration((int)value);
 		});
 	}
 
@@ -128,6 +129,54 @@ public class GridSceneManager : MonoBehaviour
 	public void LoadIntroductionScene()
 	{
 		SceneManager.LoadScene("IntroductionScene", LoadSceneMode.Single);
+	}
+
+	/// <summary>
+	/// Displays the entities of an iteration.
+	/// </summary>
+	private void DisplayIteration(int order)
+	{
+		// Check if we should display seeds
+		if (order == 0)
+		{
+			DisplaySeeds();
+			return;
+		}
+
+		// Clear all displayed entities
+		GridManager.ClearEntities();
+
+		// Find the iteration
+		Iteration iteration = AlgorithmManager.CurrentAlgorithm.AlgorithmIterations.FirstOrDefault(x => x.IterationOrder == order);
+		if (iteration == null)
+			return;
+
+		// Display
+		DisplayIterationEntities(iteration);
+	}
+
+	/// <summary>
+	/// Displays the entities of an iteration.
+	/// </summary>
+	private void DisplayIterationEntities(Iteration iteration)
+	{
+		// Clear all grid entities
+		GridManager.ClearEntities();
+
+		// Go through each cluster
+		foreach (Cluster cluster in iteration.IterationClusters)
+		{
+			// Display its items
+			List<Vector2> seedItems = cluster.ClusterItems.Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
+			GridManager.DisplayEntities(seedItems, ClusterColors[cluster.Id]);
+
+			// Check if k-mean
+			if (cluster is KMeanCluster)
+			{
+				KMeanCluster kmeanCluster = cluster as KMeanCluster;
+				GridManager.DisplayEntities(new List<Vector2>() { new Vector2(kmeanCluster.CenterX, kmeanCluster.CenterY) }, ClusterColors[cluster.Id], 45f);
+			}
+		}
 	}
 
 	#endregion
