@@ -35,7 +35,8 @@ public class Grid : MonoBehaviour
 	/// </summary>
 	/// <param name="positions">Position of the entities.</param>
 	/// <param name="positions">The color applied to the entities. Null = white.</param>
-	public void DisplayEntities(List<Vector2> positions, Color? color = null)
+	/// <param name="positions">The z rotation of the entities.</param>
+	public void DisplayEntities(List<Vector2> positions, Color? color = null, float rotation = 0)
 	{
 		// For each position, create an entity
 		foreach (Vector2 position in positions)
@@ -44,7 +45,7 @@ public class Grid : MonoBehaviour
 			Vector2 normalizedPosition = position * 0.5f;
 
 			// Create a new entity instance
-			GameObject entity = Instantiate(EntityTemplate, new Vector3(normalizedPosition.x, normalizedPosition.y, 0), Quaternion.Euler(Vector3.zero), EntitiesParent.transform);
+			GameObject entity = Instantiate(EntityTemplate, new Vector3(normalizedPosition.x, normalizedPosition.y, rotation), Quaternion.Euler(Vector3.zero), EntitiesParent.transform);
 
 			// Extract the script
 			GridEntity entityScript = entity.GetComponent<GridEntity>();
