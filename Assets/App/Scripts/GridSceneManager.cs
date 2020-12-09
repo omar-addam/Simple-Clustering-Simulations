@@ -1,4 +1,5 @@
 ﻿using Clustering.Core;
+using Clustering.KMean;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -85,6 +86,16 @@ public class GridSceneManager : MonoBehaviour
 		// Display seed items
 		List<Vector2> seedItems = AlgorithmManager.CurrentAlgorithm.AlgorithmItems.Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
 		GridManager.DisplayEntities(seedItems);
+
+		// Check if k-mean
+		if (AlgorithmManager.CurrentAlgorithm is KMeanAlgorithm)
+		{
+			KMeanAlgorithm algorithm = AlgorithmManager.CurrentAlgorithm as KMeanAlgorithm;
+
+			// Display seed clusters
+			foreach (Item cluster in algorithm.Clusters)
+				GridManager.DisplayEntities(new List<Vector2>() { new Vector2(cluster.PositionX, cluster.PositionY) }, ClusterColors[cluster.Id]);
+		}
 	}
 
 	#endregion
