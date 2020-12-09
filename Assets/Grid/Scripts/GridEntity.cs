@@ -15,6 +15,10 @@ public class GridEntity : MonoBehaviour
 
         // Set the color
         GetComponent<Renderer>().material.color = color;
+
+        // Set emission color
+        GetComponent<Renderer>().material.SetColor("_EmissionColor", color);
+        GetComponent<Renderer>().material.EnableKeyword("_EMISSION");
     }
 
 }
