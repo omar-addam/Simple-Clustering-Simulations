@@ -148,6 +148,33 @@ public class GridSceneManager : MonoBehaviour
 
 		// Find the iteration
 		Iteration iteration = AlgorithmManager.CurrentAlgorithm.AlgorithmIterations.FirstOrDefault(x => x.IterationOrder == order);
+
+		// Display
+		DisplayIterationEntities(iteration);
+	}
+
+	/// <summary>
+	/// Displays the entities of an iteration.
+	/// </summary>
+	private void DisplayIterationEntities(Iteration iteration)
+	{
+		// Clear all grid entities
+		GridManager.ClearEntities();
+
+		// Go through each cluster
+		foreach (Cluster cluster in iteration.IterationClusters)
+		{
+			// Display its items
+			List<Vector2> seedItems = cluster.ClusterItems.Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
+			GridManager.DisplayEntities(seedItems, ClusterColors[cluster.Id]);
+
+			// Check if k-mean
+			if (cluster is KMeanCluster)
+			{
+				KMeanCluster kmeanCluster = cluster as KMeanCluster;
+				GridManager.DisplayEntities(new List<Vector2>() { new Vector2(kmeanCluster.CenterX, kmeanCluster.CenterY) }, ClusterColors[cluster.Id], 45f);
+			}
+		}
 	}
 
 	#endregion
