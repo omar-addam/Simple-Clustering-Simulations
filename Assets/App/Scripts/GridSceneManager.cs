@@ -52,18 +52,17 @@ public class GridSceneManager : MonoBehaviour
 	private void InitializeClusterColors()
 	{
 		ClusterColors = new Dictionary<Guid, Color>();
-		Color color = Color.magenta;
 		foreach (var cluster in AlgorithmManager.CurrentAlgorithm.AlgorithmIterations.First().IterationClusters)
 		{
+			Color color = GetNextPseudoRandomColor();
 			ClusterColors.Add(cluster.Id, color);
-			color = GetNextPseudoRandomColor(color);
 		}
 	}
 
 	/// <summary>
 	/// Generates random color.
 	/// </summary>
-	private Color GetNextPseudoRandomColor(Color current)
+	private Color GetNextPseudoRandomColor()
 	{
 		int keep = new System.Random().Next(0, 2);
 		float red = UnityEngine.Random.Range(0f, 1f);
@@ -94,7 +93,7 @@ public class GridSceneManager : MonoBehaviour
 
 			// Display seed clusters
 			foreach (Item cluster in algorithm.Clusters)
-				GridManager.DisplayEntities(new List<Vector2>() { new Vector2(cluster.PositionX, cluster.PositionY) }, ClusterColors[cluster.Id]);
+				GridManager.DisplayEntities(new List<Vector2>() { new Vector2(cluster.PositionX, cluster.PositionY) }, ClusterColors[cluster.Id], 45f);
 		}
 	}
 
