@@ -118,7 +118,8 @@ public class GridSceneManager : MonoBehaviour
 		{
 			IterationsUIText.text = string.Format("Iteration: {0} / {1}", value, AlgorithmManager.CurrentAlgorithm.AlgorithmIterations.Count);
 
-			// TODO: Display iteration entities
+			// Display iteration entities
+			DisplayIteration((int)value);
 		});
 	}
 
@@ -128,6 +129,19 @@ public class GridSceneManager : MonoBehaviour
 	public void LoadIntroductionScene()
 	{
 		SceneManager.LoadScene("IntroductionScene", LoadSceneMode.Single);
+	}
+
+	/// <summary>
+	/// Displays the entities of an iteration.
+	/// </summary>
+	private void DisplayIteration(int order)
+	{
+		// Check if we should display seeds
+		if (order == 0)
+		{
+			DisplaySeeds();
+			return;
+		}
 	}
 
 	#endregion
