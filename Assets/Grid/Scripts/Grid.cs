@@ -19,4 +19,17 @@ public class Grid : MonoBehaviour
 
 	#endregion
 
+	#region Methods
+
+	/// <summary>
+	/// Deletes all entities in the grid.
+	/// </summary>
+	public void ClearEntities()
+	{
+		foreach (Transform entity in EntitiesParent.transform)
+			GameObject.Destroy(entity.gameObject);
+	}
+
+	#endregion
+
 }
