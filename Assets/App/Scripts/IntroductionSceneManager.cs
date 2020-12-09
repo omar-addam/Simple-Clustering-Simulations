@@ -59,19 +59,22 @@ public class IntroductionSceneManager : MonoBehaviour
 	private void GenerateKMeanSample(KMeanAlgorithm algorithm)
 	{
 		// Create items sample
-		algorithm.AlgorithmItems.Add(new Item(1, 1));
-		algorithm.AlgorithmItems.Add(new Item(1, 2));
-		algorithm.AlgorithmItems.Add(new Item(2, 1));
-		algorithm.AlgorithmItems.Add(new Item(2, 2));
+		algorithm.AlgorithmItems.Add(new Item(4, 5));
+		algorithm.AlgorithmItems.Add(new Item(3, 7));
+		algorithm.AlgorithmItems.Add(new Item(4.5f, 4));
+		algorithm.AlgorithmItems.Add(new Item(5, 6));
 
-		algorithm.AlgorithmItems.Add(new Item(5, 1));
-		algorithm.AlgorithmItems.Add(new Item(5, 2));
-		algorithm.AlgorithmItems.Add(new Item(6, 1));
-		algorithm.AlgorithmItems.Add(new Item(6, 2));
+		algorithm.AlgorithmItems.Add(new Item(-1, -1));
+		algorithm.AlgorithmItems.Add(new Item(-4, -3));
+		algorithm.AlgorithmItems.Add(new Item(-4, -1.5f));
+		algorithm.AlgorithmItems.Add(new Item(-5, -1));
+		algorithm.AlgorithmItems.Add(new Item(-5, -2));
+		algorithm.AlgorithmItems.Add(new Item(-6, -1));
+		algorithm.AlgorithmItems.Add(new Item(-6, -2));
 
 		// Create clusters sample
-		algorithm.Clusters.Add(new Item(1.5f, 1.5f));
-		algorithm.Clusters.Add(new Item(5.5f, 1.5f));
+		algorithm.Clusters.Add(new Item(2f, 3f));
+		algorithm.Clusters.Add(new Item(-7f, -3f));
 	}
 
 	#endregion
