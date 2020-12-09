@@ -45,7 +45,7 @@ public class Grid : MonoBehaviour
 			Vector2 normalizedPosition = position * 0.5f;
 
 			// Create a new entity instance
-			GameObject entity = Instantiate(EntityTemplate, new Vector3(normalizedPosition.x, normalizedPosition.y, rotation), Quaternion.Euler(Vector3.zero), EntitiesParent.transform);
+			GameObject entity = Instantiate(EntityTemplate, new Vector3(normalizedPosition.x, normalizedPosition.y, 0), Quaternion.Euler(new Vector3(0, 0, rotation)), EntitiesParent.transform);
 
 			// Extract the script
 			GridEntity entityScript = entity.GetComponent<GridEntity>();
