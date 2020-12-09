@@ -44,6 +44,9 @@ public class GridSceneManager : MonoBehaviour
 	/// </summary>
 	private void Awake()
 	{
+		// Display title
+		TitleUIText.text = AlgorithmManager.CurrentAlgorithm.ToString();
+
 		// Associate clusters with colors
 		InitializeClusterColors();
 
