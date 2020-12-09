@@ -29,12 +29,13 @@ public class Grid : MonoBehaviour
 		foreach (Transform entity in EntitiesParent.transform)
 			GameObject.Destroy(entity.gameObject);
 	}
-	
+
 	/// <summary>
 	/// Displays entities on the grid.
 	/// </summary>
 	/// <param name="positions">Position of the entities.</param>
-	public void DisplayEntities(List<Vector2> positions)
+	/// <param name="positions">The color applied to the entities. Null = white.</param>
+	public void DisplayEntities(List<Vector2> positions, Color? color = null)
 	{
 		// For each position, create an entity
 		foreach (Vector2 position in positions)
@@ -47,6 +48,10 @@ public class Grid : MonoBehaviour
 
 			// Extract the script
 			GridEntity entityScript = entity.GetComponent<GridEntity>();
+
+			// Set color
+			if (color.HasValue)
+				entityScript.SetColor(color.Value);
 		}
 	}
 
