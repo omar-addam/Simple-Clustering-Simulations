@@ -54,24 +54,9 @@ public class GridSceneManager : MonoBehaviour
 		ClusterColors = new Dictionary<Guid, Color>();
 		foreach (var cluster in AlgorithmManager.CurrentAlgorithm.AlgorithmIterations.First().IterationClusters)
 		{
-			Color color = GetNextPseudoRandomColor();
+			Color color = UnityEngine.Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
 			ClusterColors.Add(cluster.Id, color);
 		}
-	}
-
-	/// <summary>
-	/// Generates random color.
-	/// </summary>
-	private Color GetNextPseudoRandomColor()
-	{
-		int keep = new System.Random().Next(0, 2);
-		float red = UnityEngine.Random.Range(0f, 1f);
-		float green = UnityEngine.Random.Range(0f, 1f);
-		float blue = UnityEngine.Random.Range(0f, 1f);
-		Color c = new Color(red, green, blue);
-		float fixedComp = c[keep] + 0.5f;
-		c[keep] = fixedComp - Mathf.Floor(fixedComp);
-		return c;
 	}
 
 	/// <summary>
