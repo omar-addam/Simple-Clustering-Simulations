@@ -430,6 +430,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GridManager: {fileID: 1967321594433878597}
+  TitleUIText: {fileID: 571126886}
   AlgorithmManager: {fileID: 11400000, guid: 6bdb09a182fb3ea4ea6aa81cfad8a881, type: 2}
 --- !u!4 &485953201
 Transform:

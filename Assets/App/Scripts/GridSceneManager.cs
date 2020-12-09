@@ -6,7 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro.EditorUtilities;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GridSceneManager : MonoBehaviour
 {
@@ -17,6 +19,11 @@ public class GridSceneManager : MonoBehaviour
 	/// References the grid in the scene.
 	/// </summary>
 	public Grid GridManager;
+
+	/// <summary>
+	/// References the title UI text element.
+	/// </summary>
+	public Text TitleUIText;
 
 	/// <summary>
 	/// References the algorithm scriptable object.
