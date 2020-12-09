@@ -103,7 +103,7 @@ public class GridSceneManager : MonoBehaviour
 
 			// Display seed clusters
 			foreach (Item cluster in algorithm.Clusters)
-				GridManager.DisplayEntities(new List<Vector2>() { new Vector2(cluster.PositionX, cluster.PositionY) }, ClusterColors[cluster.Id], 45f);
+				GridManager.DisplayEntities(new List<Vector2>() { new Vector2(cluster.PositionX, cluster.PositionY) }, ClusterColors[cluster.Id], true, 45f);
 		}
 	}
 
@@ -174,7 +174,7 @@ public class GridSceneManager : MonoBehaviour
 			if (cluster is KMeanCluster)
 			{
 				KMeanCluster kmeanCluster = cluster as KMeanCluster;
-				GridManager.DisplayEntities(new List<Vector2>() { new Vector2(kmeanCluster.CenterX, kmeanCluster.CenterY) }, ClusterColors[cluster.Id], 45f);
+				GridManager.DisplayEntities(new List<Vector2>() { new Vector2(kmeanCluster.CenterX, kmeanCluster.CenterY) }, ClusterColors[cluster.Id], false, 45f);
 			}
 		}
 	}

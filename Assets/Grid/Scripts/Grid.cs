@@ -36,7 +36,7 @@ public class Grid : MonoBehaviour
 	/// <param name="positions">Position of the entities.</param>
 	/// <param name="positions">The color applied to the entities. Null = white.</param>
 	/// <param name="positions">The z rotation of the entities.</param>
-	public void DisplayEntities(List<Vector2> positions, Color? color = null, float rotation = 0)
+	public void DisplayEntities(List<Vector2> positions, Color? color = null, bool enableEmission = true, float rotation = 0)
 	{
 		// For each position, create an entity
 		foreach (Vector2 position in positions)
@@ -52,7 +52,7 @@ public class Grid : MonoBehaviour
 
 			// Set color
 			if (color.HasValue)
-				entityScript.SetColor(color.Value);
+				entityScript.SetColor(color.Value, enableEmission);
 		}
 	}
 
