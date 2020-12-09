@@ -113,7 +113,7 @@ public class GridSceneManager : MonoBehaviour
 	private void InitializeIterationsSlider()
 	{
 		IterationsUIText.text = string.Format("Iteration: {0} / {1}", 0, AlgorithmManager.CurrentAlgorithm.AlgorithmIterations.Count - 1);
-		IterationsSlider.maxValue = AlgorithmManager.CurrentAlgorithm.AlgorithmIterations.Count;
+		IterationsSlider.maxValue = AlgorithmManager.CurrentAlgorithm.AlgorithmIterations.Count - 1;
 		IterationsSlider.onValueChanged.AddListener((float value) =>
 		{
 			IterationsUIText.text = string.Format("Iteration: {0} / {1}", value, AlgorithmManager.CurrentAlgorithm.AlgorithmIterations.Count - 1);
