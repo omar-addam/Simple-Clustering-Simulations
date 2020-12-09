@@ -26,6 +26,16 @@ public class GridSceneManager : MonoBehaviour
 	public Text TitleUIText;
 
 	/// <summary>
+	/// References the iterations title UI text element.
+	/// </summary>
+	public Text IterationsUIText;
+
+	/// <summary>
+	/// References thje iterations slider UI element.
+	/// </summary>
+	public Slider IterationsSlider;
+
+	/// <summary>
 	/// References the algorithm scriptable object.
 	/// </summary>
 	public AlgorithmManagerScriptableObject AlgorithmManager;
@@ -46,6 +56,9 @@ public class GridSceneManager : MonoBehaviour
 	{
 		// Display title
 		TitleUIText.text = AlgorithmManager.CurrentAlgorithm.ToString();
+
+		// Display iterations
+		InitializeIterationsSlider();
 
 		// Associate clusters with colors
 		InitializeClusterColors();
@@ -92,6 +105,21 @@ public class GridSceneManager : MonoBehaviour
 			foreach (Item cluster in algorithm.Clusters)
 				GridManager.DisplayEntities(new List<Vector2>() { new Vector2(cluster.PositionX, cluster.PositionY) }, ClusterColors[cluster.Id], 45f);
 		}
+	}
+
+	/// <summary>
+	/// Initializes the slider.
+	/// </summary>
+	private void InitializeIterationsSlider()
+	{
+		IterationsUIText.text = string.Format("Iteration: {0} / {1}", 0, AlgorithmManager.CurrentAlgorithm.AlgorithmIterations.Count);
+		IterationsSlider.maxValue = AlgorithmManager.CurrentAlgorithm.AlgorithmIterations.Count;
+		IterationsSlider.onValueChanged.AddListener((float value) =>
+		{
+			IterationsUIText.text = string.Format("Iteration: {0} / {1}", value, AlgorithmManager.CurrentAlgorithm.AlgorithmIterations.Count);
+
+			// TODO: Display iteration entities
+		});
 	}
 
 	/// <summary>
