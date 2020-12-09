@@ -148,6 +148,8 @@ public class GridSceneManager : MonoBehaviour
 
 		// Find the iteration
 		Iteration iteration = AlgorithmManager.CurrentAlgorithm.AlgorithmIterations.FirstOrDefault(x => x.IterationOrder == order);
+		if (iteration == null)
+			return;
 
 		// Display
 		DisplayIterationEntities(iteration);

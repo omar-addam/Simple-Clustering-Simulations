@@ -54,7 +54,7 @@ namespace Clustering.Core
         /// <summary>
         /// The order of the iteration.
         /// </summary>
-        public int IterationOrder { private set; get; }
+        public int IterationOrder { get { return Order; } }
 
 
 
