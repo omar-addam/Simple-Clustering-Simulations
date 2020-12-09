@@ -26,6 +26,16 @@ public class GridSceneManager : MonoBehaviour
 	public Text TitleUIText;
 
 	/// <summary>
+	/// References the iterations title UI text element.
+	/// </summary>
+	public Text IterationsUIText;
+
+	/// <summary>
+	/// References thje iterations slider UI element.
+	/// </summary>
+	public Slider IterationsSlider;
+
+	/// <summary>
 	/// References the algorithm scriptable object.
 	/// </summary>
 	public AlgorithmManagerScriptableObject AlgorithmManager;
