@@ -85,7 +85,7 @@ public class GridSceneManager : MonoBehaviour
 
 		// Display seed items
 		List<Vector2> seedItems = AlgorithmManager.CurrentAlgorithm.AlgorithmItems.Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
-		GridManager.DisplayEntities(seedItems);
+		GridManager.DisplayEntities(seedItems, Color.white);
 
 		// Check if k-mean
 		if (AlgorithmManager.CurrentAlgorithm is KMeanAlgorithm)
