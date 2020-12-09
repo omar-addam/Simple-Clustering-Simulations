@@ -142,6 +142,12 @@ public class GridSceneManager : MonoBehaviour
 			DisplaySeeds();
 			return;
 		}
+
+		// Clear all displayed entities
+		GridManager.ClearEntities();
+
+		// Find the iteration
+		Iteration iteration = AlgorithmManager.CurrentAlgorithm.AlgorithmIterations.FirstOrDefault(x => x.IterationOrder == order);
 	}
 
 	#endregion
