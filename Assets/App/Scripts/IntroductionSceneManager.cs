@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class IntroductionSceneManager : MonoBehaviour
 {
@@ -47,6 +48,9 @@ public class IntroductionSceneManager : MonoBehaviour
 
 		// Compute iterations
 		AlgorithmManager.CurrentAlgorithm.Compute();
+
+		// Switch to grid scene
+		SceneManager.LoadScene("GridScene", LoadSceneMode.Single);
 	}
 
 	/// <summary>

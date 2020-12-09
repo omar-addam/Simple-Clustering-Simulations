@@ -8,4 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/App/Scenes/IntroductionScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/App/Scenes/GridScene.unity
+    guid: e6e4ef1a3a996e145bd0f3934e10d6bb
   m_configObjects: {}
