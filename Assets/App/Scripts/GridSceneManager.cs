@@ -4,7 +4,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro.EditorUtilities;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GridSceneManager : MonoBehaviour
 {
@@ -80,6 +82,14 @@ public class GridSceneManager : MonoBehaviour
 			foreach (Item cluster in algorithm.Clusters)
 				GridManager.DisplayEntities(new List<Vector2>() { new Vector2(cluster.PositionX, cluster.PositionY) }, ClusterColors[cluster.Id], 45f);
 		}
+	}
+
+	/// <summary>
+	/// Loads the introduction scene.
+	/// </summary>
+	public void LoadIntroductionScene()
+	{
+		SceneManager.LoadScene("IntroductionScene", LoadSceneMode.Single);
 	}
 
 	#endregion
