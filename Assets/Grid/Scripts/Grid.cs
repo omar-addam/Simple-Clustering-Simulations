@@ -13,9 +13,14 @@ public class Grid : MonoBehaviour
 	public GameObject EntityTemplate;
 
 	/// <summary>
-	/// References the gameobject that will hold all gw3e
+	/// References the gameobject that will hold all entities.
 	/// </summary>
 	public GameObject EntitiesParent;
+
+	/// <summary>
+	/// References the gameobject that will hold all paths.
+	/// </summary>
+	public GameObject PathsParent;
 
 	#endregion
 
