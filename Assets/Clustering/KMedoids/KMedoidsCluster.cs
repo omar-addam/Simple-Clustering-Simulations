@@ -16,8 +16,8 @@ namespace Clustering.KMedoids
         /// <summary>
         /// Seed constructor.
         /// </summary>
-        public KMedoidsCluster(Core.Item seed)
-            : this(seed.Id, seed)
+        public KMedoidsCluster(Guid seedId)
+            : this(Guid.NewGuid(), seedId)
         {
         }
 
@@ -25,10 +25,10 @@ namespace Clustering.KMedoids
         /// Default constructor.
         /// </summary>
         /// <param name="id">Unique identifier used to track clusters across multuple iterations.</param>
-        public KMedoidsCluster(Guid id, Core.Item seed)
-            : base(id, new List<Core.Item>())
+        public KMedoidsCluster(Guid id, Guid seedId)
+            : base(id, new List<Item>())
         {
-            CenterId = seed.Id;
+            CenterId = seedId;
         }
 
         #endregion
