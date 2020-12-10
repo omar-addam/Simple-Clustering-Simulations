@@ -44,7 +44,7 @@ namespace Clustering.KMedoids
         /// <summary>
         /// The id of the item representing the center of this cluster.
         /// </summary>
-        public Guid ItemId { get { return Id; } }
+        public Guid ItemId { get { return CenterId; } }
 
         /// <summary>
         /// The item representing the center of the cluster.
