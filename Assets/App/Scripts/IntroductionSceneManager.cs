@@ -122,7 +122,7 @@ public class IntroductionSceneManager : MonoBehaviour
 		algorithm.AlgorithmItems.Add(new Item(-6, -2));
 
 		// Create clusters sample
-		algorithm.Clusters.Add(algorithm.AlgorithmItems[0].Id);
+		algorithm.Clusters.Add(algorithm.AlgorithmItems[4].Id);
 		algorithm.Clusters.Add(algorithm.AlgorithmItems[7].Id);
 	}
 
