@@ -49,6 +49,8 @@ MonoBehaviour:
   EntityTemplate: {fileID: 8506280037831418096, guid: 11568c302879f744a97fbb78b7fae29c,
     type: 3}
   EntitiesParent: {fileID: 1967321595335022831}
+  PathTemplate: {fileID: 1940926996331394667, guid: 8acc9d6986751c64bb23924cb6f85df4,
+    type: 3}
   PathsParent: {fileID: 7054750185352500984}
 --- !u!1 &1967321595335022831
 GameObject:

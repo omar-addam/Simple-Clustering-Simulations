@@ -18,6 +18,11 @@ public class Grid : MonoBehaviour
 	public GameObject EntitiesParent;
 
 	/// <summary>
+	/// References the prefab used to generate paths and display them on the grid.
+	/// </summary>
+	public GameObject PathTemplate;
+
+	/// <summary>
 	/// References the gameobject that will hold all paths.
 	/// </summary>
 	public GameObject PathsParent;
