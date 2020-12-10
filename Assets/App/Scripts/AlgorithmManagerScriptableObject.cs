@@ -1,5 +1,6 @@
 ﻿using Clustering.Core;
 using Clustering.KMean;
+using Clustering.KMedoids;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,10 +15,16 @@ public class AlgorithmManagerScriptableObject : ScriptableObject
     public AbstractAlgorithm CurrentAlgorithm { private set; get; }
 
     /// <summary>
-    /// KM-Mean algorithm.
+    /// K-Mean algorithm.
     /// </summary>
     [SerializeField]
     private KMeanAlgorithm KMeanAlgorithm;
+
+    /// <summary>
+    /// K-Medoids algorithm.
+    /// </summary>
+    [SerializeField]
+    private KMedoidsAlgorithm KMedoidsAlgorithm;
 
     /// <summary>
     /// Selects the k-mean algorithm as the current used algorithm.
@@ -25,6 +32,14 @@ public class AlgorithmManagerScriptableObject : ScriptableObject
     public void SelectKMeanAlgorithm()
     {
         CurrentAlgorithm = KMeanAlgorithm;
+    }
+
+    /// <summary>
+    /// Selects the k-medoids algorithm as the current used algorithm.
+    /// </summary>
+    public void SelectKMedoidsAlgorithm()
+    {
+        CurrentAlgorithm = KMedoidsAlgorithm;
     }
 
     /// <summary>
