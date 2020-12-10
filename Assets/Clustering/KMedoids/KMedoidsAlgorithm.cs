@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Clustering.KMedoids
@@ -47,7 +48,11 @@ namespace Clustering.KMedoids
         {
             List<Cluster> clusters = new List<Cluster>();
             foreach (var seed in ClusterSeeds)
-                clusters.Add(new KMedoidsCluster(seed));
+            {
+                KMedoidsCluster cluster = new KMedoidsCluster(seed);
+                clusters.Add(cluster);
+                cluster.ClusterItems.Add(Items.First(x => x.Id == seed));
+            }
             return clusters;
         }
 
@@ -64,7 +69,11 @@ namespace Clustering.KMedoids
 
             // Create empty clusters
             foreach (KMedoidsCluster cluster in previousIteration.IterationClusters)
-                iteration.IterationClusters.Add(new KMedoidsCluster(cluster.Id, cluster.ItemId));
+            {
+                KMedoidsCluster emptyCluster = new KMedoidsCluster(cluster.Id, cluster.ItemId);
+                emptyCluster.ClusterItems.Add(cluster.Centroid);
+                iteration.IterationClusters.Add(emptyCluster);
+            }
 
             // Find for each item the cluster it belongs to
             foreach (Core.Item item in Items)
