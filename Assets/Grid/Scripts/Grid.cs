@@ -32,12 +32,14 @@ public class Grid : MonoBehaviour
 	#region Methods
 
 	/// <summary>
-	/// Deletes all entities in the grid.
+	/// Deletes all entities and paths in the grid.
 	/// </summary>
-	public void ClearEntities()
+	public void Clear()
 	{
 		foreach (Transform entity in EntitiesParent.transform)
 			GameObject.Destroy(entity.gameObject);
+		foreach (Transform path in PathsParent.transform)
+			GameObject.Destroy(path.gameObject);
 	}
 
 	/// <summary>
@@ -64,6 +66,21 @@ public class Grid : MonoBehaviour
 			if (color.HasValue)
 				entityScript.SetColor(color.Value, enableEmission);
 		}
+	}
+
+	/// <summary>
+	/// Displays paths on the grid.
+	/// </summary>
+	public void DisplayPaths(List<Vector2> points)
+	{
+		// Create a new path instance
+		GameObject path = Instantiate(EntityTemplate, Vector3.zero, Quaternion.Euler(Vector3.zero), PathsParent.transform);
+
+		// Extract the script
+		GridPath pathScript = path.GetComponent<GridPath>();
+
+		// Set positions
+		pathScript.SetPath(points);
 	}
 
 	#endregion

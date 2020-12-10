@@ -90,7 +90,7 @@ public class GridSceneManager : MonoBehaviour
 	private void DisplaySeeds()
 	{
 		// Clear all grid entities
-		GridManager.ClearEntities();
+		GridManager.Clear();
 
 		// Display seed items
 		List<Vector2> seedItems = AlgorithmManager.CurrentAlgorithm.AlgorithmItems.Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
@@ -157,7 +157,7 @@ public class GridSceneManager : MonoBehaviour
 		}
 
 		// Clear all displayed entities
-		GridManager.ClearEntities();
+		GridManager.Clear();
 
 		// Find the iteration
 		Iteration iteration = AlgorithmManager.CurrentAlgorithm.AlgorithmIterations.FirstOrDefault(x => x.IterationOrder == order);
@@ -174,7 +174,7 @@ public class GridSceneManager : MonoBehaviour
 	private void DisplayIterationEntities(Iteration iteration)
 	{
 		// Clear all grid entities
-		GridManager.ClearEntities();
+		GridManager.Clear();
 
 		// Go through each cluster
 		foreach (Cluster cluster in iteration.IterationClusters)

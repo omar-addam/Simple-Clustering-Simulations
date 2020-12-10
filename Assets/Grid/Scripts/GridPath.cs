@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GridPath : MonoBehaviour
@@ -8,15 +9,11 @@ public class GridPath : MonoBehaviour
     /// <summary>
     /// Sets the start and end points of the path.
     /// </summary>
-    public void SetPath(Vector2 start, Vector2 end)
+    public void SetPath(List<Vector2> points)
     {
         GetComponent<LineRenderer>().SetPositions
         (
-            new Vector3[]
-            {
-                new Vector3(start.x, start.y, 0),
-                new Vector3(end.x, end.y, 0)
-            }
+            points.Select(point => new Vector3(point.x, point.y, 0)).ToArray()
         );
     }
 
