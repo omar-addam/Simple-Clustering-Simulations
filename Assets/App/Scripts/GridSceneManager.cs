@@ -1,5 +1,6 @@
 ﻿using Clustering.Core;
 using Clustering.KMean;
+using Clustering.KMedoids;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -93,16 +94,29 @@ public class GridSceneManager : MonoBehaviour
 
 		// Display seed items
 		List<Vector2> seedItems = AlgorithmManager.CurrentAlgorithm.AlgorithmItems.Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
+		if (AlgorithmManager.CurrentAlgorithm is KMedoidsAlgorithm)
+		{
+			KMedoidsAlgorithm algorithm = AlgorithmManager.CurrentAlgorithm as KMedoidsAlgorithm;
+			seedItems = algorithm.AlgorithmItems.Where(x => !algorithm.Clusters.Contains(x.Id)).Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
+		}
 		GridManager.DisplayEntities(seedItems, Color.white);
 
-		// Check if k-mean
+		// Display clusters
 		if (AlgorithmManager.CurrentAlgorithm is KMeanAlgorithm)
 		{
 			KMeanAlgorithm algorithm = AlgorithmManager.CurrentAlgorithm as KMeanAlgorithm;
-
-			// Display seed clusters
 			foreach (Item cluster in algorithm.Clusters)
 				GridManager.DisplayEntities(new List<Vector2>() { new Vector2(cluster.PositionX, cluster.PositionY) }, ClusterColors[cluster.Id], true, 45f);
+		}
+		else if (AlgorithmManager.CurrentAlgorithm is KMedoidsAlgorithm)
+		{
+			KMedoidsAlgorithm algorithm = AlgorithmManager.CurrentAlgorithm as KMedoidsAlgorithm;
+
+			foreach (KMedoidsCluster cluster in algorithm.AlgorithmIterations.First().IterationClusters)
+			{
+				Item item = cluster.Centroid;
+				GridManager.DisplayEntities(new List<Vector2>() { new Vector2(item.PositionX, item.PositionY) }, ClusterColors[cluster.Id], true, 45f);
+			}
 		}
 	}
 
@@ -167,13 +181,23 @@ public class GridSceneManager : MonoBehaviour
 		{
 			// Display its items
 			List<Vector2> seedItems = cluster.ClusterItems.Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
+			if (cluster is KMedoidsCluster)
+			{
+				KMedoidsCluster kmedoidsCluster = cluster as KMedoidsCluster;
+				seedItems = kmedoidsCluster.ClusterItems.Where(x => x.Id != kmedoidsCluster.ItemId).Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
+			}
 			GridManager.DisplayEntities(seedItems, ClusterColors[cluster.Id]);
 
-			// Check if k-mean
+			// Display cluster
 			if (cluster is KMeanCluster)
 			{
 				KMeanCluster kmeanCluster = cluster as KMeanCluster;
 				GridManager.DisplayEntities(new List<Vector2>() { new Vector2(kmeanCluster.CenterX, kmeanCluster.CenterY) }, ClusterColors[cluster.Id], false, 45f);
+			}
+			else if(cluster is KMedoidsCluster)
+			{
+				KMedoidsCluster kmedoidsCluster = cluster as KMedoidsCluster;
+				GridManager.DisplayEntities(new List<Vector2>() { new Vector2(kmedoidsCluster.Centroid.PositionX, kmedoidsCluster.Centroid.PositionY) }, ClusterColors[cluster.Id], false, 45f);
 			}
 		}
 	}
