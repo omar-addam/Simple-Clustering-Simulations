@@ -71,7 +71,7 @@ public class Grid : MonoBehaviour
 	/// <summary>
 	/// Displays paths on the grid.
 	/// </summary>
-	public void DisplayPaths(List<Vector2> points)
+	public void DisplayPaths(List<Vector2> points, Color? color = null)
 	{
 		// Create a new path instance
 		GameObject path = Instantiate(PathTemplate, Vector3.zero, Quaternion.Euler(Vector3.zero), PathsParent.transform);
@@ -80,7 +80,7 @@ public class Grid : MonoBehaviour
 		GridPath pathScript = path.GetComponent<GridPath>();
 
 		// Set positions
-		pathScript.SetPath(points);
+		pathScript.SetPath(points, color);
 	}
 
 	#endregion

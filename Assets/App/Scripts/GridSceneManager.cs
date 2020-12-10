@@ -240,7 +240,7 @@ public class GridSceneManager : MonoBehaviour
 
 		// Display paths
 		foreach (Guid clusterId in clusterPaths.Keys)
-			GridManager.DisplayPaths(clusterPaths[clusterId]);
+			GridManager.DisplayPaths(clusterPaths[clusterId], ClusterColors[clusterId]);
 	}
 
 	#endregion
