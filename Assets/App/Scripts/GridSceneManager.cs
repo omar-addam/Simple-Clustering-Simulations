@@ -166,6 +166,7 @@ public class GridSceneManager : MonoBehaviour
 
 		// Display
 		DisplayIterationEntities(iteration);
+		DisplayIterationPaths(iteration);
 	}
 
 	/// <summary>
@@ -200,6 +201,46 @@ public class GridSceneManager : MonoBehaviour
 				GridManager.DisplayEntities(new List<Vector2>() { new Vector2(kmedoidsCluster.Centroid.PositionX, kmedoidsCluster.Centroid.PositionY) }, ClusterColors[cluster.Id], false, 45f);
 			}
 		}
+	}
+
+	/// <summary>
+	/// Displays the paths of clusters till this iteration.
+	/// </summary>
+	private void DisplayIterationPaths(Iteration iteration)
+	{
+		// Initialize the path list
+		Dictionary<Guid, List<Vector2>> clusterPaths = new Dictionary<Guid, List<Vector2>>();
+
+		// Populate with the list of clusters
+		foreach (Cluster cluster in iteration.IterationClusters)
+			clusterPaths.Add(cluster.Id, new List<Vector2>());
+
+		// Get the history of each cluster
+		foreach (Cluster cluster in iteration.IterationClusters)
+		{
+			List<Cluster> history = new List<Cluster>();
+
+			// Go through each iteration and find this cluster
+			foreach (var it in AlgorithmManager.CurrentAlgorithm.AlgorithmIterations)
+				if (it.IterationOrder <= iteration.IterationOrder)
+				{
+					Cluster historyCluster = it.IterationClusters.FirstOrDefault(x => x.Id == cluster.Id);
+					if (historyCluster != null)
+						history.Add(historyCluster);
+				}
+
+			// Calculate paths
+			if (cluster is KMeanCluster)
+				foreach (KMeanCluster historyCluster in history)
+					clusterPaths[cluster.Id].Add(new Vector2(historyCluster.CenterX * 0.5f, historyCluster.CenterY * 0.5f));
+			else if (cluster is KMedoidsCluster)
+				foreach (KMedoidsCluster historyCluster in history)
+					clusterPaths[cluster.Id].Add(new Vector2(historyCluster.Centroid.PositionX * 0.5f, historyCluster.Centroid.PositionY * 0.5f));
+		}
+
+		// Display paths
+		foreach (Guid clusterId in clusterPaths.Keys)
+			GridManager.DisplayPaths(clusterPaths[clusterId]);
 	}
 
 	#endregion
