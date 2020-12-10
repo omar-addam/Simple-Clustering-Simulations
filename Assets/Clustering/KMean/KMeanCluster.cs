@@ -13,7 +13,7 @@ namespace Clustering.KMean
         #region Constructors
 
         /// <summary>
-        /// Seed constructor
+        /// Seed constructor.
         /// </summary>
         public KMeanCluster(Core.Item seed)
             : this(seed.Id, seed.PositionX, seed.PositionY)
@@ -21,7 +21,7 @@ namespace Clustering.KMean
         }
 
         /// <summary>
-        /// Default constructor
+        /// Default constructor.
         /// </summary>
         /// <param name="id">Unique identifier used to track clusters across multuple iterations.</param>
         /// <param name="x">The x position of the center of the cluster.</param>
