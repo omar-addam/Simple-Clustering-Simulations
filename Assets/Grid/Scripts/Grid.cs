@@ -74,7 +74,7 @@ public class Grid : MonoBehaviour
 	public void DisplayPaths(List<Vector2> points)
 	{
 		// Create a new path instance
-		GameObject path = Instantiate(EntityTemplate, Vector3.zero, Quaternion.Euler(Vector3.zero), PathsParent.transform);
+		GameObject path = Instantiate(PathTemplate, Vector3.zero, Quaternion.Euler(Vector3.zero), PathsParent.transform);
 
 		// Extract the script
 		GridPath pathScript = path.GetComponent<GridPath>();
