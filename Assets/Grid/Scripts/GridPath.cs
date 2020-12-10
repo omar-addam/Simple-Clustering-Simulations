@@ -11,6 +11,7 @@ public class GridPath : MonoBehaviour
     /// </summary>
     public void SetPath(List<Vector2> points)
     {
+        GetComponent<LineRenderer>().positionCount = points.Count;
         GetComponent<LineRenderer>().SetPositions
         (
             points.Select(point => new Vector3(point.x, point.y, 0)).ToArray()
