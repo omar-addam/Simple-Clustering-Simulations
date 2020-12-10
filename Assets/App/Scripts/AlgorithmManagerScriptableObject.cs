@@ -48,6 +48,7 @@ public class AlgorithmManagerScriptableObject : ScriptableObject
     public void Clear()
     {
         KMeanAlgorithm = new KMeanAlgorithm();
+        KMedoidsAlgorithm = new KMedoidsAlgorithm();
         CurrentAlgorithm = null;
     }
 
