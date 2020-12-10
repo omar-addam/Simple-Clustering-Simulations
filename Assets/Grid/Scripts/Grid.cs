@@ -13,21 +13,33 @@ public class Grid : MonoBehaviour
 	public GameObject EntityTemplate;
 
 	/// <summary>
-	/// References the gameobject that will hold all gw3e
+	/// References the gameobject that will hold all entities.
 	/// </summary>
 	public GameObject EntitiesParent;
+
+	/// <summary>
+	/// References the prefab used to generate paths and display them on the grid.
+	/// </summary>
+	public GameObject PathTemplate;
+
+	/// <summary>
+	/// References the gameobject that will hold all paths.
+	/// </summary>
+	public GameObject PathsParent;
 
 	#endregion
 
 	#region Methods
 
 	/// <summary>
-	/// Deletes all entities in the grid.
+	/// Deletes all entities and paths in the grid.
 	/// </summary>
-	public void ClearEntities()
+	public void Clear()
 	{
 		foreach (Transform entity in EntitiesParent.transform)
 			GameObject.Destroy(entity.gameObject);
+		foreach (Transform path in PathsParent.transform)
+			GameObject.Destroy(path.gameObject);
 	}
 
 	/// <summary>
@@ -54,6 +66,21 @@ public class Grid : MonoBehaviour
 			if (color.HasValue)
 				entityScript.SetColor(color.Value, enableEmission);
 		}
+	}
+
+	/// <summary>
+	/// Displays paths on the grid.
+	/// </summary>
+	public void DisplayPaths(List<Vector2> points, Color? color = null)
+	{
+		// Create a new path instance
+		GameObject path = Instantiate(PathTemplate, Vector3.zero, Quaternion.Euler(Vector3.zero), PathsParent.transform);
+
+		// Extract the script
+		GridPath pathScript = path.GetComponent<GridPath>();
+
+		// Set positions
+		pathScript.SetPath(points, color);
 	}
 
 	#endregion
