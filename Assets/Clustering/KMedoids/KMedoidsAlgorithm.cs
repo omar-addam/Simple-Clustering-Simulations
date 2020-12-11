@@ -51,7 +51,7 @@ namespace Clustering.KMedoids
             {
                 KMedoidsCluster cluster = new KMedoidsCluster(seed);
                 clusters.Add(cluster);
-                cluster.ClusterItems.Add(Items.First(x => x.Id == seed));
+                cluster.ClusterItems.Add(_Items.First(x => x.Id == seed));
             }
             return clusters;
         }
@@ -76,7 +76,7 @@ namespace Clustering.KMedoids
             }
 
             // Find for each item the cluster it belongs to
-            foreach (Core.Item item in Items)
+            foreach (Core.Item item in _Items)
             {
                 Core.Cluster cluster = FindClosestCluster(item, iteration.IterationClusters);
                 cluster.ClusterItems.Add(item);

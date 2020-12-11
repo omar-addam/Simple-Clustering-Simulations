@@ -77,7 +77,7 @@ public class GridSceneManager : MonoBehaviour
 	private void InitializeClusterColors()
 	{
 		ClusterColors = new Dictionary<Guid, Color>();
-		foreach (var cluster in AlgorithmManager.CurrentAlgorithm.AlgorithmIterations.First().IterationClusters)
+		foreach (var cluster in AlgorithmManager.CurrentAlgorithm.Iterations.First().IterationClusters)
 		{
 			Color color = UnityEngine.Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
 			ClusterColors.Add(cluster.Id, color);
@@ -93,11 +93,11 @@ public class GridSceneManager : MonoBehaviour
 		GridManager.Clear();
 
 		// Display seed items
-		List<Vector2> seedItems = AlgorithmManager.CurrentAlgorithm.AlgorithmItems.Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
+		List<Vector2> seedItems = AlgorithmManager.CurrentAlgorithm.Items.Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
 		if (AlgorithmManager.CurrentAlgorithm is KMedoidsAlgorithm)
 		{
 			KMedoidsAlgorithm algorithm = AlgorithmManager.CurrentAlgorithm as KMedoidsAlgorithm;
-			seedItems = algorithm.AlgorithmItems.Where(x => !algorithm.Clusters.Contains(x.Id)).Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
+			seedItems = algorithm.Items.Where(x => !algorithm.Clusters.Contains(x.Id)).Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
 		}
 		GridManager.DisplayEntities(seedItems, Color.white);
 
@@ -112,7 +112,7 @@ public class GridSceneManager : MonoBehaviour
 		{
 			KMedoidsAlgorithm algorithm = AlgorithmManager.CurrentAlgorithm as KMedoidsAlgorithm;
 
-			foreach (KMedoidsCluster cluster in algorithm.AlgorithmIterations.First().IterationClusters)
+			foreach (KMedoidsCluster cluster in algorithm.Iterations.First().IterationClusters)
 			{
 				Item item = cluster.Centroid;
 				GridManager.DisplayEntities(new List<Vector2>() { new Vector2(item.PositionX, item.PositionY) }, ClusterColors[cluster.Id], true, 45f);
@@ -125,11 +125,11 @@ public class GridSceneManager : MonoBehaviour
 	/// </summary>
 	private void InitializeIterationsSlider()
 	{
-		IterationsUIText.text = string.Format("Iteration: {0} / {1}", 0, AlgorithmManager.CurrentAlgorithm.AlgorithmIterations.Count - 1);
-		IterationsSlider.maxValue = AlgorithmManager.CurrentAlgorithm.AlgorithmIterations.Count - 1;
+		IterationsUIText.text = string.Format("Iteration: {0} / {1}", 0, AlgorithmManager.CurrentAlgorithm.Iterations.Count - 1);
+		IterationsSlider.maxValue = AlgorithmManager.CurrentAlgorithm.Iterations.Count - 1;
 		IterationsSlider.onValueChanged.AddListener((float value) =>
 		{
-			IterationsUIText.text = string.Format("Iteration: {0} / {1}", value, AlgorithmManager.CurrentAlgorithm.AlgorithmIterations.Count - 1);
+			IterationsUIText.text = string.Format("Iteration: {0} / {1}", value, AlgorithmManager.CurrentAlgorithm.Iterations.Count - 1);
 
 			// Display iteration entities
 			DisplayIteration((int)value);
@@ -160,7 +160,7 @@ public class GridSceneManager : MonoBehaviour
 		GridManager.Clear();
 
 		// Find the iteration
-		Iteration iteration = AlgorithmManager.CurrentAlgorithm.AlgorithmIterations.FirstOrDefault(x => x.IterationOrder == order);
+		Iteration iteration = AlgorithmManager.CurrentAlgorithm.Iterations.FirstOrDefault(x => x.IterationOrder == order);
 		if (iteration == null)
 			return;
 
@@ -221,7 +221,7 @@ public class GridSceneManager : MonoBehaviour
 			List<Cluster> history = new List<Cluster>();
 
 			// Go through each iteration and find this cluster
-			foreach (var it in AlgorithmManager.CurrentAlgorithm.AlgorithmIterations)
+			foreach (var it in AlgorithmManager.CurrentAlgorithm.Iterations)
 				if (it.IterationOrder <= iteration.IterationOrder)
 				{
 					Cluster historyCluster = it.IterationClusters.FirstOrDefault(x => x.Id == cluster.Id);

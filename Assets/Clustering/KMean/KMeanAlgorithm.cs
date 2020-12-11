@@ -68,7 +68,7 @@ namespace Clustering.KMean
                 iteration.IterationClusters.Add(new KMeanCluster(cluster.Id, cluster.CenterX, cluster.CenterY));
 
             // Find for each item the cluster it belongs to
-            foreach (Core.Item item in Items)
+            foreach (Core.Item item in _Items)
             {
                 Core.Cluster cluster = FindClosestCluster(item, iteration.IterationClusters);
                 cluster.ClusterItems.Add(item);
