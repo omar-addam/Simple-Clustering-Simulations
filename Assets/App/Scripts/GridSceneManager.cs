@@ -1,5 +1,5 @@
 ﻿using Clustering.Core;
-using Clustering.KMean;
+using Clustering.KMeans;
 using Clustering.KMedoids;
 using System;
 using System.Collections;
@@ -102,9 +102,9 @@ public class GridSceneManager : MonoBehaviour
 		GridManager.DisplayEntities(seedItems, Color.white);
 
 		// Display clusters
-		if (AlgorithmManager.CurrentAlgorithm is KMeanAlgorithm)
+		if (AlgorithmManager.CurrentAlgorithm is KMeansAlgorithm)
 		{
-			KMeanAlgorithm algorithm = AlgorithmManager.CurrentAlgorithm as KMeanAlgorithm;
+			KMeansAlgorithm algorithm = AlgorithmManager.CurrentAlgorithm as KMeansAlgorithm;
 			foreach (Item cluster in algorithm.Clusters)
 				GridManager.DisplayEntities(new List<Vector2>() { new Vector2(cluster.PositionX, cluster.PositionY) }, ClusterColors[cluster.Id], true, 45f);
 		}
@@ -190,9 +190,9 @@ public class GridSceneManager : MonoBehaviour
 			GridManager.DisplayEntities(seedItems, ClusterColors[cluster.Id]);
 
 			// Display cluster
-			if (cluster is KMeanCluster)
+			if (cluster is KMeansCluster)
 			{
-				KMeanCluster kmeanCluster = cluster as KMeanCluster;
+				KMeansCluster kmeanCluster = cluster as KMeansCluster;
 				GridManager.DisplayEntities(new List<Vector2>() { new Vector2(kmeanCluster.CenterX, kmeanCluster.CenterY) }, ClusterColors[cluster.Id], false, 45f);
 			}
 			else if(cluster is KMedoidsCluster)
@@ -230,8 +230,8 @@ public class GridSceneManager : MonoBehaviour
 				}
 
 			// Calculate paths
-			if (cluster is KMeanCluster)
-				foreach (KMeanCluster historyCluster in history)
+			if (cluster is KMeansCluster)
+				foreach (KMeansCluster historyCluster in history)
 					clusterPaths[cluster.Id].Add(new Vector2(historyCluster.CenterX * 0.5f, historyCluster.CenterY * 0.5f));
 			else if (cluster is KMedoidsCluster)
 				foreach (KMedoidsCluster historyCluster in history)

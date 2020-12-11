@@ -5,16 +5,16 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Clustering.KMean
+namespace Clustering.KMeans
 {
     [Serializable]
-    public class KMeanAlgorithm : Core.AbstractAlgorithm
+    public class KMeansAlgorithm : AbstractAlgorithm
     {
 
         /// <summary>
         /// Empty constructor.
         /// </summary>
-        public KMeanAlgorithm()
+        public KMeansAlgorithm()
             : this(new List<Item>(), new List<Item>())
         { 
         }
@@ -22,8 +22,8 @@ namespace Clustering.KMean
         /// <summary>
         /// Minimal constructor.
         /// </summary>
-        public KMeanAlgorithm(List<Core.Item> items, List<Item> clusters) 
-            : base("K-Mean", items)
+        public KMeansAlgorithm(List<Core.Item> items, List<Item> clusters) 
+            : base("K-Means", items)
         {
             ClusterSeeds = clusters;
         }
@@ -48,7 +48,7 @@ namespace Clustering.KMean
         {
             List<Cluster> clusters = new List<Cluster>();
             foreach (var seed in ClusterSeeds)
-                clusters.Add(new KMeanCluster(seed));
+                clusters.Add(new KMeansCluster(seed));
             return clusters;
         }
 
@@ -64,8 +64,8 @@ namespace Clustering.KMean
             Core.Iteration iteration = new Core.Iteration(previousIteration.Order + 1, new List<Core.Cluster>());
 
             // Create empty clusters
-            foreach (KMeanCluster cluster in previousIteration.Clusters)
-                iteration.Clusters.Add(new KMeanCluster(cluster.Id, cluster.CenterX, cluster.CenterY));
+            foreach (KMeansCluster cluster in previousIteration.Clusters)
+                iteration.Clusters.Add(new KMeansCluster(cluster.Id, cluster.CenterX, cluster.CenterY));
 
             // Find for each item the cluster it belongs to
             foreach (Core.Item item in _Items)
@@ -75,7 +75,7 @@ namespace Clustering.KMean
             }
 
             // Recompute the center for each cluster
-            foreach (KMeanCluster cluster in iteration.Clusters)
+            foreach (KMeansCluster cluster in iteration.Clusters)
                 cluster.RecomputeCenter();
 
             // Check if the new iteration is different than previous iteration
@@ -99,12 +99,12 @@ namespace Clustering.KMean
 
             // Set the first cluster as the closest cluster by default
             Core.Cluster closestCluster = clusters[0];
-            float closestDistance = ComputeDistance(item, (KMeanCluster)closestCluster);
+            float closestDistance = ComputeDistance(item, (KMeansCluster)closestCluster);
 
             // Go through each cluster and find if it is closer
             foreach (var cluster in clusters)
             {
-                float distance = ComputeDistance(item, (KMeanCluster)cluster);
+                float distance = ComputeDistance(item, (KMeansCluster)cluster);
                 if (distance < closestDistance)
                 {
                     closestDistance = distance;
@@ -119,7 +119,7 @@ namespace Clustering.KMean
         /// <summary>
         /// Computes the distance bhetween an item and a cluster.
         /// </summary>
-        private float ComputeDistance(Core.Item item, KMeanCluster cluster)
+        private float ComputeDistance(Core.Item item, KMeansCluster cluster)
         {
             return (float)
                 Math.Sqrt
@@ -138,19 +138,19 @@ namespace Clustering.KMean
         private bool CompareIterations(Core.Iteration previousIteration, Core.Iteration newIteration)
         {
             // Classify clusters by their ids for faster retrieval
-            Dictionary<Guid, KMeanCluster> previousClusters = new Dictionary<Guid, KMeanCluster>();
-            Dictionary<Guid, KMeanCluster> newClusters = new Dictionary<Guid, KMeanCluster>();
+            Dictionary<Guid, KMeansCluster> previousClusters = new Dictionary<Guid, KMeansCluster>();
+            Dictionary<Guid, KMeansCluster> newClusters = new Dictionary<Guid, KMeansCluster>();
 
-            foreach (KMeanCluster cluster in previousIteration.Clusters)
+            foreach (KMeansCluster cluster in previousIteration.Clusters)
                 previousClusters.Add(cluster.Id, cluster);
-            foreach (KMeanCluster cluster in newIteration.Clusters)
+            foreach (KMeansCluster cluster in newIteration.Clusters)
                 newClusters.Add(cluster.Id, cluster);
 
             // Go through each cluster and see if you can find any difference
             foreach (Guid clusterId in previousClusters.Keys)
             {
-                KMeanCluster previousCluster = previousClusters[clusterId];
-                KMeanCluster newCluster = newClusters[clusterId];
+                KMeansCluster previousCluster = previousClusters[clusterId];
+                KMeansCluster newCluster = newClusters[clusterId];
 
                 if (!CompareClusters(previousCluster, newCluster))
                     return false;
@@ -163,7 +163,7 @@ namespace Clustering.KMean
         /// <summary>
         /// Compares if two clusters are similar.
         /// </summary>
-        private bool CompareClusters(KMeanCluster previousCluster, KMeanCluster newCluster)
+        private bool CompareClusters(KMeansCluster previousCluster, KMeansCluster newCluster)
         {
             // Check if clusters have different centers
             if (previousCluster.CenterX != newCluster.CenterX

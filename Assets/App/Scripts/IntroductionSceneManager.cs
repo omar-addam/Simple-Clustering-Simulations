@@ -1,5 +1,5 @@
 ﻿using Clustering.Core;
-using Clustering.KMean;
+using Clustering.KMeans;
 using Clustering.KMedoids;
 using System.Collections;
 using System.Collections.Generic;
@@ -44,7 +44,7 @@ public class IntroductionSceneManager : MonoBehaviour
 		AlgorithmManager.SelectKMeanAlgorithm();
 
 		// Create sample
-		GenerateKMeanSample((KMeanAlgorithm)AlgorithmManager.CurrentAlgorithm);
+		GenerateKMeanSample((KMeansAlgorithm)AlgorithmManager.CurrentAlgorithm);
 
 		// Compute iterations
 		AlgorithmManager.CurrentAlgorithm.Compute();
@@ -56,7 +56,7 @@ public class IntroductionSceneManager : MonoBehaviour
 	/// <summary>
 	/// Creates an example sample.
 	/// </summary>
-	private void GenerateKMeanSample(KMeanAlgorithm algorithm)
+	private void GenerateKMeanSample(KMeansAlgorithm algorithm)
 	{
 		// Create items sample
 		algorithm.Items.Add(new Item(4, 5));
