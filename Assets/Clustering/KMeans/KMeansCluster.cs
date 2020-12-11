@@ -29,8 +29,8 @@ namespace Clustering.KMeans
         public KMeansCluster(Guid id, float x, float y)
             : base(id, new List<Core.Item>())
         {
-            X = x;
-            Y = y;
+            _CenterX = x;
+            _CenterY = y;
         }
 
         #endregion
@@ -41,12 +41,13 @@ namespace Clustering.KMeans
         /// The x position of the center of the cluster.
         /// </summary>
         [SerializeField]
-        private float X = 0;
+        [Tooltip("The x position of the center of the cluster.")]
+        private float _CenterX = 0;
 
         /// <summary>
         /// The x position of the center of the cluster.
         /// </summary>
-        public float CenterX { get { return X; } }
+        public float CenterX { get { return _CenterX; } }
 
 
 
@@ -54,12 +55,13 @@ namespace Clustering.KMeans
         /// The y position of the center of the cluster.
         /// </summary>
         [SerializeField]
-        private float Y = 0;
+        [Tooltip("The y position of the center of the cluster.")]
+        private float _CenterY = 0;
 
         /// <summary>
         /// The y position of the center of the cluster.
         /// </summary>
-        public float CenterY { get { return Y; } }
+        public float CenterY { get { return _CenterY; } }
 
         #endregion
 
@@ -73,8 +75,8 @@ namespace Clustering.KMeans
             float x = Items.Sum(item => item.PositionX) / Items.Count;
             float y = Items.Sum(item => item.PositionY) / Items.Count;
 
-            X = x;
-            Y = y;
+            _CenterX = x;
+            _CenterY = y;
         }
 
         #endregion
