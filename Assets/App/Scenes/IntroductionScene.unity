@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 180646497}
   - component: {fileID: 180646499}
   m_Layer: 5
-  m_Name: K-Mean
+  m_Name: K-Means
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -334,7 +334,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1292213991}
         m_TargetAssemblyTypeName: IntroductionSceneManager, Assembly-CSharp
-        m_MethodName: SelectKMeanSample
+        m_MethodName: SelectKMeansSample
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1734,7 +1734,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: K-Mean Clustering
+  m_Text: K-Means Clustering
 --- !u!222 &1769145167
 CanvasRenderer:
   m_ObjectHideFlags: 0

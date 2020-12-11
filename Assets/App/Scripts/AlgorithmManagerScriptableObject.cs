@@ -18,7 +18,7 @@ public class AlgorithmManagerScriptableObject : ScriptableObject
     /// K-Mean algorithm.
     /// </summary>
     [SerializeField]
-    private KMeansAlgorithm KMeanAlgorithm;
+    private KMeansAlgorithm KMeansAlgorithm;
 
     /// <summary>
     /// K-Medoids algorithm.
@@ -27,11 +27,11 @@ public class AlgorithmManagerScriptableObject : ScriptableObject
     private KMedoidsAlgorithm KMedoidsAlgorithm;
 
     /// <summary>
-    /// Selects the k-mean algorithm as the current used algorithm.
+    /// Selects the k-means algorithm as the current used algorithm.
     /// </summary>
-    public void SelectKMeanAlgorithm()
+    public void SelectKMeansAlgorithm()
     {
-        CurrentAlgorithm = KMeanAlgorithm;
+        CurrentAlgorithm = KMeansAlgorithm;
     }
 
     /// <summary>
@@ -47,7 +47,7 @@ public class AlgorithmManagerScriptableObject : ScriptableObject
     /// </summary>
     public void Clear()
     {
-        KMeanAlgorithm = new KMeansAlgorithm();
+        KMeansAlgorithm = new KMeansAlgorithm();
         KMedoidsAlgorithm = new KMedoidsAlgorithm();
         CurrentAlgorithm = null;
     }

@@ -12,7 +12,7 @@ public class IntroductionSceneManager : MonoBehaviour
 	#region Variables
 
 	/// <summary>
-	/// References the algorithm data instance.
+	/// References the algorithm scriptable object instance.
 	/// </summary>
 	public AlgorithmManagerScriptableObject AlgorithmManager;
 
@@ -30,21 +30,21 @@ public class IntroductionSceneManager : MonoBehaviour
 
 	#endregion
 
-	#region K-Mean Methods
+	#region K-Means Methods
 
 	/// <summary>
-	/// Selects the k-mean algorithm and runs it against an example sample.
+	/// Selects the k-means algorithm and runs it against an example sample.
 	/// </summary>
-	public void SelectKMeanSample()
+	public void SelectKMeansSample()
 	{
-		Debug.Log("K-Mean algorithm has been selected to run against a predefined sample.");
+		Debug.Log("K-Means algorithm has been selected to run against a predefined sample.");
 
 		// Select k-mean algorithm
 		AlgorithmManager.Clear();
-		AlgorithmManager.SelectKMeanAlgorithm();
+		AlgorithmManager.SelectKMeansAlgorithm();
 
 		// Create sample
-		GenerateKMeanSample((KMeansAlgorithm)AlgorithmManager.CurrentAlgorithm);
+		GenerateKMeansSample((KMeansAlgorithm)AlgorithmManager.CurrentAlgorithm);
 
 		// Compute iterations
 		AlgorithmManager.CurrentAlgorithm.Compute();
@@ -56,7 +56,7 @@ public class IntroductionSceneManager : MonoBehaviour
 	/// <summary>
 	/// Creates an example sample.
 	/// </summary>
-	private void GenerateKMeanSample(KMeansAlgorithm algorithm)
+	private void GenerateKMeansSample(KMeansAlgorithm algorithm)
 	{
 		// Create items sample
 		algorithm.Items.Add(new Item(4, 5));
