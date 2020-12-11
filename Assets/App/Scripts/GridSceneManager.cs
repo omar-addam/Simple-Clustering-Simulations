@@ -181,11 +181,11 @@ public class GridSceneManager : MonoBehaviour
 		foreach (Cluster cluster in iteration.IterationClusters)
 		{
 			// Display its items
-			List<Vector2> seedItems = cluster.ClusterItems.Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
+			List<Vector2> seedItems = cluster.Items.Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
 			if (cluster is KMedoidsCluster)
 			{
 				KMedoidsCluster kmedoidsCluster = cluster as KMedoidsCluster;
-				seedItems = kmedoidsCluster.ClusterItems.Where(x => x.Id != kmedoidsCluster.ItemId).Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
+				seedItems = kmedoidsCluster.Items.Where(x => x.Id != kmedoidsCluster.ItemId).Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
 			}
 			GridManager.DisplayEntities(seedItems, ClusterColors[cluster.Id]);
 

@@ -51,7 +51,7 @@ namespace Clustering.KMedoids
             {
                 KMedoidsCluster cluster = new KMedoidsCluster(seed);
                 clusters.Add(cluster);
-                cluster.ClusterItems.Add(_Items.First(x => x.Id == seed));
+                cluster.Items.Add(_Items.First(x => x.Id == seed));
             }
             return clusters;
         }
@@ -71,7 +71,7 @@ namespace Clustering.KMedoids
             foreach (KMedoidsCluster cluster in previousIteration.IterationClusters)
             {
                 KMedoidsCluster emptyCluster = new KMedoidsCluster(cluster.Id, cluster.ItemId);
-                emptyCluster.ClusterItems.Add(cluster.Centroid);
+                emptyCluster.Items.Add(cluster.Centroid);
                 iteration.IterationClusters.Add(emptyCluster);
             }
 
@@ -79,7 +79,7 @@ namespace Clustering.KMedoids
             foreach (Core.Item item in _Items)
             {
                 Core.Cluster cluster = FindClosestCluster(item, iteration.IterationClusters);
-                cluster.ClusterItems.Add(item);
+                cluster.Items.Add(item);
             }
 
             // Recompute the center for each cluster
@@ -177,14 +177,14 @@ namespace Clustering.KMedoids
                 return false;
 
             // Check if clusters have different number of items
-            if (previousCluster.ClusterItems.Count != newCluster.ClusterItems.Count)
+            if (previousCluster.Items.Count != newCluster.Items.Count)
                 return false;
 
             // Check if the clusters contain different items
             List<Guid> previousItemIds = new List<Guid>();
-            foreach (Core.Item item in previousCluster.ClusterItems)
+            foreach (Core.Item item in previousCluster.Items)
                 previousItemIds.Add(item.Id);
-            foreach (Core.Item item in newCluster.ClusterItems)
+            foreach (Core.Item item in newCluster.Items)
                 if (!previousItemIds.Contains(item.Id))
                     return false;
 

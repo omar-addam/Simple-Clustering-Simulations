@@ -35,7 +35,7 @@ namespace Clustering.Core
         public Cluster(Guid id, List<Item> items)
         {
             Id = id;
-            Items = items;
+            _Items = items;
         }
 
         /// <summary>
@@ -45,8 +45,8 @@ namespace Clustering.Core
         public Cluster(Cluster cluster)
             : this(cluster.Id, new List<Item>())
         {
-            foreach (var item in cluster.Items)
-                Items.Add(new Item(item));
+            foreach (var item in cluster._Items)
+                _Items.Add(new Item(item));
         }
 
         #endregion
@@ -64,12 +64,13 @@ namespace Clustering.Core
         /// List of all items that are included in this cluster.
         /// </summary>
         [SerializeField]
-        private List<Item> Items;
+        [Tooltip("List of all items that are included in this cluster.")]
+        private List<Item> _Items;
 
         /// <summary>
         /// List of all items that are included in this cluster.
         /// </summary>
-        public List<Item> ClusterItems { get { return Items; } }
+        public List<Item> Items { get { return _Items; } }
 
         #endregion
 
@@ -97,7 +98,7 @@ namespace Clustering.Core
         /// </summary>
         public override string ToString()
         {
-            return Items?.Count.ToString("N0");
+            return _Items?.Count.ToString("N0");
         }
 
         #endregion

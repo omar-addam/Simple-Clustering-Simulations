@@ -70,8 +70,8 @@ namespace Clustering.KMean
         /// </summary>
         public void RecomputeCenter()
         {
-            float x = ClusterItems.Sum(item => item.PositionX) / ClusterItems.Count;
-            float y = ClusterItems.Sum(item => item.PositionY) / ClusterItems.Count;
+            float x = Items.Sum(item => item.PositionX) / Items.Count;
+            float y = Items.Sum(item => item.PositionY) / Items.Count;
 
             X = x;
             Y = y;

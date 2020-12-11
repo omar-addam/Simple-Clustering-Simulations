@@ -53,7 +53,7 @@ namespace Clustering.KMedoids
         {
             get
             {
-                return ClusterItems.FirstOrDefault(x => x.Id == CenterId);
+                return Items.FirstOrDefault(x => x.Id == CenterId);
             }
         }
 
@@ -66,15 +66,15 @@ namespace Clustering.KMedoids
         /// </summary>
         public void RecomputeCenter()
         {
-            float x = ClusterItems.Sum(item => item.PositionX) / ClusterItems.Count;
-            float y = ClusterItems.Sum(item => item.PositionY) / ClusterItems.Count;
+            float x = Items.Sum(item => item.PositionX) / Items.Count;
+            float y = Items.Sum(item => item.PositionY) / Items.Count;
 
             // Find the item closest to the center
             Item centroid = Centroid;
             float minDistance = (float)
                 Math.Sqrt(Math.Pow(centroid.PositionX - x, 2) + Math.Pow(centroid.PositionY - y, 2));
 
-            foreach (var item in ClusterItems)
+            foreach (var item in Items)
             {
                 float distance = (float)
                     Math.Sqrt(Math.Pow(item.PositionX - x, 2) + Math.Pow(item.PositionY - y, 2));
