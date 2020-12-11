@@ -11,16 +11,21 @@ public class GridPath : MonoBehaviour
     /// </summary>
     public void SetPath(List<Vector2> points, Color? color = null)
     {
-        GetComponent<LineRenderer>().positionCount = points.Count;
-        GetComponent<LineRenderer>().SetPositions
+        // Get the line renderer attached to this gameobject
+        LineRenderer renderer = GetComponent<LineRenderer>();
+
+        // Set positions
+        renderer.positionCount = points.Count;
+        renderer.SetPositions
         (
             points.Select(point => new Vector3(point.x, point.y, 0)).ToArray()
         );
 
+        // Set color
         if (color.HasValue)
         {
-            GetComponent<LineRenderer>().startColor = color.Value;
-            GetComponent<LineRenderer>().endColor = color.Value;
+            renderer.startColor = color.Value;
+            renderer.endColor = color.Value;
         }
     }
 
