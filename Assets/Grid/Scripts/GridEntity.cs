@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GridEntity : MonoBehaviour
 {
@@ -10,17 +8,20 @@ public class GridEntity : MonoBehaviour
     /// </summary>
     public void SetColor(Color color, bool enableEmission = true)
     {
-        // Create a clone of the material
-        GetComponent<Renderer>().material = new Material(GetComponent<Renderer>().material);
+        // Get the renderer attached to this gameobject
+        Renderer renderer = GetComponent<Renderer>();
+
+        // Create a clone of the material (this will ensure that each object can have its own color)
+        renderer.material = new Material(GetComponent<Renderer>().material);
 
         // Set the color
-        GetComponent<Renderer>().material.color = color;
+        renderer.material.color = color;
 
         // Set emission color
         if (enableEmission)
         {
-            GetComponent<Renderer>().material.SetColor("_EmissionColor", color);
-            GetComponent<Renderer>().material.EnableKeyword("_EMISSION");
+            renderer.material.SetColor("_EmissionColor", color);
+            renderer.material.EnableKeyword("_EMISSION");
         }
     }
 

@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections;
+﻿using Clustering.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Clustering.KMean
+namespace Clustering.KMeans
 {
     [Serializable]
-    public class KMeanCluster : Core.Cluster
+    public class KMeansCluster : Cluster
     {
 
         #region Constructors
@@ -15,7 +15,7 @@ namespace Clustering.KMean
         /// <summary>
         /// Seed constructor.
         /// </summary>
-        public KMeanCluster(Core.Item seed)
+        public KMeansCluster(Core.Item seed)
             : this(seed.Id, seed.PositionX, seed.PositionY)
         {
         }
@@ -26,11 +26,11 @@ namespace Clustering.KMean
         /// <param name="id">Unique identifier used to track clusters across multuple iterations.</param>
         /// <param name="x">The x position of the center of the cluster.</param>
         /// <param name="y">The y position of the center of the cluster.</param>
-        public KMeanCluster(Guid id, float x, float y)
+        public KMeansCluster(Guid id, float x, float y)
             : base(id, new List<Core.Item>())
         {
-            X = x;
-            Y = y;
+            _CenterX = x;
+            _CenterY = y;
         }
 
         #endregion
@@ -41,12 +41,13 @@ namespace Clustering.KMean
         /// The x position of the center of the cluster.
         /// </summary>
         [SerializeField]
-        private float X = 0;
+        [Tooltip("The x position of the center of the cluster.")]
+        private float _CenterX = 0;
 
         /// <summary>
         /// The x position of the center of the cluster.
         /// </summary>
-        public float CenterX { get { return X; } }
+        public float CenterX { get { return _CenterX; } }
 
 
 
@@ -54,12 +55,13 @@ namespace Clustering.KMean
         /// The y position of the center of the cluster.
         /// </summary>
         [SerializeField]
-        private float Y = 0;
+        [Tooltip("The y position of the center of the cluster.")]
+        private float _CenterY = 0;
 
         /// <summary>
         /// The y position of the center of the cluster.
         /// </summary>
-        public float CenterY { get { return Y; } }
+        public float CenterY { get { return _CenterY; } }
 
         #endregion
 
@@ -70,11 +72,11 @@ namespace Clustering.KMean
         /// </summary>
         public void RecomputeCenter()
         {
-            float x = ClusterItems.Sum(item => item.PositionX) / ClusterItems.Count;
-            float y = ClusterItems.Sum(item => item.PositionY) / ClusterItems.Count;
+            float x = Items.Sum(item => item.PositionX) / Items.Count;
+            float y = Items.Sum(item => item.PositionY) / Items.Count;
 
-            X = x;
-            Y = y;
+            _CenterX = x;
+            _CenterY = y;
         }
 
         #endregion

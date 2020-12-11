@@ -1,5 +1,5 @@
 ﻿using Clustering.Core;
-using Clustering.KMean;
+using Clustering.KMeans;
 using Clustering.KMedoids;
 using System;
 using System.Collections;
@@ -77,7 +77,7 @@ public class GridSceneManager : MonoBehaviour
 	private void InitializeClusterColors()
 	{
 		ClusterColors = new Dictionary<Guid, Color>();
-		foreach (var cluster in AlgorithmManager.CurrentAlgorithm.AlgorithmIterations.First().IterationClusters)
+		foreach (var cluster in AlgorithmManager.CurrentAlgorithm.Iterations.First().Clusters)
 		{
 			Color color = UnityEngine.Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
 			ClusterColors.Add(cluster.Id, color);
@@ -93,26 +93,26 @@ public class GridSceneManager : MonoBehaviour
 		GridManager.Clear();
 
 		// Display seed items
-		List<Vector2> seedItems = AlgorithmManager.CurrentAlgorithm.AlgorithmItems.Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
+		List<Vector2> seedItems = AlgorithmManager.CurrentAlgorithm.Items.Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
 		if (AlgorithmManager.CurrentAlgorithm is KMedoidsAlgorithm)
 		{
 			KMedoidsAlgorithm algorithm = AlgorithmManager.CurrentAlgorithm as KMedoidsAlgorithm;
-			seedItems = algorithm.AlgorithmItems.Where(x => !algorithm.Clusters.Contains(x.Id)).Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
+			seedItems = algorithm.Items.Where(x => !algorithm.ClusterSeeds.Contains(x.Id)).Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
 		}
 		GridManager.DisplayEntities(seedItems, Color.white);
 
 		// Display clusters
-		if (AlgorithmManager.CurrentAlgorithm is KMeanAlgorithm)
+		if (AlgorithmManager.CurrentAlgorithm is KMeansAlgorithm)
 		{
-			KMeanAlgorithm algorithm = AlgorithmManager.CurrentAlgorithm as KMeanAlgorithm;
-			foreach (Item cluster in algorithm.Clusters)
+			KMeansAlgorithm algorithm = AlgorithmManager.CurrentAlgorithm as KMeansAlgorithm;
+			foreach (Item cluster in algorithm.ClusterSeeds)
 				GridManager.DisplayEntities(new List<Vector2>() { new Vector2(cluster.PositionX, cluster.PositionY) }, ClusterColors[cluster.Id], true, 45f);
 		}
 		else if (AlgorithmManager.CurrentAlgorithm is KMedoidsAlgorithm)
 		{
 			KMedoidsAlgorithm algorithm = AlgorithmManager.CurrentAlgorithm as KMedoidsAlgorithm;
 
-			foreach (KMedoidsCluster cluster in algorithm.AlgorithmIterations.First().IterationClusters)
+			foreach (KMedoidsCluster cluster in algorithm.Iterations.First().Clusters)
 			{
 				Item item = cluster.Centroid;
 				GridManager.DisplayEntities(new List<Vector2>() { new Vector2(item.PositionX, item.PositionY) }, ClusterColors[cluster.Id], true, 45f);
@@ -125,11 +125,11 @@ public class GridSceneManager : MonoBehaviour
 	/// </summary>
 	private void InitializeIterationsSlider()
 	{
-		IterationsUIText.text = string.Format("Iteration: {0} / {1}", 0, AlgorithmManager.CurrentAlgorithm.AlgorithmIterations.Count - 1);
-		IterationsSlider.maxValue = AlgorithmManager.CurrentAlgorithm.AlgorithmIterations.Count - 1;
+		IterationsUIText.text = string.Format("Iteration: {0} / {1}", 0, AlgorithmManager.CurrentAlgorithm.Iterations.Count - 1);
+		IterationsSlider.maxValue = AlgorithmManager.CurrentAlgorithm.Iterations.Count - 1;
 		IterationsSlider.onValueChanged.AddListener((float value) =>
 		{
-			IterationsUIText.text = string.Format("Iteration: {0} / {1}", value, AlgorithmManager.CurrentAlgorithm.AlgorithmIterations.Count - 1);
+			IterationsUIText.text = string.Format("Iteration: {0} / {1}", value, AlgorithmManager.CurrentAlgorithm.Iterations.Count - 1);
 
 			// Display iteration entities
 			DisplayIteration((int)value);
@@ -160,7 +160,7 @@ public class GridSceneManager : MonoBehaviour
 		GridManager.Clear();
 
 		// Find the iteration
-		Iteration iteration = AlgorithmManager.CurrentAlgorithm.AlgorithmIterations.FirstOrDefault(x => x.IterationOrder == order);
+		Iteration iteration = AlgorithmManager.CurrentAlgorithm.Iterations.FirstOrDefault(x => x.Order == order);
 		if (iteration == null)
 			return;
 
@@ -178,21 +178,21 @@ public class GridSceneManager : MonoBehaviour
 		GridManager.Clear();
 
 		// Go through each cluster
-		foreach (Cluster cluster in iteration.IterationClusters)
+		foreach (Cluster cluster in iteration.Clusters)
 		{
 			// Display its items
-			List<Vector2> seedItems = cluster.ClusterItems.Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
+			List<Vector2> seedItems = cluster.Items.Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
 			if (cluster is KMedoidsCluster)
 			{
 				KMedoidsCluster kmedoidsCluster = cluster as KMedoidsCluster;
-				seedItems = kmedoidsCluster.ClusterItems.Where(x => x.Id != kmedoidsCluster.ItemId).Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
+				seedItems = kmedoidsCluster.Items.Where(x => x.Id != kmedoidsCluster.CenterId).Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
 			}
 			GridManager.DisplayEntities(seedItems, ClusterColors[cluster.Id]);
 
 			// Display cluster
-			if (cluster is KMeanCluster)
+			if (cluster is KMeansCluster)
 			{
-				KMeanCluster kmeanCluster = cluster as KMeanCluster;
+				KMeansCluster kmeanCluster = cluster as KMeansCluster;
 				GridManager.DisplayEntities(new List<Vector2>() { new Vector2(kmeanCluster.CenterX, kmeanCluster.CenterY) }, ClusterColors[cluster.Id], false, 45f);
 			}
 			else if(cluster is KMedoidsCluster)
@@ -212,26 +212,26 @@ public class GridSceneManager : MonoBehaviour
 		Dictionary<Guid, List<Vector2>> clusterPaths = new Dictionary<Guid, List<Vector2>>();
 
 		// Populate with the list of clusters
-		foreach (Cluster cluster in iteration.IterationClusters)
+		foreach (Cluster cluster in iteration.Clusters)
 			clusterPaths.Add(cluster.Id, new List<Vector2>());
 
 		// Get the history of each cluster
-		foreach (Cluster cluster in iteration.IterationClusters)
+		foreach (Cluster cluster in iteration.Clusters)
 		{
 			List<Cluster> history = new List<Cluster>();
 
 			// Go through each iteration and find this cluster
-			foreach (var it in AlgorithmManager.CurrentAlgorithm.AlgorithmIterations)
-				if (it.IterationOrder <= iteration.IterationOrder)
+			foreach (var it in AlgorithmManager.CurrentAlgorithm.Iterations)
+				if (it.Order <= iteration.Order)
 				{
-					Cluster historyCluster = it.IterationClusters.FirstOrDefault(x => x.Id == cluster.Id);
+					Cluster historyCluster = it.Clusters.FirstOrDefault(x => x.Id == cluster.Id);
 					if (historyCluster != null)
 						history.Add(historyCluster);
 				}
 
 			// Calculate paths
-			if (cluster is KMeanCluster)
-				foreach (KMeanCluster historyCluster in history)
+			if (cluster is KMeansCluster)
+				foreach (KMeansCluster historyCluster in history)
 					clusterPaths[cluster.Id].Add(new Vector2(historyCluster.CenterX * 0.5f, historyCluster.CenterY * 0.5f));
 			else if (cluster is KMedoidsCluster)
 				foreach (KMedoidsCluster historyCluster in history)

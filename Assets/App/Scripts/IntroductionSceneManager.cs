@@ -1,5 +1,5 @@
 ﻿using Clustering.Core;
-using Clustering.KMean;
+using Clustering.KMeans;
 using Clustering.KMedoids;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ public class IntroductionSceneManager : MonoBehaviour
 	#region Variables
 
 	/// <summary>
-	/// References the algorithm data instance.
+	/// References the algorithm scriptable object instance.
 	/// </summary>
 	public AlgorithmManagerScriptableObject AlgorithmManager;
 
@@ -30,21 +30,21 @@ public class IntroductionSceneManager : MonoBehaviour
 
 	#endregion
 
-	#region K-Mean Methods
+	#region K-Means Methods
 
 	/// <summary>
-	/// Selects the k-mean algorithm and runs it against an example sample.
+	/// Selects the k-means algorithm and runs it against an example sample.
 	/// </summary>
-	public void SelectKMeanSample()
+	public void SelectKMeansSample()
 	{
-		Debug.Log("K-Mean algorithm has been selected to run against a predefined sample.");
+		Debug.Log("K-Means algorithm has been selected to run against a predefined sample.");
 
 		// Select k-mean algorithm
 		AlgorithmManager.Clear();
-		AlgorithmManager.SelectKMeanAlgorithm();
+		AlgorithmManager.SelectKMeansAlgorithm();
 
 		// Create sample
-		GenerateKMeanSample((KMeanAlgorithm)AlgorithmManager.CurrentAlgorithm);
+		GenerateKMeansSample((KMeansAlgorithm)AlgorithmManager.CurrentAlgorithm);
 
 		// Compute iterations
 		AlgorithmManager.CurrentAlgorithm.Compute();
@@ -56,25 +56,25 @@ public class IntroductionSceneManager : MonoBehaviour
 	/// <summary>
 	/// Creates an example sample.
 	/// </summary>
-	private void GenerateKMeanSample(KMeanAlgorithm algorithm)
+	private void GenerateKMeansSample(KMeansAlgorithm algorithm)
 	{
 		// Create items sample
-		algorithm.AlgorithmItems.Add(new Item(4, 5));
-		algorithm.AlgorithmItems.Add(new Item(3, 7));
-		algorithm.AlgorithmItems.Add(new Item(4.5f, 4));
-		algorithm.AlgorithmItems.Add(new Item(5, 6));
+		algorithm.Items.Add(new Item(4, 5));
+		algorithm.Items.Add(new Item(3, 7));
+		algorithm.Items.Add(new Item(4.5f, 4));
+		algorithm.Items.Add(new Item(5, 6));
 
-		algorithm.AlgorithmItems.Add(new Item(-1, -1));
-		algorithm.AlgorithmItems.Add(new Item(-4, -3));
-		algorithm.AlgorithmItems.Add(new Item(-4, -1.5f));
-		algorithm.AlgorithmItems.Add(new Item(-5, -1));
-		algorithm.AlgorithmItems.Add(new Item(-5, -2));
-		algorithm.AlgorithmItems.Add(new Item(-6, -1));
-		algorithm.AlgorithmItems.Add(new Item(-6, -2));
+		algorithm.Items.Add(new Item(-1, -1));
+		algorithm.Items.Add(new Item(-4, -3));
+		algorithm.Items.Add(new Item(-4, -1.5f));
+		algorithm.Items.Add(new Item(-5, -1));
+		algorithm.Items.Add(new Item(-5, -2));
+		algorithm.Items.Add(new Item(-6, -1));
+		algorithm.Items.Add(new Item(-6, -2));
 
 		// Create clusters sample
-		algorithm.Clusters.Add(new Item(2f, 3f));
-		algorithm.Clusters.Add(new Item(-7f, -3f));
+		algorithm.ClusterSeeds.Add(new Item(2f, 3f));
+		algorithm.ClusterSeeds.Add(new Item(-7f, -3f));
 	}
 
 	#endregion
@@ -108,22 +108,22 @@ public class IntroductionSceneManager : MonoBehaviour
 	private void GenerateKMedoidsSample(KMedoidsAlgorithm algorithm)
 	{
 		// Create items sample
-		algorithm.AlgorithmItems.Add(new Item(4, 5));
-		algorithm.AlgorithmItems.Add(new Item(3, 7));
-		algorithm.AlgorithmItems.Add(new Item(4.5f, 4));
-		algorithm.AlgorithmItems.Add(new Item(5, 6));
+		algorithm.Items.Add(new Item(4, 5));
+		algorithm.Items.Add(new Item(3, 7));
+		algorithm.Items.Add(new Item(4.5f, 4));
+		algorithm.Items.Add(new Item(5, 6));
 
-		algorithm.AlgorithmItems.Add(new Item(-1, -1));
-		algorithm.AlgorithmItems.Add(new Item(-4, -3));
-		algorithm.AlgorithmItems.Add(new Item(-4, -1.5f));
-		algorithm.AlgorithmItems.Add(new Item(-5, -1));
-		algorithm.AlgorithmItems.Add(new Item(-5, -2));
-		algorithm.AlgorithmItems.Add(new Item(-6, -1));
-		algorithm.AlgorithmItems.Add(new Item(-6, -2));
+		algorithm.Items.Add(new Item(-1, -1));
+		algorithm.Items.Add(new Item(-4, -3));
+		algorithm.Items.Add(new Item(-4, -1.5f));
+		algorithm.Items.Add(new Item(-5, -1));
+		algorithm.Items.Add(new Item(-5, -2));
+		algorithm.Items.Add(new Item(-6, -1));
+		algorithm.Items.Add(new Item(-6, -2));
 
 		// Create clusters sample
-		algorithm.Clusters.Add(algorithm.AlgorithmItems[4].Id);
-		algorithm.Clusters.Add(algorithm.AlgorithmItems[7].Id);
+		algorithm.ClusterSeeds.Add(algorithm.Items[4].Id);
+		algorithm.ClusterSeeds.Add(algorithm.Items[7].Id);
 	}
 
 	#endregion

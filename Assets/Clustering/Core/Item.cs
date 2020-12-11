@@ -36,8 +36,8 @@ namespace Clustering.Core
         public Item(Guid id, float x, float y)
         {
             Id = id;
-            X = x;
-            Y = y;
+            _PositionX = x;
+            _PositionY = y;
         }
 
         /// <summary>
@@ -55,7 +55,6 @@ namespace Clustering.Core
 
         /// <summary>
         /// Unique identifier used to track items across multuple iterations.
-        /// It is also used to link data with the 3d objects representing them.
         /// </summary>
         public Guid Id { private set; get; }
 
@@ -65,12 +64,13 @@ namespace Clustering.Core
         /// The x position of the item.
         /// </summary>
         [SerializeField]
-        private float X = 0;
+        [Tooltip("The x position of the item.")]
+        private float _PositionX = 0;
 
         /// <summary>
         /// The x position of the item.
         /// </summary>
-        public float PositionX { get { return X; } }
+        public float PositionX { get { return _PositionX; } }
 
 
 
@@ -78,12 +78,13 @@ namespace Clustering.Core
         /// The y position of the item.
         /// </summary>
         [SerializeField]
-        private float Y = 0;
+        [Tooltip("The y position of the item.")]
+        private float _PositionY = 0;
 
         /// <summary>
         /// The y position of the item.
         /// </summary>
-        public float PositionY { get { return Y; } }
+        public float PositionY { get { return _PositionY; } }
 
         #endregion
 
@@ -111,7 +112,7 @@ namespace Clustering.Core
         /// </summary>
         public override string ToString()
         {
-            return string.Format("{0},{1}", X, Y);
+            return string.Format("{0},{1}", _PositionX, _PositionY);
         }
 
         #endregion

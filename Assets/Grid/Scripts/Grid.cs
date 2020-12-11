@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Grid : MonoBehaviour
@@ -7,24 +6,34 @@ public class Grid : MonoBehaviour
 
 	#region Variables
 
+	[Header("Entities")]
+
 	/// <summary>
 	/// References the prefab used to generate entities and display them on the grid.
 	/// </summary>
+	[Tooltip("References the prefab used to generate entities and display them on the grid.")]
 	public GameObject EntityTemplate;
 
 	/// <summary>
-	/// References the gameobject that will hold all entities.
+	/// References the gameobject that will hold all programmatically generated entities.
 	/// </summary>
+	[Tooltip("References the gameobject that will hold all programmatically generated entities.")]
 	public GameObject EntitiesParent;
+
+
+
+	[Header("Paths")]
 
 	/// <summary>
 	/// References the prefab used to generate paths and display them on the grid.
 	/// </summary>
+	[Tooltip("References the prefab used to generate paths and display them on the grid.")]
 	public GameObject PathTemplate;
 
 	/// <summary>
-	/// References the gameobject that will hold all paths.
+	/// References the gameobject that will hold all programmatically generated paths..
 	/// </summary>
+	[Tooltip("References the gameobject that will hold all programmatically generated paths.")]
 	public GameObject PathsParent;
 
 	#endregion
@@ -46,8 +55,8 @@ public class Grid : MonoBehaviour
 	/// Displays entities on the grid.
 	/// </summary>
 	/// <param name="positions">Position of the entities.</param>
-	/// <param name="positions">The color applied to the entities. Null = white.</param>
-	/// <param name="positions">The z rotation of the entities.</param>
+	/// <param name="color">The color applied to the entities. Null = white.</param>
+	/// <param name="rotation">The z rotation of the entities.</param>
 	public void DisplayEntities(List<Vector2> positions, Color? color = null, bool enableEmission = true, float rotation = 0)
 	{
 		// For each position, create an entity
