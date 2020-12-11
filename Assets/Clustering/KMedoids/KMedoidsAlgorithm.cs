@@ -65,25 +65,25 @@ namespace Clustering.KMedoids
         protected override Core.Iteration ComputeNextIteration(Core.Iteration previousIteration)
         {
             // Create a new iteration instance
-            Core.Iteration iteration = new Core.Iteration(previousIteration.IterationOrder + 1, new List<Core.Cluster>());
+            Core.Iteration iteration = new Core.Iteration(previousIteration.Order + 1, new List<Core.Cluster>());
 
             // Create empty clusters
-            foreach (KMedoidsCluster cluster in previousIteration.IterationClusters)
+            foreach (KMedoidsCluster cluster in previousIteration.Clusters)
             {
                 KMedoidsCluster emptyCluster = new KMedoidsCluster(cluster.Id, cluster.ItemId);
                 emptyCluster.Items.Add(cluster.Centroid);
-                iteration.IterationClusters.Add(emptyCluster);
+                iteration.Clusters.Add(emptyCluster);
             }
 
             // Find for each item the cluster it belongs to
             foreach (Core.Item item in _Items)
             {
-                Core.Cluster cluster = FindClosestCluster(item, iteration.IterationClusters);
+                Core.Cluster cluster = FindClosestCluster(item, iteration.Clusters);
                 cluster.Items.Add(item);
             }
 
             // Recompute the center for each cluster
-            foreach (KMedoidsCluster cluster in iteration.IterationClusters)
+            foreach (KMedoidsCluster cluster in iteration.Clusters)
                 cluster.RecomputeCenter();
 
             // Check if the new iteration is different than previous iteration
@@ -148,9 +148,9 @@ namespace Clustering.KMedoids
             Dictionary<Guid, KMedoidsCluster> previousClusters = new Dictionary<Guid, KMedoidsCluster>();
             Dictionary<Guid, KMedoidsCluster> newClusters = new Dictionary<Guid, KMedoidsCluster>();
 
-            foreach (KMedoidsCluster cluster in previousIteration.IterationClusters)
+            foreach (KMedoidsCluster cluster in previousIteration.Clusters)
                 previousClusters.Add(cluster.Id, cluster);
-            foreach (KMedoidsCluster cluster in newIteration.IterationClusters)
+            foreach (KMedoidsCluster cluster in newIteration.Clusters)
                 newClusters.Add(cluster.Id, cluster);
 
             // Go through each cluster and see if you can find any difference

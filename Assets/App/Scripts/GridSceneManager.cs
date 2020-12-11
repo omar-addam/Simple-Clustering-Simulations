@@ -77,7 +77,7 @@ public class GridSceneManager : MonoBehaviour
 	private void InitializeClusterColors()
 	{
 		ClusterColors = new Dictionary<Guid, Color>();
-		foreach (var cluster in AlgorithmManager.CurrentAlgorithm.Iterations.First().IterationClusters)
+		foreach (var cluster in AlgorithmManager.CurrentAlgorithm.Iterations.First().Clusters)
 		{
 			Color color = UnityEngine.Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
 			ClusterColors.Add(cluster.Id, color);
@@ -112,7 +112,7 @@ public class GridSceneManager : MonoBehaviour
 		{
 			KMedoidsAlgorithm algorithm = AlgorithmManager.CurrentAlgorithm as KMedoidsAlgorithm;
 
-			foreach (KMedoidsCluster cluster in algorithm.Iterations.First().IterationClusters)
+			foreach (KMedoidsCluster cluster in algorithm.Iterations.First().Clusters)
 			{
 				Item item = cluster.Centroid;
 				GridManager.DisplayEntities(new List<Vector2>() { new Vector2(item.PositionX, item.PositionY) }, ClusterColors[cluster.Id], true, 45f);
@@ -160,7 +160,7 @@ public class GridSceneManager : MonoBehaviour
 		GridManager.Clear();
 
 		// Find the iteration
-		Iteration iteration = AlgorithmManager.CurrentAlgorithm.Iterations.FirstOrDefault(x => x.IterationOrder == order);
+		Iteration iteration = AlgorithmManager.CurrentAlgorithm.Iterations.FirstOrDefault(x => x.Order == order);
 		if (iteration == null)
 			return;
 
@@ -178,7 +178,7 @@ public class GridSceneManager : MonoBehaviour
 		GridManager.Clear();
 
 		// Go through each cluster
-		foreach (Cluster cluster in iteration.IterationClusters)
+		foreach (Cluster cluster in iteration.Clusters)
 		{
 			// Display its items
 			List<Vector2> seedItems = cluster.Items.Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
@@ -212,19 +212,19 @@ public class GridSceneManager : MonoBehaviour
 		Dictionary<Guid, List<Vector2>> clusterPaths = new Dictionary<Guid, List<Vector2>>();
 
 		// Populate with the list of clusters
-		foreach (Cluster cluster in iteration.IterationClusters)
+		foreach (Cluster cluster in iteration.Clusters)
 			clusterPaths.Add(cluster.Id, new List<Vector2>());
 
 		// Get the history of each cluster
-		foreach (Cluster cluster in iteration.IterationClusters)
+		foreach (Cluster cluster in iteration.Clusters)
 		{
 			List<Cluster> history = new List<Cluster>();
 
 			// Go through each iteration and find this cluster
 			foreach (var it in AlgorithmManager.CurrentAlgorithm.Iterations)
-				if (it.IterationOrder <= iteration.IterationOrder)
+				if (it.Order <= iteration.Order)
 				{
-					Cluster historyCluster = it.IterationClusters.FirstOrDefault(x => x.Id == cluster.Id);
+					Cluster historyCluster = it.Clusters.FirstOrDefault(x => x.Id == cluster.Id);
 					if (historyCluster != null)
 						history.Add(historyCluster);
 				}

@@ -61,21 +61,21 @@ namespace Clustering.KMean
         protected override Core.Iteration ComputeNextIteration(Core.Iteration previousIteration)
         {
             // Create a new iteration instance
-            Core.Iteration iteration = new Core.Iteration(previousIteration.IterationOrder + 1, new List<Core.Cluster>());
+            Core.Iteration iteration = new Core.Iteration(previousIteration.Order + 1, new List<Core.Cluster>());
 
             // Create empty clusters
-            foreach (KMeanCluster cluster in previousIteration.IterationClusters)
-                iteration.IterationClusters.Add(new KMeanCluster(cluster.Id, cluster.CenterX, cluster.CenterY));
+            foreach (KMeanCluster cluster in previousIteration.Clusters)
+                iteration.Clusters.Add(new KMeanCluster(cluster.Id, cluster.CenterX, cluster.CenterY));
 
             // Find for each item the cluster it belongs to
             foreach (Core.Item item in _Items)
             {
-                Core.Cluster cluster = FindClosestCluster(item, iteration.IterationClusters);
+                Core.Cluster cluster = FindClosestCluster(item, iteration.Clusters);
                 cluster.Items.Add(item);
             }
 
             // Recompute the center for each cluster
-            foreach (KMeanCluster cluster in iteration.IterationClusters)
+            foreach (KMeanCluster cluster in iteration.Clusters)
                 cluster.RecomputeCenter();
 
             // Check if the new iteration is different than previous iteration
@@ -141,9 +141,9 @@ namespace Clustering.KMean
             Dictionary<Guid, KMeanCluster> previousClusters = new Dictionary<Guid, KMeanCluster>();
             Dictionary<Guid, KMeanCluster> newClusters = new Dictionary<Guid, KMeanCluster>();
 
-            foreach (KMeanCluster cluster in previousIteration.IterationClusters)
+            foreach (KMeanCluster cluster in previousIteration.Clusters)
                 previousClusters.Add(cluster.Id, cluster);
-            foreach (KMeanCluster cluster in newIteration.IterationClusters)
+            foreach (KMeanCluster cluster in newIteration.Clusters)
                 newClusters.Add(cluster.Id, cluster);
 
             // Go through each cluster and see if you can find any difference

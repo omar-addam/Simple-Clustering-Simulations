@@ -26,8 +26,8 @@ namespace Clustering.Core
         /// <param name="clusters">List of all clusters.</param>
         public Iteration(int order, List<Cluster> clusters)
         {
-            Order = order;
-            Clusters = clusters;
+            _Order = order;
+            _Clusters = clusters;
         }
 
         /// <summary>
@@ -35,10 +35,10 @@ namespace Clustering.Core
         /// </summary>
         /// <param name="iteration">Instance to clone.</param>
         public Iteration(Iteration iteration)
-            : this(iteration.Order, new List<Cluster>())
+            : this(iteration._Order, new List<Cluster>())
         {
-            foreach (var cluster in iteration.Clusters)
-                Clusters.Add(new Cluster(cluster));
+            foreach (var cluster in iteration._Clusters)
+                _Clusters.Add(new Cluster(cluster));
         }
 
         #endregion
@@ -49,12 +49,13 @@ namespace Clustering.Core
         /// The order of the iteration.
         /// </summary>
         [SerializeField]
-        private int Order;
+        [Tooltip("The order of the iteration.")]
+        private int _Order;
 
         /// <summary>
         /// The order of the iteration.
         /// </summary>
-        public int IterationOrder { get { return Order; } }
+        public int Order { get { return _Order; } }
 
 
 
@@ -63,12 +64,13 @@ namespace Clustering.Core
         /// List of all clusters.
         /// </summary>
         [SerializeField]
-        private List<Cluster> Clusters;
+        [Tooltip("List of all clusters.")]
+        private List<Cluster> _Clusters;
 
         /// <summary>
         /// List of all clusters.
         /// </summary>
-        public List<Cluster> IterationClusters { get { return Clusters; } }
+        public List<Cluster> Clusters { get { return _Clusters; } }
 
         #endregion
 
@@ -79,7 +81,7 @@ namespace Clustering.Core
         /// </summary>
         public override int GetHashCode()
         {
-            return Order.GetHashCode();
+            return _Order.GetHashCode();
         }
 
         /// <summary>
@@ -88,7 +90,7 @@ namespace Clustering.Core
         public override bool Equals(object obj)
         {
             Iteration item = obj as Iteration;
-            return item?.Order == Order;
+            return item?._Order == _Order;
         }
 
         /// <summary>
@@ -96,7 +98,7 @@ namespace Clustering.Core
         /// </summary>
         public override string ToString()
         {
-            return Order.ToString("N0");
+            return _Order.ToString("N0");
         }
 
         #endregion
