@@ -11,7 +11,7 @@ namespace Clustering.Core
         #region Constructors
 
         /// <summary>
-        /// Empty constructor.
+        /// Minimal constructor.
         /// </summary>
         /// <param name="items">List of all items to be clustered.</param>
         public AbstractAlgorithm(List<Item> items)
@@ -20,7 +20,7 @@ namespace Clustering.Core
         }
 
         /// <summary>
-        /// Minimal constructor.
+        /// Default constructor.
         /// </summary>
         protected AbstractAlgorithm(string name, List<Item> items)
         {
