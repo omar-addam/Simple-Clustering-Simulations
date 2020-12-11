@@ -73,8 +73,8 @@ public class IntroductionSceneManager : MonoBehaviour
 		algorithm.Items.Add(new Item(-6, -2));
 
 		// Create clusters sample
-		algorithm.Clusters.Add(new Item(2f, 3f));
-		algorithm.Clusters.Add(new Item(-7f, -3f));
+		algorithm.ClusterSeeds.Add(new Item(2f, 3f));
+		algorithm.ClusterSeeds.Add(new Item(-7f, -3f));
 	}
 
 	#endregion

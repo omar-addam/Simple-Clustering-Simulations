@@ -23,7 +23,7 @@ namespace Clustering.KMeans
         public KMeansAlgorithm(List<Core.Item> items, List<Item> clusters) 
             : base("K-Means", items)
         {
-            ClusterSeeds = clusters;
+            _ClusterSeeds = clusters;
         }
 
 
@@ -32,12 +32,13 @@ namespace Clustering.KMeans
         /// List of items used as cluster seeds.
         /// </summary>
         [SerializeField]
-        private List<Item> ClusterSeeds = new List<Item>();
+        [Tooltip("List of items used as cluster seeds.")]
+        private List<Item> _ClusterSeeds = new List<Item>();
 
         /// <summary>
         /// List of items used as cluster seeds.
         /// </summary>
-        public List<Item> Clusters { get { return ClusterSeeds; } }
+        public List<Item> ClusterSeeds { get { return _ClusterSeeds; } }
 
         /// <summary>
         /// Initializes the first set of clusters used.
@@ -45,7 +46,7 @@ namespace Clustering.KMeans
         protected override List<Cluster> InitializeClusters()
         {
             List<Cluster> clusters = new List<Cluster>();
-            foreach (var seed in ClusterSeeds)
+            foreach (var seed in _ClusterSeeds)
                 clusters.Add(new KMeansCluster(seed));
             return clusters;
         }

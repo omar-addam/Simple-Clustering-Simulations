@@ -105,7 +105,7 @@ public class GridSceneManager : MonoBehaviour
 		if (AlgorithmManager.CurrentAlgorithm is KMeansAlgorithm)
 		{
 			KMeansAlgorithm algorithm = AlgorithmManager.CurrentAlgorithm as KMeansAlgorithm;
-			foreach (Item cluster in algorithm.Clusters)
+			foreach (Item cluster in algorithm.ClusterSeeds)
 				GridManager.DisplayEntities(new List<Vector2>() { new Vector2(cluster.PositionX, cluster.PositionY) }, ClusterColors[cluster.Id], true, 45f);
 		}
 		else if (AlgorithmManager.CurrentAlgorithm is KMedoidsAlgorithm)
