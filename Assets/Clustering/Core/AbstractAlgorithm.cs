@@ -22,6 +22,8 @@ namespace Clustering.Core
         /// <summary>
         /// Default constructor.
         /// </summary>
+        /// <param name="name">The name of the algorithgm.</param>
+        /// <param name="items">List of all items to be clustered.</param>
         protected AbstractAlgorithm(string name, List<Item> items)
         {
             Name = name;
