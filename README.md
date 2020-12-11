@@ -25,3 +25,38 @@ git clone https://github.com/omaddam/Simple-Clustering-Simulations.git
 ```git
 git flow init
 ```
+
+## Standards
+
+### General Standards
+
+* Line ending: CRLF
+* Case styles: Camel, Pascal, and Snake case
+  * Arguments, paramters, and local variables: camel case (e.g. iterationOrder)
+  * Global variables: pascal case (e.g. SeedItems)
+  * Constants and static variables: snake case (ALL CAPS) (e.g. ALGORITHM_NAME)
+* Methods naming convention:
+  * Pascal case (e.g. GenerateSample)
+  * Verbs
+
+### Commenting Standards
+
+* `///` Summaries: Full-usage of English grammar and punctuation. (e.g. Add periods to the end of your summaries, as if you were writing a phrase or sentence.)
+*  `//` In-line comments: quick, point-form. Grammar and punctuation not needed
+
+### Third Party Packages
+
+* All packages should be included under Assets/ThirdParty folder.
+* Contains all packages downloaded from the Unity3d store.
+
+### Assets / App
+
+* Contains scripts that define the flow of the application.
+* Scripts are created under Assets/App/Scripts folder.
+
+### Assets / Others
+
+* All components should be included under Assets/\<Name> folder. (e.g. Assets/Grid)
+* Each component should be isolated and under **NO CIRCUMSTANCES** referencing or using another component's scripts.
+* Components are **NOT** allowed to reference or call application scripts.
+* Components are allowed to reference and use ThirdParty scripts.
