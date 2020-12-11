@@ -1,5 +1,9 @@
 # Simple Clustering Simulations
 
+This project simulates three clustering algorithms: K-Means, K-Medoids, and DB-Scan. 
+
+![Simulation](Simulation.gif)
+
 ## Getting Started
 
 These instructions will get you a copy of the project on your local machine for development and testing purposes.
