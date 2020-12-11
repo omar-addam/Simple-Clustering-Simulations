@@ -25,7 +25,7 @@ namespace Clustering.KMedoids
         public KMedoidsAlgorithm(List<Item> items, List<Guid> clusters)
             : base("K-Medoids", items)
         {
-            ClusterSeeds = clusters;
+            _ClusterSeeds = clusters;
         }
 
 
@@ -34,12 +34,13 @@ namespace Clustering.KMedoids
         /// Id list of items used as cluster seeds.
         /// </summary>
         [SerializeField]
-        private List<Guid> ClusterSeeds = new List<Guid>();
+        [Tooltip("Id list of items used as cluster seeds.")]
+        private List<Guid> _ClusterSeeds = new List<Guid>();
 
         /// <summary>
         /// Id list of items used as cluster seeds.
         /// </summary>
-        public List<Guid> Clusters { get { return ClusterSeeds; } }
+        public List<Guid> ClusterSeeds { get { return _ClusterSeeds; } }
 
         /// <summary>
         /// Initializes the first set of clusters used.
@@ -47,7 +48,7 @@ namespace Clustering.KMedoids
         protected override List<Cluster> InitializeClusters()
         {
             List<Cluster> clusters = new List<Cluster>();
-            foreach (var seed in ClusterSeeds)
+            foreach (var seed in _ClusterSeeds)
             {
                 KMedoidsCluster cluster = new KMedoidsCluster(seed);
                 clusters.Add(cluster);
@@ -62,10 +63,10 @@ namespace Clustering.KMedoids
         /// Tries to compute the next iteration. 
         /// If there are no changes to the clusters, the method will return null, identifying the end.
         /// </summary>
-        protected override Core.Iteration ComputeNextIteration(Core.Iteration previousIteration)
+        protected override Core.Iteration ComputeNextIteration(Iteration previousIteration)
         {
             // Create a new iteration instance
-            Core.Iteration iteration = new Core.Iteration(previousIteration.Order + 1, new List<Core.Cluster>());
+            Iteration iteration = new Iteration(previousIteration.Order + 1, new List<Cluster>());
 
             // Create empty clusters
             foreach (KMedoidsCluster cluster in previousIteration.Clusters)
@@ -76,9 +77,9 @@ namespace Clustering.KMedoids
             }
 
             // Find for each item the cluster it belongs to
-            foreach (Core.Item item in _Items)
+            foreach (Item item in _Items)
             {
-                Core.Cluster cluster = FindClosestCluster(item, iteration.Clusters);
+                Cluster cluster = FindClosestCluster(item, iteration.Clusters);
                 cluster.Items.Add(item);
             }
 
@@ -99,7 +100,7 @@ namespace Clustering.KMedoids
         /// <summary>
         /// Finds the best fitting cluster based on the distnace between them.
         /// </summary>
-        private Core.Cluster FindClosestCluster(Core.Item item, List<Core.Cluster> clusters)
+        private Cluster FindClosestCluster(Item item, List<Cluster> clusters)
         {
             if (clusters.Count == 0)
                 return null;
@@ -126,7 +127,7 @@ namespace Clustering.KMedoids
         /// <summary>
         /// Computes the distance bhetween an item and a cluster.
         /// </summary>
-        private float ComputeDistance(Core.Item item, KMedoidsCluster cluster)
+        private float ComputeDistance(Item item, KMedoidsCluster cluster)
         {
             return (float)
                 Math.Sqrt
@@ -142,7 +143,7 @@ namespace Clustering.KMedoids
         /// <summary>
         /// Compares if two iterations are similar.
         /// </summary>
-        private bool CompareIterations(Core.Iteration previousIteration, Core.Iteration newIteration)
+        private bool CompareIterations(Iteration previousIteration, Iteration newIteration)
         {
             // Classify clusters by their ids for faster retrieval
             Dictionary<Guid, KMedoidsCluster> previousClusters = new Dictionary<Guid, KMedoidsCluster>();

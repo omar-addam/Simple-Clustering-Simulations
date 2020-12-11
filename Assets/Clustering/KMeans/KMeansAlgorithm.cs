@@ -29,14 +29,14 @@ namespace Clustering.KMeans
 
 
         /// <summary>
-        /// List of items used as cluster seeds.
+        /// List of positions used as cluster seeds.
         /// </summary>
         [SerializeField]
-        [Tooltip("List of items used as cluster seeds.")]
+        [Tooltip("List of positions used as cluster seeds.")]
         private List<Item> _ClusterSeeds = new List<Item>();
 
         /// <summary>
-        /// List of items used as cluster seeds.
+        /// List of positions used as cluster seeds.
         /// </summary>
         public List<Item> ClusterSeeds { get { return _ClusterSeeds; } }
 

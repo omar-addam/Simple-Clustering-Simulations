@@ -97,7 +97,7 @@ public class GridSceneManager : MonoBehaviour
 		if (AlgorithmManager.CurrentAlgorithm is KMedoidsAlgorithm)
 		{
 			KMedoidsAlgorithm algorithm = AlgorithmManager.CurrentAlgorithm as KMedoidsAlgorithm;
-			seedItems = algorithm.Items.Where(x => !algorithm.Clusters.Contains(x.Id)).Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
+			seedItems = algorithm.Items.Where(x => !algorithm.ClusterSeeds.Contains(x.Id)).Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
 		}
 		GridManager.DisplayEntities(seedItems, Color.white);
 
