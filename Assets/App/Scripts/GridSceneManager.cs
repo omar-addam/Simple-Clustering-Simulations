@@ -185,7 +185,7 @@ public class GridSceneManager : MonoBehaviour
 			if (cluster is KMedoidsCluster)
 			{
 				KMedoidsCluster kmedoidsCluster = cluster as KMedoidsCluster;
-				seedItems = kmedoidsCluster.Items.Where(x => x.Id != kmedoidsCluster.ItemId).Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
+				seedItems = kmedoidsCluster.Items.Where(x => x.Id != kmedoidsCluster.CenterId).Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
 			}
 			GridManager.DisplayEntities(seedItems, ClusterColors[cluster.Id]);
 

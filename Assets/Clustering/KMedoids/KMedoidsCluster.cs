@@ -1,6 +1,5 @@
 ﻿using Clustering.Core;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,7 +7,7 @@ using UnityEngine;
 namespace Clustering.KMedoids
 {
     [Serializable]
-    public class KMedoidsCluster : Core.Cluster
+    public class KMedoidsCluster : Cluster
     {
 
         #region Constructors
@@ -28,7 +27,7 @@ namespace Clustering.KMedoids
         public KMedoidsCluster(Guid id, Guid seedId)
             : base(id, new List<Item>())
         {
-            CenterId = seedId;
+            _CenterId = seedId;
         }
 
         #endregion
@@ -38,13 +37,14 @@ namespace Clustering.KMedoids
         /// <summary>
         /// The id of the item representing the center of this cluster.
         /// </summary>
+        [Tooltip("The id of the item representing the center of this cluster.")]
         [SerializeField]
-        private Guid CenterId;
+        private Guid _CenterId;
 
         /// <summary>
         /// The id of the item representing the center of this cluster.
         /// </summary>
-        public Guid ItemId { get { return CenterId; } }
+        public Guid CenterId { get { return _CenterId; } }
 
         /// <summary>
         /// The item representing the center of the cluster.
@@ -53,7 +53,7 @@ namespace Clustering.KMedoids
         {
             get
             {
-                return Items.FirstOrDefault(x => x.Id == CenterId);
+                return Items.FirstOrDefault(x => x.Id == _CenterId);
             }
         }
 
@@ -86,7 +86,7 @@ namespace Clustering.KMedoids
             }
 
             // Set the new centroid
-            CenterId = centroid.Id;
+            _CenterId = centroid.Id;
         }
 
         #endregion

@@ -1,6 +1,5 @@
 ﻿using Clustering.Core;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,7 +7,7 @@ using UnityEngine;
 namespace Clustering.KMedoids
 {
     [Serializable]
-    public class KMedoidsAlgorithm : Core.AbstractAlgorithm
+    public class KMedoidsAlgorithm : AbstractAlgorithm
     {
 
         /// <summary>
@@ -71,7 +70,7 @@ namespace Clustering.KMedoids
             // Create empty clusters
             foreach (KMedoidsCluster cluster in previousIteration.Clusters)
             {
-                KMedoidsCluster emptyCluster = new KMedoidsCluster(cluster.Id, cluster.ItemId);
+                KMedoidsCluster emptyCluster = new KMedoidsCluster(cluster.Id, cluster.CenterId);
                 emptyCluster.Items.Add(cluster.Centroid);
                 iteration.Clusters.Add(emptyCluster);
             }
@@ -174,7 +173,7 @@ namespace Clustering.KMedoids
         private bool CompareClusters(KMedoidsCluster previousCluster, KMedoidsCluster newCluster)
         {
             // Check if clusters have different centers
-            if (previousCluster.ItemId != newCluster.ItemId)
+            if (previousCluster.CenterId != newCluster.CenterId)
                 return false;
 
             // Check if clusters have different number of items
