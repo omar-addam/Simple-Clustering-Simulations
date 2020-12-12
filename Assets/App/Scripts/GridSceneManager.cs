@@ -198,6 +198,11 @@ public class GridSceneManager : MonoBehaviour
 				KMedoidsCluster kmedoidsCluster = cluster as KMedoidsCluster;
 				seedItems = kmedoidsCluster.Items.Where(x => x.Id != kmedoidsCluster.CenterId).Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
 			}
+			if (cluster is DBScanCluster)
+			{
+				DBScanCluster dbScanCluster = cluster as DBScanCluster;
+				seedItems = dbScanCluster.Items.Except(dbScanCluster.RecentlyAddedItems).Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
+			}
 			GridManager.DisplayEntities(seedItems, ClusterColors[cluster.Id]);
 
 			// Display cluster
@@ -206,11 +211,30 @@ public class GridSceneManager : MonoBehaviour
 				KMeansCluster kmeanCluster = cluster as KMeansCluster;
 				GridManager.DisplayEntities(new List<Vector2>() { new Vector2(kmeanCluster.CenterX, kmeanCluster.CenterY) }, ClusterColors[cluster.Id], false, 45f);
 			}
-			else if(cluster is KMedoidsCluster)
+			else if (cluster is KMedoidsCluster)
 			{
 				KMedoidsCluster kmedoidsCluster = cluster as KMedoidsCluster;
 				GridManager.DisplayEntities(new List<Vector2>() { new Vector2(kmedoidsCluster.Centroid.PositionX, kmedoidsCluster.Centroid.PositionY) }, ClusterColors[cluster.Id], false, 45f);
 			}
+			else if (cluster is DBScanCluster)
+			{
+				DBScanCluster dbScanCluster = cluster as DBScanCluster;
+				GridManager.DisplayEntities(dbScanCluster.RecentlyAddedItems.Select(x => new Vector2(x.PositionX, x.PositionY)).ToList(), ClusterColors[cluster.Id], false, 45f);
+			}
+		}
+
+		// Display noises
+		if (iteration is DBScanIteration)
+		{
+			DBScanIteration dbscanIteration = iteration as DBScanIteration;
+			GridManager.DisplayEntities(dbscanIteration.Noise.Select(x => new Vector2(x.PositionX, x.PositionY)).ToList(), Color.black);
+		}
+
+		// Display pending
+		if (iteration is DBScanIteration)
+		{
+			DBScanIteration dbscanIteration = iteration as DBScanIteration;
+			GridManager.DisplayEntities(dbscanIteration.Pending.Select(x => new Vector2(x.PositionX, x.PositionY)).ToList(), Color.white);
 		}
 	}
 
