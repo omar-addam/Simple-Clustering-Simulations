@@ -134,6 +134,9 @@ namespace Clustering.DBScan
                     foreach (var item in neighborItems)
                         iteration.Pending.Remove(item);
 
+                    // Add items to cluster
+                    currentCluster.Items.AddRange(neighborItems);
+
                     // Add every new item to the rececntly added of current cluster
                     currentCluster.RecentlyAddedItems.AddRange(neighborItems);
                 }
