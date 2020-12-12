@@ -398,7 +398,7 @@ public class GridSceneManager : MonoBehaviour
 
 		// Display
 		DisplayDBScanEntities(currentIteration);
-		DisplayDBScanBoundaries(previousIteration);
+		DisplayDBScanBoundaries(previousIteration, currentIteration);
 	}
 
 	// --- VISUALIZATION --- //
@@ -434,14 +434,26 @@ public class GridSceneManager : MonoBehaviour
 	/// <summary>
 	/// Displays the boundaries of clusters in this iteration.
 	/// </summary>
-	private void DisplayDBScanBoundaries(Iteration iteration)
+	private void DisplayDBScanBoundaries(Iteration previousIteration, Iteration currentIteration)
 	{
+		// Classify clusters by their ids
+		Dictionary<Guid, DBScanCluster> previousClusters = previousIteration.Clusters.ToDictionary(x => x.Id, x => (DBScanCluster)x);
+		Dictionary<Guid, DBScanCluster> currentClusters = currentIteration?.Clusters.ToDictionary(x => x.Id, x => (DBScanCluster)x);
+
 		// Go through each cluster
-		foreach (DBScanCluster cluster in iteration.Clusters)
+		foreach (DBScanCluster currentCluster in currentClusters.Values)
 		{
+			// Find previous cluster
+			DBScanCluster previousCluster = null;
+			if (previousClusters.ContainsKey(currentCluster.Id))
+				previousCluster = previousClusters[currentCluster.Id];
+
+			// Add items that we are scanning around them
+			List<Item> items = previousCluster?.RecentlyAddedItems ?? currentCluster.Items.Except(currentCluster.RecentlyAddedItems).ToList();
+
 			// In db scan, the boundaries are circles around the recently added neighbors
-			foreach (var item in cluster.RecentlyAddedItems)
-				GridManager.DisplayCircularBoundary(new Vector2(item.PositionX, item.PositionY), 2, ClusterColors[cluster.Id]);
+			foreach (var item in items)
+				GridManager.DisplayCircularBoundary(new Vector2(item.PositionX, item.PositionY), 2, ClusterColors[currentCluster.Id]);
 		}
 	}
 
