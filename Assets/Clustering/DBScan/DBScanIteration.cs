@@ -9,6 +9,16 @@ namespace Clustering.DBScan
         #region Constructors
 
         /// <summary>
+        /// Default constructor.
+        /// </summary>
+        /// <param name="order">The order of the iteration.</param>
+        /// <param name="clusters">List of all clusters.</param>
+        public DBScanIteration(int order, List<Cluster> clusters)
+            : base(order, clusters)
+        {
+        }
+
+        /// <summary>
         /// Copy constructor.
         /// </summary>
         public DBScanIteration(int order, DBScanIteration iteration)
