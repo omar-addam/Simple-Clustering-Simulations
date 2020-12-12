@@ -1,4 +1,5 @@
 ﻿using Clustering.Core;
+using Clustering.DBScan;
 using Clustering.KMeans;
 using Clustering.KMedoids;
 using System.Collections;
@@ -124,6 +125,51 @@ public class IntroductionSceneManager : MonoBehaviour
 		// Create clusters sample
 		algorithm.ClusterSeeds.Add(algorithm.Items[4].Id);
 		algorithm.ClusterSeeds.Add(algorithm.Items[7].Id);
+	}
+
+	#endregion
+
+	#region DB-Scan Methods
+
+	/// <summary>
+	/// Selects the db-scan algorithm and runs it against an example sample.
+	/// </summary>
+	public void SelecDBScanSample()
+	{
+		Debug.Log("DB-Scan algorithm has been selected to run against a predefined sample.");
+
+		// Select k-mean algorithm
+		AlgorithmManager.Clear();
+		AlgorithmManager.SelectDBScanAlgorithm(3, 1);
+
+		// Create sample
+		GenerateDBScanSample((DBScanAlgorithm)AlgorithmManager.CurrentAlgorithm);
+
+		// Compute iterations
+		AlgorithmManager.CurrentAlgorithm.Compute();
+
+		// Switch to grid scene
+		SceneManager.LoadScene("GridScene", LoadSceneMode.Single);
+	}
+
+	/// <summary>
+	/// Creates an example sample.
+	/// </summary>
+	private void GenerateDBScanSample(DBScanAlgorithm algorithm)
+	{
+		// Create items sample
+		algorithm.Items.Add(new Item(4, 5));
+		algorithm.Items.Add(new Item(3, 7));
+		algorithm.Items.Add(new Item(4.5f, 4));
+		algorithm.Items.Add(new Item(5, 6));
+
+		algorithm.Items.Add(new Item(-1, -1));
+		algorithm.Items.Add(new Item(-4, -3));
+		algorithm.Items.Add(new Item(-4, -1.5f));
+		algorithm.Items.Add(new Item(-5, -1));
+		algorithm.Items.Add(new Item(-5, -2));
+		algorithm.Items.Add(new Item(-6, -1));
+		algorithm.Items.Add(new Item(-6, -2));
 	}
 
 	#endregion
