@@ -1,10 +1,12 @@
 ﻿using Clustering.Core;
+using Clustering.DBScan;
 using Clustering.KMeans;
 using Clustering.KMedoids;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
 using UnityEngine.SceneManagement;
@@ -77,7 +79,16 @@ public class GridSceneManager : MonoBehaviour
 	private void InitializeClusterColors()
 	{
 		ClusterColors = new Dictionary<Guid, Color>();
-		foreach (var cluster in AlgorithmManager.CurrentAlgorithm.Iterations.First().Clusters)
+
+		List<Cluster> clusters = new List<Cluster>();
+
+		if (AlgorithmManager.CurrentAlgorithm is KMeansAlgorithm
+			|| AlgorithmManager.CurrentAlgorithm is KMedoidsAlgorithm)
+			clusters = AlgorithmManager.CurrentAlgorithm.Iterations.First().Clusters;
+		else if (AlgorithmManager.CurrentAlgorithm is DBScanAlgorithm)
+			clusters = AlgorithmManager.CurrentAlgorithm.Iterations.Last().Clusters;
+
+		foreach (var cluster in clusters)
 		{
 			Color color = UnityEngine.Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
 			ClusterColors.Add(cluster.Id, color);
