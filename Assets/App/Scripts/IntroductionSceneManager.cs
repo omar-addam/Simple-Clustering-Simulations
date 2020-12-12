@@ -140,7 +140,7 @@ public class IntroductionSceneManager : MonoBehaviour
 
 		// Select k-mean algorithm
 		AlgorithmManager.Clear();
-		AlgorithmManager.SelectDBScanAlgorithm(3, 1);
+		AlgorithmManager.SelectDBScanAlgorithm(3, 2);
 
 		// Create sample
 		GenerateDBScanSample((DBScanAlgorithm)AlgorithmManager.CurrentAlgorithm);
