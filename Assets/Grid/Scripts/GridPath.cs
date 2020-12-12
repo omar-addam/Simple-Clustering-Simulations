@@ -52,7 +52,7 @@ public class GridPath : MonoBehaviour
         renderer.positionCount = pointCount;
         renderer.SetPositions
         (
-            points.Select(point => new Vector3(point.x, point.y, 0)).ToArray()
+            points.Select(point => new Vector3(point.x + center.x, point.y + center.y, 0)).ToArray()
         );
 
         // Set color
