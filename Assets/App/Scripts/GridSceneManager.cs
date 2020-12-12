@@ -74,6 +74,16 @@ public class GridSceneManager : MonoBehaviour
 	#region Flow
 
 	/// <summary>
+	/// Goes back to the introduction scene.
+	/// </summary>
+	public void LoadIntroductionScene()
+	{
+		SceneManager.LoadScene("IntroductionScene", LoadSceneMode.Single);
+	}
+
+	// --- INITIALIZATION --- //
+
+	/// <summary>
 	/// Associates clusters with unique colors.
 	/// </summary>
 	private void InitializeClusterColors()
@@ -128,6 +138,15 @@ public class GridSceneManager : MonoBehaviour
 	/// </summary>
 	private void InitializeIterationsSlider()
 	{
+		// Get number of iterations
+		int numberOfIterations = 0;
+		if (AlgorithmManager.CurrentAlgorithm is KMeansAlgorithm
+			|| AlgorithmManager.CurrentAlgorithm is KMedoidsAlgorithm)
+			numberOfIterations = GetKMIterationsCount();
+		else if (AlgorithmManager.CurrentAlgorithm is DBScanAlgorithm)
+			numberOfIterations = GetDBScanIterationsCount();
+
+		// Display on slider
 		IterationsUIText.text = string.Format("Iteration: {0} / {1}", 0, AlgorithmManager.CurrentAlgorithm.Iterations.Count - 1);
 		IterationsSlider.maxValue = AlgorithmManager.CurrentAlgorithm.Iterations.Count - 1;
 		IterationsSlider.onValueChanged.AddListener((float value) =>
@@ -139,13 +158,7 @@ public class GridSceneManager : MonoBehaviour
 		});
 	}
 
-	/// <summary>
-	/// Loads the introduction scene.
-	/// </summary>
-	public void LoadIntroductionScene()
-	{
-		SceneManager.LoadScene("IntroductionScene", LoadSceneMode.Single);
-	}
+	// --- VISUALIZATION --- //
 
 	/// <summary>
 	/// Displays the entities of an iteration.
@@ -345,6 +358,16 @@ public class GridSceneManager : MonoBehaviour
 			}).ToList();
 	}
 
+	// --- Iterations --- //
+
+	/// <summary>
+	/// Gets the number of steps that we will display.
+	/// </summary>
+	private int GetKMIterationsCount()
+	{
+		return AlgorithmManager.CurrentAlgorithm.Iterations.Count;
+	}
+
 	#endregion
 
 	#region DB-Scan Flow Implementation
@@ -368,6 +391,16 @@ public class GridSceneManager : MonoBehaviour
 	private List<Item> GetDBScanSeedItems()
 	{
 		return AlgorithmManager.CurrentAlgorithm.Items;
+	}
+
+	// --- Iterations --- //
+
+	/// <summary>
+	/// Gets the number of steps that we will display.
+	/// </summary>
+	private int GetDBScanIterationsCount()
+	{
+		return AlgorithmManager.CurrentAlgorithm.Iterations.Count;
 	}
 
 	#endregion
