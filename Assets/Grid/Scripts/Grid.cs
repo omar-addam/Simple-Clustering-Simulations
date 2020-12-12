@@ -85,6 +85,10 @@ public class Grid : MonoBehaviour
 		// Create a new path instance
 		GameObject path = Instantiate(PathTemplate, Vector3.zero, Quaternion.Euler(Vector3.zero), PathsParent.transform);
 
+		// Normalize points
+		for (int i = 0; i < points.Count; i++)
+			points[i] = points[i] * 0.5f;
+
 		// Extract the script
 		GridPath pathScript = path.GetComponent<GridPath>();
 
