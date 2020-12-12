@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Clustering.KMeans
+namespace Clustering.DBScan
 {
     [Serializable]
     public class DBScanCluster : Cluster
