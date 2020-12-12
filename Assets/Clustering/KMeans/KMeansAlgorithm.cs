@@ -124,7 +124,7 @@ namespace Clustering.KMeans
         }
 
         /// <summary>
-        /// Computes the distance bhetween an item and a cluster.
+        /// Computes the distance between an item and a cluster.
         /// </summary>
         private float ComputeDistance(Item item, KMeansCluster cluster)
         {
