@@ -391,13 +391,14 @@ public class GridSceneManager : MonoBehaviour
 	private void DisplayDBScanIteration(int iterationNumber)
 	{
 		// Find the iteration
-		Iteration iteration = AlgorithmManager.CurrentAlgorithm.Iterations.FirstOrDefault(x => x.Order == iterationNumber);
-		if (iteration == null)
+		Iteration previousIteration = AlgorithmManager.CurrentAlgorithm.Iterations.FirstOrDefault(x => x.Order == iterationNumber - 1);
+		Iteration currentIteration = AlgorithmManager.CurrentAlgorithm.Iterations.FirstOrDefault(x => x.Order == iterationNumber);
+		if (currentIteration == null)
 			return;
 
 		// Display
-		DisplayDBScanEntities(iteration);
-		DisplayDBScanBoundaries(iteration);
+		DisplayDBScanEntities(currentIteration);
+		DisplayDBScanBoundaries(previousIteration);
 	}
 
 	// --- VISUALIZATION --- //
