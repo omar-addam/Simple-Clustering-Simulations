@@ -262,7 +262,7 @@ public class GridSceneManager : MonoBehaviour
 
 		// Display
 		DisplayKMEntities(previousIteration, currentIteration, iterationNumber != order * 2);
-		DisplayKMPaths(currentIteration);
+		DisplayKMPaths(iterationNumber != order * 2 ? previousIteration : currentIteration);
 	}
 
 	// --- VISUALIZATION --- //
