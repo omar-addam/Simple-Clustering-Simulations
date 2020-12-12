@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
 using UnityEngine.SceneManagement;
@@ -80,8 +81,6 @@ public class GridSceneManager : MonoBehaviour
 	{
 		SceneManager.LoadScene("IntroductionScene", LoadSceneMode.Single);
 	}
-
-	// --- INITIALIZATION --- //
 
 	/// <summary>
 	/// Associates clusters with unique colors.
@@ -158,15 +157,13 @@ public class GridSceneManager : MonoBehaviour
 		});
 	}
 
-	// --- VISUALIZATION --- //
-
 	/// <summary>
 	/// Displays the entities of an iteration.
 	/// </summary>
-	private void DisplayIteration(int order)
+	private void DisplayIteration(int iterationNumber)
 	{
 		// Check if we should display seeds
-		if (order == 0)
+		if (iterationNumber == 0)
 		{
 			DisplaySeeds();
 			return;
@@ -175,131 +172,12 @@ public class GridSceneManager : MonoBehaviour
 		// Clear all displayed entities
 		GridManager.Clear();
 
-		// Find the iteration
-		Iteration iteration = AlgorithmManager.CurrentAlgorithm.Iterations.FirstOrDefault(x => x.Order == order);
-		if (iteration == null)
-			return;
-
-		// Display
-		DisplayIterationEntities(iteration);
-		DisplayIterationPaths(iteration);
-		DisplayIterationBoundaries(iteration);
-	}
-
-	/// <summary>
-	/// Displays the entities of an iteration.
-	/// </summary>
-	private void DisplayIterationEntities(Iteration iteration)
-	{
-		// Clear all grid entities
-		GridManager.Clear();
-
-		// Go through each cluster
-		foreach (Cluster cluster in iteration.Clusters)
-		{
-			// Display its items
-			List<Vector2> seedItems = cluster.Items.Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
-			if (cluster is KMedoidsCluster)
-			{
-				KMedoidsCluster kmedoidsCluster = cluster as KMedoidsCluster;
-				seedItems = kmedoidsCluster.Items.Where(x => x.Id != kmedoidsCluster.CenterId).Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
-			}
-			if (cluster is DBScanCluster)
-			{
-				DBScanCluster dbScanCluster = cluster as DBScanCluster;
-				seedItems = dbScanCluster.Items.Except(dbScanCluster.RecentlyAddedItems).Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
-			}
-			GridManager.DisplayEntities(seedItems, ClusterColors[cluster.Id]);
-
-			// Display cluster
-			if (cluster is KMeansCluster)
-			{
-				KMeansCluster kmeanCluster = cluster as KMeansCluster;
-				GridManager.DisplayEntities(new List<Vector2>() { new Vector2(kmeanCluster.CenterX, kmeanCluster.CenterY) }, ClusterColors[cluster.Id], false, 45f);
-			}
-			else if (cluster is KMedoidsCluster)
-			{
-				KMedoidsCluster kmedoidsCluster = cluster as KMedoidsCluster;
-				GridManager.DisplayEntities(new List<Vector2>() { new Vector2(kmedoidsCluster.Centroid.PositionX, kmedoidsCluster.Centroid.PositionY) }, ClusterColors[cluster.Id], false, 45f);
-			}
-			else if (cluster is DBScanCluster)
-			{
-				DBScanCluster dbScanCluster = cluster as DBScanCluster;
-				GridManager.DisplayEntities(dbScanCluster.RecentlyAddedItems.Select(x => new Vector2(x.PositionX, x.PositionY)).ToList(), ClusterColors[cluster.Id], false, 45f);
-			}
-		}
-
-		// Display noises
-		if (iteration is DBScanIteration)
-		{
-			DBScanIteration dbscanIteration = iteration as DBScanIteration;
-			GridManager.DisplayEntities(dbscanIteration.Noise.Select(x => new Vector2(x.PositionX, x.PositionY)).ToList(), Color.black);
-		}
-
-		// Display pending
-		if (iteration is DBScanIteration)
-		{
-			DBScanIteration dbscanIteration = iteration as DBScanIteration;
-			GridManager.DisplayEntities(dbscanIteration.Pending.Select(x => new Vector2(x.PositionX, x.PositionY)).ToList(), Color.white);
-		}
-	}
-
-	/// <summary>
-	/// Displays the paths of clusters till this iteration.
-	/// </summary>
-	private void DisplayIterationPaths(Iteration iteration)
-	{
-		// Initialize the path list
-		Dictionary<Guid, List<Vector2>> clusterPaths = new Dictionary<Guid, List<Vector2>>();
-
-		// Populate with the list of clusters
-		foreach (Cluster cluster in iteration.Clusters)
-			clusterPaths.Add(cluster.Id, new List<Vector2>());
-
-		// Get the history of each cluster
-		foreach (Cluster cluster in iteration.Clusters)
-		{
-			List<Cluster> history = new List<Cluster>();
-
-			// Go through each iteration and find this cluster
-			foreach (var it in AlgorithmManager.CurrentAlgorithm.Iterations)
-				if (it.Order <= iteration.Order)
-				{
-					Cluster historyCluster = it.Clusters.FirstOrDefault(x => x.Id == cluster.Id);
-					if (historyCluster != null)
-						history.Add(historyCluster);
-				}
-
-			// Calculate paths
-			if (cluster is KMeansCluster)
-				foreach (KMeansCluster historyCluster in history)
-					clusterPaths[cluster.Id].Add(new Vector2(historyCluster.CenterX * 0.5f, historyCluster.CenterY * 0.5f));
-			else if (cluster is KMedoidsCluster)
-				foreach (KMedoidsCluster historyCluster in history)
-					clusterPaths[cluster.Id].Add(new Vector2(historyCluster.Centroid.PositionX * 0.5f, historyCluster.Centroid.PositionY * 0.5f));
-		}
-
-		// Display paths
-		foreach (Guid clusterId in clusterPaths.Keys)
-			GridManager.DisplayPaths(clusterPaths[clusterId], ClusterColors[clusterId]);
-	}
-
-	/// <summary>
-	/// Displays the boundaries of clusters in this iteration.
-	/// </summary>
-	private void DisplayIterationBoundaries(Iteration iteration)
-	{
-		// Go through each cluster
-		foreach (Cluster cluster in iteration.Clusters)
-		{
-			// In db scan, the boundaries are circles around the recently added neighbors
-			if (cluster is DBScanCluster)
-			{
-				DBScanCluster dbScanCluster = cluster as DBScanCluster;
-				foreach (var item in dbScanCluster.RecentlyAddedItems)
-					GridManager.DisplayCircularBoundary(new Vector2(item.PositionX, item.PositionY), 2, ClusterColors[cluster.Id]);
-			}
-		}
+		// Display iteration
+		if (AlgorithmManager.CurrentAlgorithm is KMeansAlgorithm
+			|| AlgorithmManager.CurrentAlgorithm is KMedoidsAlgorithm)
+			DisplayKMIteration(iterationNumber);
+		else if (AlgorithmManager.CurrentAlgorithm is DBScanAlgorithm)
+			DisplayDBScanIteration(iterationNumber);
 	}
 
 	#endregion
@@ -358,7 +236,7 @@ public class GridSceneManager : MonoBehaviour
 			}).ToList();
 	}
 
-	// --- Iterations --- //
+	// --- ITERATIONS --- //
 
 	/// <summary>
 	/// Gets the number of steps that we will display.
@@ -366,6 +244,97 @@ public class GridSceneManager : MonoBehaviour
 	private int GetKMIterationsCount()
 	{
 		return AlgorithmManager.CurrentAlgorithm.Iterations.Count;
+	}
+
+	/// <summary>
+	/// Processes the provided iteration number and displays it.
+	/// </summary>
+	private void DisplayKMIteration(int iterationNumber)
+	{
+		// Find the iteration
+		Iteration iteration = AlgorithmManager.CurrentAlgorithm.Iterations.FirstOrDefault(x => x.Order == iterationNumber);
+		if (iteration == null)
+			return;
+
+		// Display
+		DisplayKMEntities(iteration);
+		DisplayKMPaths(iteration);
+	}
+
+	// --- VISUALIZATION --- //
+
+	/// <summary>
+	/// Displays the entities of an iteration.
+	/// </summary>
+	private void DisplayKMEntities(Iteration iteration)
+	{
+		// Clear all grid entities
+		GridManager.Clear();
+
+		// Go through each cluster
+		foreach (Cluster cluster in iteration.Clusters)
+		{
+			// Display its items
+			List<Vector2> seedItems = cluster.Items.Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
+			if (cluster is KMedoidsCluster)
+			{
+				KMedoidsCluster kmedoidsCluster = cluster as KMedoidsCluster;
+				seedItems = kmedoidsCluster.Items.Where(x => x.Id != kmedoidsCluster.CenterId).Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
+			}
+			GridManager.DisplayEntities(seedItems, ClusterColors[cluster.Id]);
+
+			// Display cluster
+			if (cluster is KMeansCluster)
+			{
+				KMeansCluster kmeanCluster = cluster as KMeansCluster;
+				GridManager.DisplayEntities(new List<Vector2>() { new Vector2(kmeanCluster.CenterX, kmeanCluster.CenterY) }, ClusterColors[cluster.Id], false, 45f);
+			}
+			else if (cluster is KMedoidsCluster)
+			{
+				KMedoidsCluster kmedoidsCluster = cluster as KMedoidsCluster;
+				GridManager.DisplayEntities(new List<Vector2>() { new Vector2(kmedoidsCluster.Centroid.PositionX, kmedoidsCluster.Centroid.PositionY) }, ClusterColors[cluster.Id], false, 45f);
+			}
+		}
+	}
+
+	/// <summary>
+	/// Displays the paths of clusters till this iteration.
+	/// </summary>
+	private void DisplayKMPaths(Iteration iteration)
+	{
+		// Initialize the path list
+		Dictionary<Guid, List<Vector2>> clusterPaths = new Dictionary<Guid, List<Vector2>>();
+
+		// Populate with the list of clusters
+		foreach (Cluster cluster in iteration.Clusters)
+			clusterPaths.Add(cluster.Id, new List<Vector2>());
+
+		// Get the history of each cluster
+		foreach (Cluster cluster in iteration.Clusters)
+		{
+			List<Cluster> history = new List<Cluster>();
+
+			// Go through each iteration and find this cluster
+			foreach (var it in AlgorithmManager.CurrentAlgorithm.Iterations)
+				if (it.Order <= iteration.Order)
+				{
+					Cluster historyCluster = it.Clusters.FirstOrDefault(x => x.Id == cluster.Id);
+					if (historyCluster != null)
+						history.Add(historyCluster);
+				}
+
+			// Calculate paths
+			if (cluster is KMeansCluster)
+				foreach (KMeansCluster historyCluster in history)
+					clusterPaths[cluster.Id].Add(new Vector2(historyCluster.CenterX * 0.5f, historyCluster.CenterY * 0.5f));
+			else if (cluster is KMedoidsCluster)
+				foreach (KMedoidsCluster historyCluster in history)
+					clusterPaths[cluster.Id].Add(new Vector2(historyCluster.Centroid.PositionX * 0.5f, historyCluster.Centroid.PositionY * 0.5f));
+		}
+
+		// Display paths
+		foreach (Guid clusterId in clusterPaths.Keys)
+			GridManager.DisplayPaths(clusterPaths[clusterId], ClusterColors[clusterId]);
 	}
 
 	#endregion
@@ -393,7 +362,7 @@ public class GridSceneManager : MonoBehaviour
 		return AlgorithmManager.CurrentAlgorithm.Items;
 	}
 
-	// --- Iterations --- //
+	// --- ITERATIONS --- //
 
 	/// <summary>
 	/// Gets the number of steps that we will display.
@@ -401,6 +370,65 @@ public class GridSceneManager : MonoBehaviour
 	private int GetDBScanIterationsCount()
 	{
 		return AlgorithmManager.CurrentAlgorithm.Iterations.Count;
+	}
+
+	/// <summary>
+	/// Processes the provided iteration number and displays it.
+	/// </summary>
+	private void DisplayDBScanIteration(int iterationNumber)
+	{
+		// Find the iteration
+		Iteration iteration = AlgorithmManager.CurrentAlgorithm.Iterations.FirstOrDefault(x => x.Order == iterationNumber);
+		if (iteration == null)
+			return;
+
+		// Display
+		DisplayDBScanEntities(iteration);
+		DisplayDBScanBoundaries(iteration);
+	}
+
+	// --- VISUALIZATION --- //
+
+	/// <summary>
+	/// Displays the entities of an iteration.
+	/// </summary>
+	private void DisplayDBScanEntities(Iteration iteration)
+	{
+		DBScanIteration dbscanIteration = iteration as DBScanIteration;
+
+		// Clear all grid entities
+		GridManager.Clear();
+
+		// Go through each cluster
+		foreach (DBScanCluster cluster in iteration.Clusters)
+		{
+			// Display its items
+			List<Vector2> seedItems = cluster.Items.Except(cluster.RecentlyAddedItems).Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
+			GridManager.DisplayEntities(seedItems, ClusterColors[cluster.Id]);
+
+			// Display cluster
+			GridManager.DisplayEntities(cluster.RecentlyAddedItems.Select(x => new Vector2(x.PositionX, x.PositionY)).ToList(), ClusterColors[cluster.Id], false, 45f);
+		}
+
+		// Display noises
+		GridManager.DisplayEntities(dbscanIteration.Noise.Select(x => new Vector2(x.PositionX, x.PositionY)).ToList(), Color.black);
+
+		// Display pending
+		GridManager.DisplayEntities(dbscanIteration.Pending.Select(x => new Vector2(x.PositionX, x.PositionY)).ToList(), Color.white);
+	}
+
+	/// <summary>
+	/// Displays the boundaries of clusters in this iteration.
+	/// </summary>
+	private void DisplayDBScanBoundaries(Iteration iteration)
+	{
+		// Go through each cluster
+		foreach (DBScanCluster cluster in iteration.Clusters)
+		{
+			// In db scan, the boundaries are circles around the recently added neighbors
+			foreach (var item in cluster.RecentlyAddedItems)
+				GridManager.DisplayCircularBoundary(new Vector2(item.PositionX, item.PositionY), 2, ClusterColors[cluster.Id]);
+		}
 	}
 
 	#endregion
