@@ -18,8 +18,6 @@ namespace Clustering.DBScan
         public DBScanAlgorithm()
             : this(new List<Item>(), 1, 1)
         {
-            _Noise = new List<Item>();
-            Pending = new List<Item>();
         }
 
         /// <summary>
