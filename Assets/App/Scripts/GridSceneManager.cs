@@ -71,7 +71,7 @@ public class GridSceneManager : MonoBehaviour
 
 	#endregion
 
-	#region Methods
+	#region Flow
 
 	/// <summary>
 	/// Associates clusters with unique colors.
@@ -80,18 +80,18 @@ public class GridSceneManager : MonoBehaviour
 	{
 		ClusterColors = new Dictionary<Guid, Color>();
 
-		List<Cluster> clusters = new List<Cluster>();
+		List<Guid> clusterIds = new List<Guid>();
 
 		if (AlgorithmManager.CurrentAlgorithm is KMeansAlgorithm
 			|| AlgorithmManager.CurrentAlgorithm is KMedoidsAlgorithm)
-			clusters = AlgorithmManager.CurrentAlgorithm.Iterations.First().Clusters;
+			clusterIds = GetKMClusterIds();
 		else if (AlgorithmManager.CurrentAlgorithm is DBScanAlgorithm)
-			clusters = AlgorithmManager.CurrentAlgorithm.Iterations.Last().Clusters;
+			clusterIds = GetDBScanClusterIds();
 
-		foreach (var cluster in clusters)
+		foreach (var id in clusterIds)
 		{
 			Color color = UnityEngine.Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
-			ClusterColors.Add(cluster.Id, color);
+			ClusterColors.Add(id, color);
 		}
 	}
 
@@ -295,6 +295,32 @@ public class GridSceneManager : MonoBehaviour
 					GridManager.DisplayCircularBoundary(new Vector2(item.PositionX, item.PositionY), 2, ClusterColors[cluster.Id]);
 			}
 		}
+	}
+
+	#endregion
+
+	#region K-Means and K-Medoids Flow Implementation
+
+	/// <summary>
+	/// Gets all cluster ids.
+	/// </summary>
+	private List<Guid> GetKMClusterIds()
+	{
+		// In KMeans and KMedoids, the numbher of clusters are defined at first
+		return AlgorithmManager.CurrentAlgorithm.Iterations.First().Clusters.Select(x => x.Id).ToList();
+	}
+
+	#endregion
+
+	#region DB-Scan Flow Implementation
+
+	/// <summary>
+	/// Gets all cluster ids.
+	/// </summary>
+	private List<Guid> GetDBScanClusterIds()
+	{
+		// In DB-Scan, the final numbher of clusters is deteremined at the end
+		return AlgorithmManager.CurrentAlgorithm.Iterations.Last().Clusters.Select(x => x.Id).ToList();
 	}
 
 	#endregion
