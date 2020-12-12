@@ -16,6 +16,8 @@ namespace Clustering.DBScan
         public DBScanIteration(int order, List<Cluster> clusters)
             : base(order, clusters)
         {
+            Pending = new List<Item>();
+            Noise = new List<Item>();
         }
 
         /// <summary>
