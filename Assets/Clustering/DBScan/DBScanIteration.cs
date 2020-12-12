@@ -24,9 +24,12 @@ namespace Clustering.DBScan
         /// Copy constructor.
         /// </summary>
         public DBScanIteration(int order, DBScanIteration iteration)
-            : base(iteration)
+            : this(order, new List<Cluster>())
         {
             _Order = order;
+
+            foreach (DBScanCluster cluster in iteration.Clusters)
+                Clusters.Add(new DBScanCluster(cluster));
 
             Pending = new List<Item>();
             Pending.AddRange(iteration.Pending);
