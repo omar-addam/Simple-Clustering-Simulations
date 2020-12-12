@@ -178,6 +178,7 @@ public class GridSceneManager : MonoBehaviour
 		// Display
 		DisplayIterationEntities(iteration);
 		DisplayIterationPaths(iteration);
+		DisplayIterationBoundaries(iteration);
 	}
 
 	/// <summary>
@@ -276,6 +277,24 @@ public class GridSceneManager : MonoBehaviour
 		// Display paths
 		foreach (Guid clusterId in clusterPaths.Keys)
 			GridManager.DisplayPaths(clusterPaths[clusterId], ClusterColors[clusterId]);
+	}
+
+	/// <summary>
+	/// Displays the boundaries of clusters in this iteration.
+	/// </summary>
+	private void DisplayIterationBoundaries(Iteration iteration)
+	{
+		// Go through each cluster
+		foreach (Cluster cluster in iteration.Clusters)
+		{
+			// In db scan, the boundaries are circles around the recently added neighbors
+			if (cluster is DBScanCluster)
+			{
+				DBScanCluster dbScanCluster = cluster as DBScanCluster;
+				foreach (var item in dbScanCluster.RecentlyAddedItems)
+					GridManager.DisplayCircularBoundary(new Vector2(item.PositionX, item.PositionY), 2, ClusterColors[cluster.Id]);
+			}
+		}
 	}
 
 	#endregion

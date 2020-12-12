@@ -92,6 +92,21 @@ public class Grid : MonoBehaviour
 		pathScript.SetPath(points, color);
 	}
 
+	/// <summary>
+	/// Displays circular boundaries.
+	/// </summary>
+	public void DisplayCircularBoundary(Vector2 center, float radius, Color color)
+	{
+		// Create a new path instance
+		GameObject path = Instantiate(PathTemplate, Vector3.zero, Quaternion.Euler(Vector3.zero), PathsParent.transform);
+
+		// Extract the script
+		GridPath pathScript = path.GetComponent<GridPath>();
+
+		// Set positions
+		pathScript.SetCircle(center * 0.5f, radius * 0.55f, color);
+	}
+
 	#endregion
 
 }
