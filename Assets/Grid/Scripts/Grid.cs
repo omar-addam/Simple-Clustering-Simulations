@@ -104,7 +104,7 @@ public class Grid : MonoBehaviour
 		GridPath pathScript = path.GetComponent<GridPath>();
 
 		// Set positions
-		pathScript.SetCircle(center * 0.5f, radius * 0.5f, color);
+		pathScript.SetCircle(center * 0.5f, radius * 0.55f, color);
 	}
 
 	#endregion
