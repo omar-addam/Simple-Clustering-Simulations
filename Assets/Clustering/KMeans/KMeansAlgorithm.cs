@@ -9,6 +9,8 @@ namespace Clustering.KMeans
     public class KMeansAlgorithm : AbstractAlgorithm
     {
 
+        #region Constructors
+
         /// <summary>
         /// Empty constructor.
         /// </summary>
@@ -26,7 +28,9 @@ namespace Clustering.KMeans
             _ClusterSeeds = clusters;
         }
 
+        #endregion
 
+        #region Fields/Properties
 
         /// <summary>
         /// List of positions used as cluster seeds.
@@ -39,6 +43,10 @@ namespace Clustering.KMeans
         /// List of positions used as cluster seeds.
         /// </summary>
         public List<Item> ClusterSeeds { get { return _ClusterSeeds; } }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Initializes the first set of clusters used.
@@ -91,7 +99,7 @@ namespace Clustering.KMeans
         /// Finds the best fitting cluster based on the distnace between them.
         /// </summary>
         /// <returns></returns>
-        private Core.Cluster FindClosestCluster(Item item, List<Core.Cluster> clusters)
+        private Cluster FindClosestCluster(Item item, List<Cluster> clusters)
         {
             if (clusters.Count == 0)
                 return null;
@@ -184,6 +192,8 @@ namespace Clustering.KMeans
             // They are the same
             return true;
         }
+
+        #endregion
 
     }
 }
