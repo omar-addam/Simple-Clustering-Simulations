@@ -251,8 +251,11 @@ public class GridSceneManager : MonoBehaviour
 	/// </summary>
 	private void DisplayKMIteration(int iterationNumber)
 	{
+		// Compute iteration order
+		int order = (int)Math.Ceiling(iterationNumber / 2f);
+
 		// Find the iteration
-		Iteration iteration = AlgorithmManager.CurrentAlgorithm.Iterations.FirstOrDefault(x => x.Order == iterationNumber);
+		Iteration iteration = AlgorithmManager.CurrentAlgorithm.Iterations.FirstOrDefault(x => x.Order == order);
 		if (iteration == null)
 			return;
 
