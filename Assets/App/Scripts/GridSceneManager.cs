@@ -257,7 +257,7 @@ public class GridSceneManager : MonoBehaviour
 		// Find the iteration
 		Iteration previousIteration = AlgorithmManager.CurrentAlgorithm.Iterations.FirstOrDefault(x => x.Order == order - 1);
 		Iteration currentIteration = AlgorithmManager.CurrentAlgorithm.Iterations.FirstOrDefault(x => x.Order == order);
-		if (currentIteration == null)
+		if (previousIteration == null && currentIteration == null)
 			return;
 
 		// Display
@@ -274,10 +274,11 @@ public class GridSceneManager : MonoBehaviour
 	{
 		// Classify clusters by their ids
 		Dictionary<Guid, Cluster> previousClusters = previousIteration.Clusters.ToDictionary(x => x.Id, x => x);
-		Dictionary<Guid, Cluster> currentClusters = currentIteration.Clusters.ToDictionary(x => x.Id, x => x);
+		Dictionary<Guid, Cluster> currentClusters = currentIteration?.Clusters.ToDictionary(x => x.Id, x => x);
 
 		// Go through each cluster
-		foreach (Cluster cluster in currentIteration.Clusters)
+		List<Cluster> clusters = currentIteration?.Clusters ?? previousIteration.Clusters;
+		foreach (Cluster cluster in clusters)
 		{
 			// Display its items
 			List<Vector2> seedItems = cluster.Items.Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
