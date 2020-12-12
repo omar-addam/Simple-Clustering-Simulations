@@ -391,13 +391,14 @@ public class GridSceneManager : MonoBehaviour
 	private void DisplayDBScanIteration(int iterationNumber)
 	{
 		// Find the iteration
-		Iteration iteration = AlgorithmManager.CurrentAlgorithm.Iterations.FirstOrDefault(x => x.Order == iterationNumber);
-		if (iteration == null)
+		Iteration previousIteration = AlgorithmManager.CurrentAlgorithm.Iterations.FirstOrDefault(x => x.Order == iterationNumber - 1);
+		Iteration currentIteration = AlgorithmManager.CurrentAlgorithm.Iterations.FirstOrDefault(x => x.Order == iterationNumber);
+		if (currentIteration == null)
 			return;
 
 		// Display
-		DisplayDBScanEntities(iteration);
-		DisplayDBScanBoundaries(iteration);
+		DisplayDBScanEntities(currentIteration);
+		DisplayDBScanBoundaries(previousIteration, currentIteration);
 	}
 
 	// --- VISUALIZATION --- //
@@ -433,15 +434,71 @@ public class GridSceneManager : MonoBehaviour
 	/// <summary>
 	/// Displays the boundaries of clusters in this iteration.
 	/// </summary>
-	private void DisplayDBScanBoundaries(Iteration iteration)
+	private void DisplayDBScanBoundaries(Iteration previousIteration, Iteration currentIteration)
 	{
+		// Classify clusters by their ids
+		Dictionary<Guid, DBScanCluster> previousClusters = previousIteration.Clusters.ToDictionary(x => x.Id, x => (DBScanCluster)x);
+		Dictionary<Guid, DBScanCluster> currentClusters = currentIteration?.Clusters.ToDictionary(x => x.Id, x => (DBScanCluster)x);
+
 		// Go through each cluster
-		foreach (DBScanCluster cluster in iteration.Clusters)
+		foreach (DBScanCluster currentCluster in currentClusters.Values)
 		{
+			// Find previous cluster
+			DBScanCluster previousCluster = null;
+			if (previousClusters.ContainsKey(currentCluster.Id))
+				previousCluster = previousClusters[currentCluster.Id];
+
+			// Add items that we are scanning around them
+			List<Item> items = previousCluster?.RecentlyAddedItems ?? currentCluster.Items.Except(currentCluster.RecentlyAddedItems).ToList();
+
 			// In db scan, the boundaries are circles around the recently added neighbors
-			foreach (var item in cluster.RecentlyAddedItems)
-				GridManager.DisplayCircularBoundary(new Vector2(item.PositionX, item.PositionY), 2, ClusterColors[cluster.Id]);
+			foreach (var item in items)
+				GridManager.DisplayCircularBoundary(new Vector2(item.PositionX, item.PositionY), 2, ClusterColors[currentCluster.Id]);
+
+			// Display line to display which ones we got added in current iteration and which item added them
+			foreach (var newItem in currentCluster.RecentlyAddedItems)
+			{
+				// Find closest point from items scanning
+				Item scanningItem = FindClosestItem(newItem, items);
+
+				// Draw a line between them
+				GridManager.DisplayPaths(new List<Vector2>() { new Vector2(scanningItem.PositionX, scanningItem.PositionY), new Vector2(newItem.PositionX, newItem.PositionY) });
+			}
 		}
+	}
+
+	/// <summary>
+	/// Finds the closes item from a list to a provided item.
+	private Item FindClosestItem(Item item, List<Item> items)
+	{
+		Item closestItem = items.First();
+		float closestDistance = ComputeDistance(item, closestItem);
+
+		foreach (var closeItem in items)
+		{
+			float distance = ComputeDistance(item, closeItem);
+			if (distance < closestDistance)
+			{
+				closestDistance = distance;
+				closestItem = closeItem;
+			}
+		}
+
+		return closestItem;
+	}
+
+	/// <summary>
+	/// Computes distance between two items.
+	/// </summary>
+	private float ComputeDistance(Item item1, Item item2)
+	{
+		return (float)
+				Math.Sqrt
+				(
+					Math.Pow(item1.PositionX - item2.PositionX, 2)
+					+
+					Math.Pow(item1.PositionY - item2.PositionY, 2)
+				);
 	}
 
 	#endregion
