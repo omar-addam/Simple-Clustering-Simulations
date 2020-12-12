@@ -454,7 +454,51 @@ public class GridSceneManager : MonoBehaviour
 			// In db scan, the boundaries are circles around the recently added neighbors
 			foreach (var item in items)
 				GridManager.DisplayCircularBoundary(new Vector2(item.PositionX, item.PositionY), 2, ClusterColors[currentCluster.Id]);
+
+			// Display line to display which ones we got added in current iteration and which item added them
+			foreach (var newItem in currentCluster.RecentlyAddedItems)
+			{
+				// Find closest point from items scanning
+				Item scanningItem = FindClosestItem(newItem, items);
+
+				// Draw a line between them
+				GridManager.DisplayPaths(new List<Vector2>() { new Vector2(scanningItem.PositionX, scanningItem.PositionY), new Vector2(newItem.PositionX, newItem.PositionY) });
+			}
 		}
+	}
+
+	/// <summary>
+	/// Finds the closes item from a list to a provided item.
+	private Item FindClosestItem(Item item, List<Item> items)
+	{
+		Item closestItem = items.First();
+		float closestDistance = ComputeDistance(item, closestItem);
+
+		foreach (var closeItem in items)
+		{
+			float distance = ComputeDistance(item, closeItem);
+			if (distance < closestDistance)
+			{
+				closestDistance = distance;
+				closestItem = closeItem;
+			}
+		}
+
+		return closestItem;
+	}
+
+	/// <summary>
+	/// Computes distance between two items.
+	/// </summary>
+	private float ComputeDistance(Item item1, Item item2)
+	{
+		return (float)
+				Math.Sqrt
+				(
+					Math.Pow(item1.PositionX - item2.PositionX, 2)
+					+
+					Math.Pow(item1.PositionY - item2.PositionY, 2)
+				);
 	}
 
 	#endregion
