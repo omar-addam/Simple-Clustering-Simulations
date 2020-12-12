@@ -52,8 +52,9 @@ public class AlgorithmManagerScriptableObject : ScriptableObject
     /// <summary>
     /// Selects the db-scan algorithm as the current used algorithm.
     /// </summary>
-    public void SelectDBScanAlgorithm()
+    public void SelectDBScanAlgorithm(float thresholdDistance, int minPoints)
     {
+        DBScanAlgorithm = new DBScanAlgorithm(new List<Item>(), thresholdDistance, minPoints);
         CurrentAlgorithm = DBScanAlgorithm;
     }
 
