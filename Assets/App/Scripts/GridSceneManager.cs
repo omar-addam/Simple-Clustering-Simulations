@@ -289,16 +289,23 @@ public class GridSceneManager : MonoBehaviour
 			GridManager.DisplayEntities(seedItems, ClusterColors[cluster.Id]);
 
 			// Display cluster
+			Vector2 clusterCenter = Vector2.zero;
 			if (cluster is KMeansCluster)
 			{
 				KMeansCluster kmeanCluster = (keepPreviousCenters ? previousClusters[cluster.Id] : cluster) as KMeansCluster;
-				GridManager.DisplayEntities(new List<Vector2>() { new Vector2(kmeanCluster.CenterX, kmeanCluster.CenterY) }, ClusterColors[cluster.Id], false, 45f);
+				clusterCenter = new Vector2(kmeanCluster.CenterX, kmeanCluster.CenterY);
 			}
 			else if (cluster is KMedoidsCluster)
 			{
 				KMedoidsCluster kmedoidsCluster = (keepPreviousCenters ? previousClusters[cluster.Id] : cluster) as KMedoidsCluster;
-				GridManager.DisplayEntities(new List<Vector2>() { new Vector2(kmedoidsCluster.Centroid.PositionX, kmedoidsCluster.Centroid.PositionY) }, ClusterColors[cluster.Id], false, 45f);
+				clusterCenter = new Vector2(kmedoidsCluster.Centroid.PositionX, kmedoidsCluster.Centroid.PositionY);
 			}
+			GridManager.DisplayEntities(new List<Vector2>() { clusterCenter }, ClusterColors[cluster.Id], false, 45f);
+
+			// Display cluster lines
+			if (keepPreviousCenters)
+				foreach (var item in seedItems)
+					GridManager.DisplayPaths(new List<Vector2>() { clusterCenter, item });
 		}
 	}
 
@@ -331,10 +338,10 @@ public class GridSceneManager : MonoBehaviour
 			// Calculate paths
 			if (cluster is KMeansCluster)
 				foreach (KMeansCluster historyCluster in history)
-					clusterPaths[cluster.Id].Add(new Vector2(historyCluster.CenterX * 0.5f, historyCluster.CenterY * 0.5f));
+					clusterPaths[cluster.Id].Add(new Vector2(historyCluster.CenterX, historyCluster.CenterY));
 			else if (cluster is KMedoidsCluster)
 				foreach (KMedoidsCluster historyCluster in history)
-					clusterPaths[cluster.Id].Add(new Vector2(historyCluster.Centroid.PositionX * 0.5f, historyCluster.Centroid.PositionY * 0.5f));
+					clusterPaths[cluster.Id].Add(new Vector2(historyCluster.Centroid.PositionX, historyCluster.Centroid.PositionY));
 		}
 
 		// Display paths
