@@ -106,6 +106,11 @@ namespace Clustering.DBScan
         /// </summary>
         protected override List<Cluster> InitializeClusters()
         {
+            if (Pending.Count != Items.Count)
+            {
+                Pending = new List<Item>();
+                Pending.AddRange(Items);
+            }
             return new List<Cluster>();
         }
 
