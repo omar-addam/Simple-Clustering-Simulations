@@ -1,4 +1,5 @@
 ﻿using Clustering.Core;
+using Clustering.DBScan;
 using Clustering.KMeans;
 using Clustering.KMedoids;
 using System.Collections;
@@ -27,6 +28,12 @@ public class AlgorithmManagerScriptableObject : ScriptableObject
     private KMedoidsAlgorithm KMedoidsAlgorithm;
 
     /// <summary>
+    /// DB-Scan algorithm.
+    /// </summary>
+    [SerializeField]
+    private DBScanAlgorithm DBScanAlgorithm;
+
+    /// <summary>
     /// Selects the k-means algorithm as the current used algorithm.
     /// </summary>
     public void SelectKMeansAlgorithm()
@@ -43,12 +50,21 @@ public class AlgorithmManagerScriptableObject : ScriptableObject
     }
 
     /// <summary>
+    /// Selects the db-scan algorithm as the current used algorithm.
+    /// </summary>
+    public void SelectDBScanAlgorithm()
+    {
+        CurrentAlgorithm = DBScanAlgorithm;
+    }
+
+    /// <summary>
     /// Clears all algorithms.
     /// </summary>
     public void Clear()
     {
         KMeansAlgorithm = new KMeansAlgorithm();
         KMedoidsAlgorithm = new KMedoidsAlgorithm();
+        DBScanAlgorithm = new DBScanAlgorithm();
         CurrentAlgorithm = null;
     }
 
