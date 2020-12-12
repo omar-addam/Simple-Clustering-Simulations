@@ -104,31 +104,23 @@ public class GridSceneManager : MonoBehaviour
 		GridManager.Clear();
 
 		// Display seed items
-		List<Vector2> seedItems = AlgorithmManager.CurrentAlgorithm.Items.Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
-		if (AlgorithmManager.CurrentAlgorithm is KMedoidsAlgorithm)
-		{
-			KMedoidsAlgorithm algorithm = AlgorithmManager.CurrentAlgorithm as KMedoidsAlgorithm;
-			seedItems = algorithm.Items.Where(x => !algorithm.ClusterSeeds.Contains(x.Id)).Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
-		}
+		List<Vector2> seedItems = new List<Vector2>();
+		if (AlgorithmManager.CurrentAlgorithm is KMeansAlgorithm)
+			seedItems = GetKMeansSeedItems().Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
+		else if (AlgorithmManager.CurrentAlgorithm is KMedoidsAlgorithm)
+			seedItems = GetKMedoidsSeedItems().Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
+		else if (AlgorithmManager.CurrentAlgorithm is DBScanAlgorithm)
+			seedItems = GetDBScanSeedItems().Select(x => new Vector2(x.PositionX, x.PositionY)).ToList();
 		GridManager.DisplayEntities(seedItems, Color.white);
 
 		// Display clusters
+		List<Item> seedClusters = new List<Item>();
 		if (AlgorithmManager.CurrentAlgorithm is KMeansAlgorithm)
-		{
-			KMeansAlgorithm algorithm = AlgorithmManager.CurrentAlgorithm as KMeansAlgorithm;
-			foreach (Item cluster in algorithm.ClusterSeeds)
-				GridManager.DisplayEntities(new List<Vector2>() { new Vector2(cluster.PositionX, cluster.PositionY) }, ClusterColors[cluster.Id], true, 45f);
-		}
+			seedClusters = GetKMeansSeedCluster();
 		else if (AlgorithmManager.CurrentAlgorithm is KMedoidsAlgorithm)
-		{
-			KMedoidsAlgorithm algorithm = AlgorithmManager.CurrentAlgorithm as KMedoidsAlgorithm;
-
-			foreach (KMedoidsCluster cluster in algorithm.Iterations.First().Clusters)
-			{
-				Item item = cluster.Centroid;
-				GridManager.DisplayEntities(new List<Vector2>() { new Vector2(item.PositionX, item.PositionY) }, ClusterColors[cluster.Id], true, 45f);
-			}
-		}
+			seedClusters = GetKMedoidsSeedClusters();
+		foreach (Item cluster in seedClusters)
+			GridManager.DisplayEntities(new List<Vector2>() { new Vector2(cluster.PositionX, cluster.PositionY) }, ClusterColors[cluster.Id], true, 45f);
 	}
 
 	/// <summary>
@@ -301,6 +293,8 @@ public class GridSceneManager : MonoBehaviour
 
 	#region K-Means and K-Medoids Flow Implementation
 
+	// --- COLORS --- //
+
 	/// <summary>
 	/// Gets all cluster ids.
 	/// </summary>
@@ -310,9 +304,52 @@ public class GridSceneManager : MonoBehaviour
 		return AlgorithmManager.CurrentAlgorithm.Iterations.First().Clusters.Select(x => x.Id).ToList();
 	}
 
+	// --- SEEDS --- //
+
+	/// <summary>
+	/// Retrieves the list of items at iteration 0.
+	/// </summary>
+	private List<Item> GetKMeansSeedItems()
+	{
+		return AlgorithmManager.CurrentAlgorithm.Items;
+	}
+
+	/// <summary>
+	/// Retrieves the list of items at iteration 0.
+	/// </summary>
+	private List<Item> GetKMedoidsSeedItems()
+	{
+		KMedoidsAlgorithm algorithm = AlgorithmManager.CurrentAlgorithm as KMedoidsAlgorithm;
+		return algorithm.Items.Where(x => !algorithm.ClusterSeeds.Contains(x.Id)).ToList();
+	}
+
+	/// <summary>
+	/// Retrieves the list of clusters at iteration 0.
+	/// </summary>
+	private List<Item> GetKMeansSeedCluster()
+	{
+		KMeansAlgorithm algorithm = AlgorithmManager.CurrentAlgorithm as KMeansAlgorithm;
+		return algorithm.ClusterSeeds;
+	}
+
+	/// <summary>
+	/// Retrieves the list of clusters at iteration 0.
+	/// </summary>
+	private List<Item> GetKMedoidsSeedClusters()
+	{
+		KMedoidsAlgorithm algorithm = AlgorithmManager.CurrentAlgorithm as KMedoidsAlgorithm;
+		return algorithm.Iterations.First().Clusters.Select(x => 
+			{
+				KMedoidsCluster cluster = x as KMedoidsCluster;
+				return new Item(cluster.Id, cluster.Centroid.PositionX, cluster.Centroid.PositionY);
+			}).ToList();
+	}
+
 	#endregion
 
 	#region DB-Scan Flow Implementation
+
+	// --- COLORS --- //
 
 	/// <summary>
 	/// Gets all cluster ids.
@@ -321,6 +358,16 @@ public class GridSceneManager : MonoBehaviour
 	{
 		// In DB-Scan, the final numbher of clusters is deteremined at the end
 		return AlgorithmManager.CurrentAlgorithm.Iterations.Last().Clusters.Select(x => x.Id).ToList();
+	}
+
+	// --- SEEDS --- //
+
+	/// <summary>
+	/// Retrieves the list of items at iteration 0.
+	/// </summary>
+	private List<Item> GetDBScanSeedItems()
+	{
+		return AlgorithmManager.CurrentAlgorithm.Items;
 	}
 
 	#endregion
