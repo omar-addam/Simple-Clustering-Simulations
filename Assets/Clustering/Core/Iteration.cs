@@ -49,7 +49,7 @@ namespace Clustering.Core
         /// </summary>
         [SerializeField]
         [Tooltip("The order of the iteration.")]
-        private int _Order;
+        protected int _Order;
 
         /// <summary>
         /// The order of the iteration.

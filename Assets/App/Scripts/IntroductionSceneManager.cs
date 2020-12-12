@@ -1,10 +1,13 @@
 ﻿using Clustering.Core;
+using Clustering.DBScan;
 using Clustering.KMeans;
 using Clustering.KMedoids;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.TextCore.LowLevel;
 
 public class IntroductionSceneManager : MonoBehaviour
 {
@@ -124,6 +127,68 @@ public class IntroductionSceneManager : MonoBehaviour
 		// Create clusters sample
 		algorithm.ClusterSeeds.Add(algorithm.Items[4].Id);
 		algorithm.ClusterSeeds.Add(algorithm.Items[7].Id);
+	}
+
+	#endregion
+
+	#region DB-Scan Methods
+
+	/// <summary>
+	/// Selects the db-scan algorithm and runs it against an example sample.
+	/// </summary>
+	public void SelecDBScanSample()
+	{
+		Debug.Log("DB-Scan algorithm has been selected to run against a predefined sample.");
+
+		// Select k-mean algorithm
+		AlgorithmManager.Clear();
+		AlgorithmManager.SelectDBScanAlgorithm(2, 2);
+
+		// Create sample
+		GenerateDBScanSample((DBScanAlgorithm)AlgorithmManager.CurrentAlgorithm);
+
+		// Compute iterations
+		AlgorithmManager.CurrentAlgorithm.Compute();
+
+		// Switch to grid scene
+		SceneManager.LoadScene("GridScene", LoadSceneMode.Single);
+	}
+
+	/// <summary>
+	/// Creates an example sample.
+	/// </summary>
+	private void GenerateDBScanSample(DBScanAlgorithm algorithm)
+	{
+		// Center
+		int centerWidth = 3;
+		for (int i = -centerWidth; i <= centerWidth; i++)
+		{
+			// Add + (horizontal and vertical lines passing through the center)
+			algorithm.Items.Add(new Item(i, 0));
+			algorithm.Items.Add(new Item(0, i));
+
+			// Add /\ (diagonal lines passing through the center)
+			if (i > -centerWidth && i < centerWidth && i != 0)
+				algorithm.Items.Add(new Item(i, i));
+
+			// Add the rest
+			if (i > -centerWidth && i < centerWidth && i != 0)
+				algorithm.Items.Add(new Item(-i, i));
+		}
+
+		// Edge
+		int edgeStart = 7;
+		int edgeWidth = 2;
+		for (int i = -edgeStart; i <= edgeStart; i++)
+		{
+			for (int j = 0; j < edgeWidth; j++)
+			{
+				algorithm.Items.Add(new Item((edgeStart + j), i));
+				algorithm.Items.Add(new Item(-(edgeStart + j), i));
+				algorithm.Items.Add(new Item(i, (edgeStart + j)));
+				algorithm.Items.Add(new Item(i, -(edgeStart + j)));
+			}
+		}
 	}
 
 	#endregion

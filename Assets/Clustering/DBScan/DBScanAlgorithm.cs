@@ -1,9 +1,7 @@
 ﻿using Clustering.Core;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using UnityEditor.UIElements;
 using UnityEngine;
 
 namespace Clustering.DBScan
@@ -20,8 +18,6 @@ namespace Clustering.DBScan
         public DBScanAlgorithm()
             : this(new List<Item>(), 1, 1)
         {
-            _Noise = new List<Item>();
-            Pending = new List<Item>();
         }
 
         /// <summary>
@@ -32,10 +28,6 @@ namespace Clustering.DBScan
         {
             _DistanceThreshold = distanceThreshold;
             _MinPoints = minPoints;
-            _Noise = new List<Item>();
-            
-            Pending = new List<Item>();
-            Pending.AddRange(items);
         }
 
         #endregion
@@ -71,27 +63,6 @@ namespace Clustering.DBScan
 
 
         /// <summary>
-        /// List of items that do not belong to any cluster.
-        /// </summary>
-        [SerializeField]
-        [Tooltip("List of items that do not belong to any cluster.")]
-        private List<Item> _Noise;
-
-        /// <summary>
-        /// List of items that do not belong to any cluster.
-        /// </summary>
-        public List<Item> Noise { get { return _Noise; } }
-
-
-
-        /// <summary>
-        /// List of items pending to be clustered.
-        /// </summary>
-        private List<Item> Pending;
-
-
-
-        /// <summary>
         /// The id of latest created cluster that we should scan for its neighbors.
         /// </summary>
         private Guid? CurrentClusterId;
@@ -117,14 +88,21 @@ namespace Clustering.DBScan
         /// </summary>
         protected override Iteration ComputeNextIteration(Iteration previousIteration)
         {
+            DBScanIteration previousDBScanIteration = previousIteration as DBScanIteration;
+
             // Check if all items have been processed
-            if (Pending.Count == 0)
+            if (previousDBScanIteration?.Pending.Count == 0 || Items.Count == 0)
                 return null;
 
             // Create a new iteration instance
-            Iteration iteration = new Iteration(previousIteration.Order + 1, new List<Cluster>());
-            foreach (DBScanCluster cluster in previousIteration.Clusters) // In db scan, clusters remain across iterations
-                iteration.Clusters.Add(new DBScanCluster(cluster));
+            DBScanIteration iteration = null;
+            if (previousDBScanIteration != null)
+                iteration = new DBScanIteration(previousIteration.Order + 1, previousDBScanIteration);
+            else
+            {
+                iteration = new DBScanIteration(previousIteration.Order + 1, new List<Cluster>());
+                iteration.Pending.AddRange(Items);
+            }
 
             // Check if we are currently still checking neighbors for a cluster
             if (CurrentClusterId != null)
@@ -147,14 +125,17 @@ namespace Clustering.DBScan
                 }
 
                 // Filter items to only those pending
-                neighborItems = neighborItems.Where(x => Pending.Contains(x)).Distinct().ToList();
+                neighborItems = neighborItems.Where(x => iteration.Pending.Contains(x)).Distinct().ToList();
 
                 // Check if any item is new
                 if (neighborItems.Count > 0)
                 {
                     // Remove items from pending
                     foreach (var item in neighborItems)
-                        Pending.Remove(item);
+                        iteration.Pending.Remove(item);
+
+                    // Add items to cluster
+                    currentCluster.Items.AddRange(neighborItems);
 
                     // Add every new item to the rececntly added of current cluster
                     currentCluster.RecentlyAddedItems.AddRange(neighborItems);
@@ -172,10 +153,10 @@ namespace Clustering.DBScan
             else
             {
                 // Select a random item from the pending list
-                var item = Pending.OrderBy(x => Guid.NewGuid()).FirstOrDefault();
+                var item = iteration.Pending.OrderBy(x => Guid.NewGuid()).FirstOrDefault();
 
                 // Remove item from pending list
-                Pending.Remove(item);
+                iteration.Pending.Remove(item);
 
                 // Find items around it
                 List<Item> surroundingItems = FindSurroundingItems(item);
@@ -193,6 +174,10 @@ namespace Clustering.DBScan
                     // Add all neighbors to check next iteration
                     newCluster.RecentlyAddedItems.AddRange(surroundingItems);
 
+                    // Remove items from pending
+                    foreach (var surroundingItem in surroundingItems)
+                        iteration.Pending.Remove(surroundingItem);
+
                     // Add cluster to iteration
                     iteration.Clusters.Add(newCluster);
 
@@ -204,7 +189,7 @@ namespace Clustering.DBScan
                 else
                 {
                     // Add the item to the noise list
-                    _Noise.Add(item);
+                    iteration.Noise.Add(item);
                 }
             }
 
