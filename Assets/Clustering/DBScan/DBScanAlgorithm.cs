@@ -171,6 +171,10 @@ namespace Clustering.DBScan
                     // Add all neighbors to check next iteration
                     newCluster.RecentlyAddedItems.AddRange(surroundingItems);
 
+                    // Remove items from pending
+                    foreach (var surroundingItem in surroundingItems)
+                        iteration.Pending.Remove(surroundingItem);
+
                     // Add cluster to iteration
                     iteration.Clusters.Add(newCluster);
 
