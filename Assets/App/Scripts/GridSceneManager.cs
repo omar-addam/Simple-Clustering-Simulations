@@ -146,11 +146,11 @@ public class GridSceneManager : MonoBehaviour
 			numberOfIterations = GetDBScanIterationsCount();
 
 		// Display on slider
-		IterationsUIText.text = string.Format("Iteration: {0} / {1}", 0, AlgorithmManager.CurrentAlgorithm.Iterations.Count - 1);
-		IterationsSlider.maxValue = AlgorithmManager.CurrentAlgorithm.Iterations.Count - 1;
+		IterationsUIText.text = string.Format("Iteration: {0} / {1}", 0, numberOfIterations - 1);
+		IterationsSlider.maxValue = numberOfIterations - 1;
 		IterationsSlider.onValueChanged.AddListener((float value) =>
 		{
-			IterationsUIText.text = string.Format("Iteration: {0} / {1}", value, AlgorithmManager.CurrentAlgorithm.Iterations.Count - 1);
+			IterationsUIText.text = string.Format("Iteration: {0} / {1}", value, numberOfIterations - 1);
 
 			// Display iteration entities
 			DisplayIteration((int)value);
@@ -243,7 +243,7 @@ public class GridSceneManager : MonoBehaviour
 	/// </summary>
 	private int GetKMIterationsCount()
 	{
-		return AlgorithmManager.CurrentAlgorithm.Iterations.Count;
+		return AlgorithmManager.CurrentAlgorithm.Iterations.Count * 2;
 	}
 
 	/// <summary>
