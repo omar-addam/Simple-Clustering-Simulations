@@ -10,6 +10,8 @@ namespace Clustering.KMedoids
     public class KMedoidsAlgorithm : AbstractAlgorithm
     {
 
+        #region Constructors
+
         /// <summary>
         /// Empty constructor.
         /// </summary>
@@ -27,7 +29,9 @@ namespace Clustering.KMedoids
             _ClusterSeeds = clusters;
         }
 
+        #endregion
 
+        #region Fields/Properties
 
         /// <summary>
         /// Id list of items used as cluster seeds.
@@ -40,6 +44,10 @@ namespace Clustering.KMedoids
         /// Id list of items used as cluster seeds.
         /// </summary>
         public List<Guid> ClusterSeeds { get { return _ClusterSeeds; } }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Initializes the first set of clusters used.
@@ -62,7 +70,7 @@ namespace Clustering.KMedoids
         /// Tries to compute the next iteration. 
         /// If there are no changes to the clusters, the method will return null, identifying the end.
         /// </summary>
-        protected override Core.Iteration ComputeNextIteration(Iteration previousIteration)
+        protected override Iteration ComputeNextIteration(Iteration previousIteration)
         {
             // Create a new iteration instance
             Iteration iteration = new Iteration(previousIteration.Order + 1, new List<Cluster>());
@@ -182,15 +190,17 @@ namespace Clustering.KMedoids
 
             // Check if the clusters contain different items
             List<Guid> previousItemIds = new List<Guid>();
-            foreach (Core.Item item in previousCluster.Items)
+            foreach (Item item in previousCluster.Items)
                 previousItemIds.Add(item.Id);
-            foreach (Core.Item item in newCluster.Items)
+            foreach (Item item in newCluster.Items)
                 if (!previousItemIds.Contains(item.Id))
                     return false;
 
             // They are the same
             return true;
         }
+
+        #endregion
 
     }
 }

@@ -9,6 +9,8 @@ namespace Clustering.KMeans
     public class KMeansAlgorithm : AbstractAlgorithm
     {
 
+        #region Constructors
+
         /// <summary>
         /// Empty constructor.
         /// </summary>
@@ -20,13 +22,15 @@ namespace Clustering.KMeans
         /// <summary>
         /// Minimal constructor.
         /// </summary>
-        public KMeansAlgorithm(List<Core.Item> items, List<Item> clusters) 
+        public KMeansAlgorithm(List<Item> items, List<Item> clusters) 
             : base("K-Means", items)
         {
             _ClusterSeeds = clusters;
         }
 
+        #endregion
 
+        #region Fields/Properties
 
         /// <summary>
         /// List of positions used as cluster seeds.
@@ -39,6 +43,10 @@ namespace Clustering.KMeans
         /// List of positions used as cluster seeds.
         /// </summary>
         public List<Item> ClusterSeeds { get { return _ClusterSeeds; } }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Initializes the first set of clusters used.
@@ -57,17 +65,17 @@ namespace Clustering.KMeans
         /// Tries to compute the next iteration. 
         /// If there are no changes to the clusters, the method will return null, identifying the end.
         /// </summary>
-        protected override Core.Iteration ComputeNextIteration(Core.Iteration previousIteration)
+        protected override Iteration ComputeNextIteration(Iteration previousIteration)
         {
             // Create a new iteration instance
-            Core.Iteration iteration = new Core.Iteration(previousIteration.Order + 1, new List<Core.Cluster>());
+            Core.Iteration iteration = new Iteration(previousIteration.Order + 1, new List<Core.Cluster>());
 
             // Create empty clusters
             foreach (KMeansCluster cluster in previousIteration.Clusters)
                 iteration.Clusters.Add(new KMeansCluster(cluster.Id, cluster.CenterX, cluster.CenterY));
 
             // Find for each item the cluster it belongs to
-            foreach (Core.Item item in _Items)
+            foreach (Item item in _Items)
             {
                 Core.Cluster cluster = FindClosestCluster(item, iteration.Clusters);
                 cluster.Items.Add(item);
@@ -91,7 +99,7 @@ namespace Clustering.KMeans
         /// Finds the best fitting cluster based on the distnace between them.
         /// </summary>
         /// <returns></returns>
-        private Core.Cluster FindClosestCluster(Core.Item item, List<Core.Cluster> clusters)
+        private Cluster FindClosestCluster(Item item, List<Cluster> clusters)
         {
             if (clusters.Count == 0)
                 return null;
@@ -116,9 +124,9 @@ namespace Clustering.KMeans
         }
 
         /// <summary>
-        /// Computes the distance bhetween an item and a cluster.
+        /// Computes the distance between an item and a cluster.
         /// </summary>
-        private float ComputeDistance(Core.Item item, KMeansCluster cluster)
+        private float ComputeDistance(Item item, KMeansCluster cluster)
         {
             return (float)
                 Math.Sqrt
@@ -134,7 +142,7 @@ namespace Clustering.KMeans
         /// <summary>
         /// Compares if two iterations are similar.
         /// </summary>
-        private bool CompareIterations(Core.Iteration previousIteration, Core.Iteration newIteration)
+        private bool CompareIterations(Iteration previousIteration, Iteration newIteration)
         {
             // Classify clusters by their ids for faster retrieval
             Dictionary<Guid, KMeansCluster> previousClusters = new Dictionary<Guid, KMeansCluster>();
@@ -184,6 +192,8 @@ namespace Clustering.KMeans
             // They are the same
             return true;
         }
+
+        #endregion
 
     }
 }

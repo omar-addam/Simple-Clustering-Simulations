@@ -27,7 +27,7 @@ namespace Clustering.KMeans
         /// <param name="x">The x position of the center of the cluster.</param>
         /// <param name="y">The y position of the center of the cluster.</param>
         public KMeansCluster(Guid id, float x, float y)
-            : base(id, new List<Core.Item>())
+            : base(id, new List<Item>())
         {
             _CenterX = x;
             _CenterY = y;
