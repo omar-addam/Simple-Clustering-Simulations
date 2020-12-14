@@ -98,7 +98,10 @@ public abstract class AbstractGridVisualizer
     /// <summary>
     /// Retrieves the list of items at iteration 0.
     /// </summary>
-    protected abstract List<Item> GetSeedItems();
+    protected virtual List<Item> GetSeedItems()
+    {
+        return AlgorithmManager.CurrentAlgorithm.Items;
+    }
 
     /// <summary>
     /// Retrieves the list of clusters at iteration 0.

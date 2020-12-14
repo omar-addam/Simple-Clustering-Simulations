@@ -53,14 +53,6 @@ public class DBScanGridVisualizer : AbstractGridVisualizer
     #region Seed Methods
 
     /// <summary>
-    /// Retrieves the list of items at iteration 0.
-    /// </summary>
-    protected override List<Item> GetSeedItems()
-    {
-        return Algorithm.Items;
-    }
-
-    /// <summary>
     /// Retrieves the list of clusters at iteration 0.
     /// </summary>
     protected override List<Item> GetSeedClusters()
