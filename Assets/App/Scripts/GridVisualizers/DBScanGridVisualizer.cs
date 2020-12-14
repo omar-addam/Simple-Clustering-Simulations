@@ -67,7 +67,8 @@ public class DBScanGridVisualizer : AbstractGridVisualizer
     /// <summary>
     /// Displays the entities of an iteration.
     /// </summary>
-    protected override void DisplayIteration(Iteration previousIteration, Iteration currentIteration)
+    protected override void DisplayIteration(int iterationNumber, int order, 
+        Iteration previousIteration, Iteration currentIteration)
     {
         // The end
         if (currentIteration == null)

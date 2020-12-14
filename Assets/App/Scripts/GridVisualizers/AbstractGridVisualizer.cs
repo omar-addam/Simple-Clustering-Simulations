@@ -143,7 +143,8 @@ public abstract class AbstractGridVisualizer
         Iteration currentIteration = AlgorithmManager.CurrentAlgorithm.Iterations.FirstOrDefault(x => x.Order == order);
 
         // Display iterations
-        DisplayIteration(previousIteration, currentIteration);
+        DisplayIteration(iterationNumber, order, 
+            previousIteration, currentIteration);
     }
 
     /// <summary>
@@ -157,7 +158,8 @@ public abstract class AbstractGridVisualizer
     /// <summary>
     /// Displays the entities of an iteration.
     /// </summary>
-    protected abstract void DisplayIteration(Iteration previousIteration, Iteration currentIteration);
+    protected abstract void DisplayIteration(int iterationNumber, int order, 
+        Iteration previousIteration, Iteration currentIteration);
 
     #endregion
 
