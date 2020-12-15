@@ -57,8 +57,15 @@ public abstract class AbstractGridVisualizer
     private void InitializeClusterColors()
     {
         ClusterColors = new Dictionary<Guid, Color>();
-        foreach (var id in GetClusterIds())
-            ClusterColors.Add(id, UnityEngine.Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f));
+        var clusterIds = GetClusterIds();
+        Color color = UnityEngine.Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 0.5f);
+        foreach (var id in clusterIds)
+        {
+            Color.RGBToHSV(color, out float h, out float s, out float v);
+            h = (h + 1f / clusterIds.Count) % 1;
+            color = Color.HSVToRGB(h, s, v);
+            ClusterColors.Add(id, color);
+        }
     }
 
     /// <summary>
