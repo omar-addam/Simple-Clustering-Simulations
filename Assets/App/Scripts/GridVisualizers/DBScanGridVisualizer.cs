@@ -100,7 +100,7 @@ public class DBScanGridVisualizer : AbstractGridVisualizer
         }
 
         // Display noises
-        GridManager.DisplayEntities(dbscanIteration.Noise.Select(x => new Vector2(x.PositionX, x.PositionY)).ToList(), Color.black);
+        GridManager.DisplayEntities(dbscanIteration.Noise.Select(x => new Vector2(x.PositionX, x.PositionY)).ToList(), Color.black, false);
 
         // Display pending
         GridManager.DisplayEntities(dbscanIteration.Pending.Select(x => new Vector2(x.PositionX, x.PositionY)).ToList(), Color.white);
