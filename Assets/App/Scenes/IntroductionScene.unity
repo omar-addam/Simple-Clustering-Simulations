@@ -184,7 +184,7 @@ GameObject:
   - component: {fileID: 247135326}
   - component: {fileID: 247135325}
   m_Layer: 5
-  m_Name: Sample
+  m_Name: Sample 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -256,11 +256,11 @@ MonoBehaviour:
       - m_Target: {fileID: 1292213991}
         m_TargetAssemblyTypeName: IntroductionSceneManager, Assembly-CSharp
         m_MethodName: SelectKMeansSample
-        m_Mode: 1
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -316,7 +316,7 @@ GameObject:
   - component: {fileID: 427881769}
   - component: {fileID: 427881768}
   m_Layer: 5
-  m_Name: Custom
+  m_Name: Sample 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -384,7 +384,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 427881769}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1292213991}
+        m_TargetAssemblyTypeName: IntroductionSceneManager, Assembly-CSharp
+        m_MethodName: SelecDBScanSample
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &427881769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -493,7 +505,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Custom
+  m_Text: Sample 2
 --- !u!222 &482573092
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -572,7 +584,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Sample
+  m_Text: Sample 1
 --- !u!222 &705835873
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -687,7 +699,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Custom
+  m_Text: Sample 2
 --- !u!222 &835364310
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -709,7 +721,7 @@ GameObject:
   - component: {fileID: 844276871}
   - component: {fileID: 844276870}
   m_Layer: 5
-  m_Name: Custom
+  m_Name: Sample 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -777,7 +789,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 844276871}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1292213991}
+        m_TargetAssemblyTypeName: IntroductionSceneManager, Assembly-CSharp
+        m_MethodName: SelectKMeansSample
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &844276871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -886,7 +910,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Sample
+  m_Text: Sample 1
 --- !u!222 &883148757
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1007,7 +1031,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1292213991
 MonoBehaviour:
@@ -1376,7 +1400,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Sample
+  m_Text: Sample 1
 --- !u!222 &1460435025
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1455,7 +1479,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Custom
+  m_Text: Sample 2
 --- !u!222 &1614891243
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1477,7 +1501,7 @@ GameObject:
   - component: {fileID: 1692921741}
   - component: {fileID: 1692921740}
   m_Layer: 5
-  m_Name: Custom
+  m_Name: Sample 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1545,7 +1569,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1692921741}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1292213991}
+        m_TargetAssemblyTypeName: IntroductionSceneManager, Assembly-CSharp
+        m_MethodName: SelectKMedoidsSample
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1692921741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1755,7 +1791,7 @@ GameObject:
   - component: {fileID: 1855299974}
   - component: {fileID: 1855299973}
   m_Layer: 5
-  m_Name: Sample
+  m_Name: Sample 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1827,11 +1863,11 @@ MonoBehaviour:
       - m_Target: {fileID: 1292213991}
         m_TargetAssemblyTypeName: IntroductionSceneManager, Assembly-CSharp
         m_MethodName: SelectKMedoidsSample
-        m_Mode: 1
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -1966,7 +2002,7 @@ RectTransform:
   m_Children:
   - {fileID: 1788702531}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2037,7 +2073,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1992194234
 GameObject:
@@ -2052,7 +2088,7 @@ GameObject:
   - component: {fileID: 1992194237}
   - component: {fileID: 1992194236}
   m_Layer: 5
-  m_Name: Sample
+  m_Name: Sample 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2124,11 +2160,11 @@ MonoBehaviour:
       - m_Target: {fileID: 1292213991}
         m_TargetAssemblyTypeName: IntroductionSceneManager, Assembly-CSharp
         m_MethodName: SelecDBScanSample
-        m_Mode: 1
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
