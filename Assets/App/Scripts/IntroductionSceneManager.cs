@@ -80,7 +80,7 @@ public class IntroductionSceneManager : MonoBehaviour
 
 		// Create clusters sample
 		algorithm.ClusterSeeds.Add(new Item(2f, 3f));
-		algorithm.ClusterSeeds.Add(new Item(-7f, -3f));
+		algorithm.ClusterSeeds.Add(new Item(-6f, -3f));
 	}
 
 
@@ -122,7 +122,7 @@ public class IntroductionSceneManager : MonoBehaviour
 
 		// Create clusters sample
 		algorithm.ClusterSeeds.Add(new Item(2f, 3f));
-		algorithm.ClusterSeeds.Add(new Item(-7f, -3f));
+		algorithm.ClusterSeeds.Add(new Item(-6f, -3f));
 	}
 
 	#endregion
