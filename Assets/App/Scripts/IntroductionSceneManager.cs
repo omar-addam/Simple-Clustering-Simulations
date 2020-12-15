@@ -225,7 +225,7 @@ public class IntroductionSceneManager : MonoBehaviour
 	/// <summary>
 	/// Selects the db-scan algorithm and runs it against an example sample.
 	/// </summary>
-	public void SelecDBScanSample()
+	public void SelecDBScanSample(int sample)
 	{
 		Debug.Log("DB-Scan algorithm has been selected to run against a predefined sample.");
 
@@ -234,7 +234,10 @@ public class IntroductionSceneManager : MonoBehaviour
 		AlgorithmManager.SelectDBScanAlgorithm(2, 2);
 
 		// Create sample
-		GenerateDBScanSample((DBScanAlgorithm)AlgorithmManager.CurrentAlgorithm);
+		if (sample == 1)
+			GenerateDBScanSample1((DBScanAlgorithm)AlgorithmManager.CurrentAlgorithm);
+		else
+			GenerateDBScanSample2((DBScanAlgorithm)AlgorithmManager.CurrentAlgorithm);
 
 		// Compute iterations
 		AlgorithmManager.CurrentAlgorithm.Compute();
@@ -246,7 +249,27 @@ public class IntroductionSceneManager : MonoBehaviour
 	/// <summary>
 	/// Creates an example sample.
 	/// </summary>
-	private void GenerateDBScanSample(DBScanAlgorithm algorithm)
+	private void GenerateDBScanSample1(DBScanAlgorithm algorithm)
+	{
+		// Create items sample
+		algorithm.Items.Add(new Item(4, 5));
+		algorithm.Items.Add(new Item(3, 7));
+		algorithm.Items.Add(new Item(4.5f, 4));
+		algorithm.Items.Add(new Item(5, 6));
+
+		algorithm.Items.Add(new Item(-1, -1));
+		algorithm.Items.Add(new Item(-4, -3));
+		algorithm.Items.Add(new Item(-4, -1.5f));
+		algorithm.Items.Add(new Item(-5, -1));
+		algorithm.Items.Add(new Item(-5, -2));
+		algorithm.Items.Add(new Item(-6, -1));
+		algorithm.Items.Add(new Item(-6, -2));
+	}
+
+	/// <summary>
+	/// Creates an example sample.
+	/// </summary>
+	private void GenerateDBScanSample2(DBScanAlgorithm algorithm)
 	{
 		// Center
 		int centerWidth = 3;
