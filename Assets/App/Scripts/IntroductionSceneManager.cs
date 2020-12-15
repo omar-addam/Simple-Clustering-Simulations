@@ -132,7 +132,7 @@ public class IntroductionSceneManager : MonoBehaviour
 	/// <summary>
 	/// Selects the k-medoids algorithm and runs it against an example sample.
 	/// </summary>
-	public void SelectKMedoidsSample()
+	public void SelectKMedoidsSample(int sample)
 	{
 		Debug.Log("K-Medoids algorithm has been selected to run against a predefined sample.");
 
@@ -141,8 +141,11 @@ public class IntroductionSceneManager : MonoBehaviour
 		AlgorithmManager.SelectKMedoidsAlgorithm();
 
 		// Create sample
-		GenerateKMedoidsSample((KMedoidsAlgorithm)AlgorithmManager.CurrentAlgorithm);
-
+		if (sample == 1)
+			GenerateKMedoidsSample1((KMedoidsAlgorithm)AlgorithmManager.CurrentAlgorithm);
+		else
+			GenerateKMedoidsSample2((KMedoidsAlgorithm)AlgorithmManager.CurrentAlgorithm);
+		
 		// Compute iterations
 		AlgorithmManager.CurrentAlgorithm.Compute();
 
@@ -153,7 +156,7 @@ public class IntroductionSceneManager : MonoBehaviour
 	/// <summary>
 	/// Creates an example sample.
 	/// </summary>
-	private void GenerateKMedoidsSample(KMedoidsAlgorithm algorithm)
+	private void GenerateKMedoidsSample1(KMedoidsAlgorithm algorithm)
 	{
 		// Create items sample
 		algorithm.Items.Add(new Item(4, 5));
@@ -168,6 +171,47 @@ public class IntroductionSceneManager : MonoBehaviour
 		algorithm.Items.Add(new Item(-5, -2));
 		algorithm.Items.Add(new Item(-6, -1));
 		algorithm.Items.Add(new Item(-6, -2));
+
+		// Create clusters sample
+		algorithm.ClusterSeeds.Add(algorithm.Items[4].Id);
+		algorithm.ClusterSeeds.Add(algorithm.Items[7].Id);
+	}
+
+	/// <summary>
+	/// Creates an example sample.
+	/// </summary>
+	private void GenerateKMedoidsSample2(KMedoidsAlgorithm algorithm)
+	{
+		// Center
+		int centerWidth = 3;
+		for (int i = -centerWidth; i <= centerWidth; i++)
+		{
+			// Add + (horizontal and vertical lines passing through the center)
+			algorithm.Items.Add(new Item(i, 0));
+			algorithm.Items.Add(new Item(0, i));
+
+			// Add /\ (diagonal lines passing through the center)
+			if (i > -centerWidth && i < centerWidth && i != 0)
+				algorithm.Items.Add(new Item(i, i));
+
+			// Add the rest
+			if (i > -centerWidth && i < centerWidth && i != 0)
+				algorithm.Items.Add(new Item(-i, i));
+		}
+
+		// Edge
+		int edgeStart = 7;
+		int edgeWidth = 2;
+		for (int i = -edgeStart; i <= edgeStart; i++)
+		{
+			for (int j = 0; j < edgeWidth; j++)
+			{
+				algorithm.Items.Add(new Item((edgeStart + j), i));
+				algorithm.Items.Add(new Item(-(edgeStart + j), i));
+				algorithm.Items.Add(new Item(i, (edgeStart + j)));
+				algorithm.Items.Add(new Item(i, -(edgeStart + j)));
+			}
+		}
 
 		// Create clusters sample
 		algorithm.ClusterSeeds.Add(algorithm.Items[4].Id);
