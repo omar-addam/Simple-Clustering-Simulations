@@ -1,10 +1,22 @@
-# Simple Clustering Simulations
+# Simple Clustering Simulations 
 
-This project simulates three clustering algorithms: K-Means, K-Medoids, and DB-Scan. 
+This project provides the implementation of three clustering algorithms in Unity3d.
 
-![Simulation](Simulation.gif)
+` IMPORTANT: The code is not optimized for handling large number of items. Instead, it was optimized for simulation purposes by storing all the iterations and their respective data. `
 
-## Getting Started
+| K-Means | K-Medoids | DB-Scan |
+| :-----: | :-------: | :-----: |
+| <img src="docs/KMeans.png" height="150" /> | <img src="docs/KMedoids.jpg" height="150" />   | <img src="docs/DBScan.jpg" height="150" /> |
+| [wikipedia](https://en.wikipedia.org/wiki/K-means_clustering) | [wikipedia](https://en.wikipedia.org/wiki/K-medoids)   | [wikipedia](https://en.wikipedia.org/wiki/DBSCAN) |
+
+# Demo
+
+![Simulation](docs/Simulation.gif)
+
+We created a demo that simulates and visualizes the three algorithms with two predefined samples.
+A complete demo can be found on [https://omaddam.github.io/Simple-Clustering-Simulations/](https://omaddam.github.io/Simple-Clustering-Simulations/).
+
+# Getting Started
 
 These instructions will get you a copy of the project on your local machine for development and testing purposes.
 
@@ -30,7 +42,7 @@ git clone https://github.com/omaddam/Simple-Clustering-Simulations.git
 git flow init
 ```
 
-## Standards
+# Standards
 
 ### General Standards
 
