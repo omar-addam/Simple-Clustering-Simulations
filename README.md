@@ -1,10 +1,15 @@
-# Simple Clustering Simulations
+# Simple Clustering Simulations 
 
-This project simulates three clustering algorithms: K-Means, K-Medoids, and DB-Scan. 
+This project simulates three clustering algorithms: K-Means, K-Medoids, and DB-Scan.
+
+# Demo
 
 ![Simulation](Simulation.gif)
 
-## Getting Started
+We created a demo that simulates and visualizes the three algorithms with two predefined samples.
+A complete demo can be found on [https://omaddam.github.io/Simple-Clustering-Simulations/](https://omaddam.github.io/Simple-Clustering-Simulations/).
+
+# Getting Started
 
 These instructions will get you a copy of the project on your local machine for development and testing purposes.
 
@@ -30,7 +35,7 @@ git clone https://github.com/omaddam/Simple-Clustering-Simulations.git
 git flow init
 ```
 
-## Standards
+# Standards
 
 ### General Standards
 
