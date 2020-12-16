@@ -1,12 +1,12 @@
 # Simple Clustering Simulations 
 
 This project provides the implementation of three clustering algorithms in Unity3d.
-  
+
 ` IMPORTANT: The code is not optimized for handling large number of items. Instead, it was optimized for simulation purposes by storing all the iterations and their respective data. `
 
 | K-Means | K-Medoids | DB-Scan |
 | :-----: | :-------: | :-----: |
-| <img src="docs/KMeans.png" height="150" /> | Picture   | <img src="docs/DBScan.jpg" height="150" /> |
+| <img src="docs/KMeans.png" height="150" /> | <img src="docs/KMedoids.jpg" height="150" />   | <img src="docs/DBScan.jpg" height="150" /> |
 | [wikipedia](https://en.wikipedia.org/wiki/K-means_clustering) | [wikipedia](https://en.wikipedia.org/wiki/K-medoids)   | [wikipedia](https://en.wikipedia.org/wiki/DBSCAN) |
 
 # Demo
