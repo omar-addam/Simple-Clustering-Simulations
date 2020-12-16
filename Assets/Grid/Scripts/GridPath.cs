@@ -15,6 +15,7 @@ public class GridPath : MonoBehaviour
 
         // Set positions
         renderer.positionCount = points.Count;
+        renderer.useWorldSpace = false;
         renderer.SetPositions
         (
             points.Select(point => new Vector3(point.x, point.y, 0)).ToArray()
@@ -50,6 +51,7 @@ public class GridPath : MonoBehaviour
 
         // Set positions
         renderer.positionCount = pointCount;
+        renderer.useWorldSpace = false;
         renderer.SetPositions
         (
             points.Select(point => new Vector3(point.x + center.x, point.y + center.y, 0)).ToArray()
