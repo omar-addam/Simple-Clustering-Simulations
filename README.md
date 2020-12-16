@@ -6,11 +6,11 @@ This project provides the implementation of three clustering algorithms in Unity
 
 | K-Means | K-Medoids | DB-Scan |
 | :-----: | :-------: | :-----: |
-| Picture | Picture   | Picture |
+| Picture | Picture   | <img src="docs/DBScan.png" width="200" style="background:white"> |
 
 # Demo
 
-![Simulation](Simulation.gif)
+![Simulation](docs/Simulation.gif)
 
 We created a demo that simulates and visualizes the three algorithms with two predefined samples.
 A complete demo can be found on [https://omaddam.github.io/Simple-Clustering-Simulations/](https://omaddam.github.io/Simple-Clustering-Simulations/).
