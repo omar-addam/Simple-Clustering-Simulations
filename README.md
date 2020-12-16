@@ -1,7 +1,9 @@
 # Simple Clustering Simulations 
 
-The project contains the implementation of three clustering algorithms in Unity3d.
+This project provides the implementation of three clustering algorithms in Unity3d.
   
+` IMPORTANT: The code is not optimized for handling large number of items. Instead, it was optimized for simulation purposes by storing all the iterations and their respective data. `
+
 | K-Means | K-Medoids | DB-Scan |
 | :-----: | :-------: | :-----: |
 | Picture | Picture   | Picture |
