@@ -36,7 +36,7 @@ public class IntroductionSceneManager : MonoBehaviour
 	private void Awake()
 	{
 		AlgorithmManager.Clear();
-		VersionText.text = Application.version;
+		VersionText.text = string.Format("Version: {0}", Application.version);
 	}
 
 	#endregion
