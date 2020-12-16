@@ -15,14 +15,9 @@ public class GridEntity : MonoBehaviour
         renderer.material = new Material(GetComponent<Renderer>().material);
 
         // Set the color
+        Color.RGBToHSV(color, out float h, out float s, out float v);
+        color = Color.HSVToRGB(h, s, enableEmission ? 1f : v);
         renderer.material.color = color;
-
-        // Set emission color
-        if (enableEmission)
-        {
-            renderer.material.SetColor("_EmissionColor", color);
-            renderer.material.EnableKeyword("_EMISSION");
-        }
     }
 
 }
