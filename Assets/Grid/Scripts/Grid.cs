@@ -66,7 +66,9 @@ public class Grid : MonoBehaviour
 			Vector2 normalizedPosition = position * 0.5f;
 
 			// Create a new entity instance
-			GameObject entity = Instantiate(EntityTemplate, new Vector3(normalizedPosition.x, normalizedPosition.y, 0), Quaternion.Euler(new Vector3(0, 0, rotation)), EntitiesParent.transform);
+			GameObject entity = Instantiate(EntityTemplate, EntitiesParent.transform);
+			entity.transform.localPosition = new Vector3(normalizedPosition.x, normalizedPosition.y, 0);
+			entity.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, rotation));
 
 			// Extract the script
 			GridEntity entityScript = entity.GetComponent<GridEntity>();
@@ -83,7 +85,9 @@ public class Grid : MonoBehaviour
 	public void DisplayPaths(List<Vector2> points, Color? color = null)
 	{
 		// Create a new path instance
-		GameObject path = Instantiate(PathTemplate, Vector3.zero, Quaternion.Euler(Vector3.zero), PathsParent.transform);
+		GameObject path = Instantiate(PathTemplate, PathsParent.transform);
+		path.transform.localPosition = Vector3.zero;
+		path.transform.localRotation = Quaternion.Euler(Vector3.zero);
 
 		// Normalize points
 		for (int i = 0; i < points.Count; i++)
@@ -102,7 +106,9 @@ public class Grid : MonoBehaviour
 	public void DisplayCircularBoundary(Vector2 center, float radius, Color color)
 	{
 		// Create a new path instance
-		GameObject path = Instantiate(PathTemplate, Vector3.zero, Quaternion.Euler(Vector3.zero), PathsParent.transform);
+		GameObject path = Instantiate(PathTemplate, PathsParent.transform);
+		path.transform.localPosition = Vector3.zero;
+		path.transform.localRotation = Quaternion.Euler(Vector3.zero);
 
 		// Extract the script
 		GridPath pathScript = path.GetComponent<GridPath>();

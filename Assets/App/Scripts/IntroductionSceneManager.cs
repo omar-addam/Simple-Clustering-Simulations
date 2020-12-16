@@ -8,6 +8,7 @@ using System.Diagnostics.Contracts;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TextCore.LowLevel;
+using UnityEngine.UI;
 
 public class IntroductionSceneManager : MonoBehaviour
 {
@@ -19,6 +20,12 @@ public class IntroductionSceneManager : MonoBehaviour
 	/// </summary>
 	public AlgorithmManagerScriptableObject AlgorithmManager;
 
+	/// <summary>
+	/// The label displaying the version of the application.
+	/// </summary>
+	[SerializeField]
+	private Text VersionText;
+
 	#endregion
 
 	#region Initialization
@@ -29,6 +36,7 @@ public class IntroductionSceneManager : MonoBehaviour
 	private void Awake()
 	{
 		AlgorithmManager.Clear();
+		VersionText.text = Application.version;
 	}
 
 	#endregion
