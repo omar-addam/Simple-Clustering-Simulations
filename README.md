@@ -6,7 +6,7 @@ This project provides the implementation of three clustering algorithms in Unity
 
 | K-Means | K-Medoids | DB-Scan |
 | :-----: | :-------: | :-----: |
-| Picture | Picture   | <img src="docs/DBScan.jpg" width="200" /> |
+| <img src="docs/KMeans.png" height="150" /> | Picture   | <img src="docs/DBScan.jpg" height="150" /> |
 | [wikipedia](https://en.wikipedia.org/wiki/K-means_clustering) | [wikipedia](https://en.wikipedia.org/wiki/K-medoids)   | [wikipedia](https://en.wikipedia.org/wiki/DBSCAN) |
 
 # Demo
