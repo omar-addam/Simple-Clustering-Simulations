@@ -24,7 +24,7 @@ These instructions will get you a copy of the project on your local machine for 
 
 The things you need to install before you proceed with development:
 
-1) [Unity3d (2020.1.10f1)](https://unity3d.com/get-unity/download/archive) [required].
+1) [Unity3d (2020.2.0f1)](https://unity3d.com/get-unity/download/archive) [required].
 
 ### Installing
 
@@ -67,7 +67,7 @@ git flow init
 
 ### Assets / App
 
-* Contains scripts that define the flow of the application.
+* Contains scripts, scenes, and all resources used to create the demo application.
 * Scripts are created under Assets/App/Scripts folder.
 
 ### Assets / Others
@@ -76,3 +76,98 @@ git flow init
 * Each component should be isolated and under **NO CIRCUMSTANCES** referencing or using another component's scripts.
 * Components are **NOT** allowed to reference or call application scripts.
 * Components are allowed to reference and use ThirdParty scripts.
+
+# Code Based Documentation
+
+## Assets / Clustering
+
+This folder contains all the scripts of the clustering component. The core scripts are in the *Core* folder while the rest of the scripts are in their proper implementation folders.
+
+### Core
+
+The core contains 4 classes as shown in the figure below.
+
+![Simulation](docs/ClusteringCore.png)
+
+* **AbstractAlgorithm** is an abstract class that defines the flow of all the implemented algorithms.
+  * Properties
+    * **Items**: list of all items that are to be clustered.
+    * **Iterations**: list of all computed iterations. Gets populated upon calling the *Compute* method.
+  * Methods
+    * **Compute**: a public method that uses the two other methods to generate the iterations.
+    * **InitializeClusters**: an abstract method that gets implemented by the different clustering algorithms. This method is used to initialize the first set of clusters used in the first iteration.
+    * **ComputeNextIteration**: an abstract method that gets implemented by the different clustering algorithms. Tries to compute the next iteration. If there are no changes to the clusters, the method will return null, identifying the end.
+
+* **Iteration**: represents a single state in an algorithm. It stores all the clusters with their items at a specific snapshot.
+
+* **Cluster**: represents a list of items grouped by their similarities. In the case of this implementation, they are grouped by their physical location's cohesion.
+  
+* **Item**: represents a single point in a 2D graph.
+
+### KMeans
+
+In a KMeans algorithm, the initial set of clusters is defined by either creating the centers of the clusters randomly or predefining them.
+
+* **KMeansCluster**: extends the *Cluster* class to include two additional properties and one method.
+  * Properties
+    * **CenterX**: the x position of the center of the cluster.
+    * **CenterY**: the y position of the center of the cluster.
+  * Methods
+    * **RecomputeCenter**: recomputes the center of the cluster to set it at an average distance from all items in that cluster.
+
+* **KMeansAlgorithm**: implements the *AbstractAlgorithm* class to perform the k-means approach.
+
+### KMedoids
+
+This algorithm is very similar to the k-means algorithm. However, rather than having an average floating point represent a cluster, one of the cluster's items is set as the centroid.
+
+* **KMedoidsCluster**: extends the *Cluster* class to include two additional properties and one method.
+  * Properties
+    * **CenterId**: the id of the item representing the center of the cluster.
+    * **Centroid**: the item representing the center of the cluster.
+  * Methods
+    * **RecomputeCenter**: finds the item that represents the center of the cluster.
+  
+* **KMedoidsAlgorithm**: implements the *AbstractAlgorithm* class to perform the k-medoids approach.
+
+### DBScan
+
+In a DB-Scan algorithm, clusters are not predefined. Instead they are created arbitrary.
+
+* **DBScanCluster**: extends the *Cluster* class to reference items added from the previous iteration. Those items are use in the next iteration to scan for their neighbors.
+
+* **DBScanIteration**: extends the *Iteration* class to include two additional properties.
+  * Properties
+    * Pending: list of items pending to be clustered. Unlike the previous implemented algorithms, not all items get clustered every iteration, instead they are clustered incrementally.
+    * Noise: list of items that were processed and found not to belong to any cluster.
+
+* **DBScanAlgorithm**: implements the *AbstractAlgorithm* class to perform the db-scan approach.
+
+## Assets / Grid
+
+This folder contains a grid system that allows us to visualize all the clustering algorithms. The system consists of three components.
+
+### GridEntity
+
+A *GridEntity* represents a 2D point on a graph. It is used as a template by the grid component when displaying the items.
+* Prefab: Assets/Grid/Prefabs/GridEntity.prefab
+* Script: Assets/Grid/Scripts/GridEntity.cs
+  * SetColor: sets the color of the represented point. Used to set the color of the point to show the cluster it belongs to.
+
+### GridPath
+
+A *GridPath* is used to to draw lines and circles.. It is used as a template by the grid component when displaying the trail of the center of the clusters, the scaning circle for nearby neighbors, etc.
+* Prefab: Assets/Grid/Prefabs/GridPath.prefab
+* Script: Assets/Grid/Scripts/GridPath.cs
+  * SetPath: draws a line between two points.
+  * SetCircle: draws a circle around a point.
+
+### Grid
+
+A grid system that uses the two prefabs; *GridEntity* and *GridPath*; to visualize the iterations of the clustering algorithms.
+* Prefab: Assets/Grid/Prefabs/Grid.prefab
+* Script: Assets/Grid/Scripts/Grid.cs
+  * Clear: deletes all entities and paths in the grid.
+  * DisplayEntities: displays entities on the grid.
+  * DisplayPaths: displays paths on the grid.
+  * DisplayCircularBoundary: displays circular boundaries.

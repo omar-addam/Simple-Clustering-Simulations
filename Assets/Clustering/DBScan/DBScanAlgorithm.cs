@@ -21,7 +21,7 @@ namespace Clustering.DBScan
         }
 
         /// <summary>
-        /// Minimal constructor.
+        /// Default constructor.
         /// </summary>
         public DBScanAlgorithm(List<Item> items, float distanceThreshold, int minPoints)
             : base("DB-Scan", items)
