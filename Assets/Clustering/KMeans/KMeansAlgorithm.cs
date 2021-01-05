@@ -20,7 +20,7 @@ namespace Clustering.KMeans
         }
 
         /// <summary>
-        /// Minimal constructor.
+        /// Default constructor.
         /// </summary>
         public KMeansAlgorithm(List<Item> items, List<Item> clusters) 
             : base("K-Means", items)
@@ -68,7 +68,7 @@ namespace Clustering.KMeans
         protected override Iteration ComputeNextIteration(Iteration previousIteration)
         {
             // Create a new iteration instance
-            Core.Iteration iteration = new Iteration(previousIteration.Order + 1, new List<Core.Cluster>());
+            Iteration iteration = new Iteration(previousIteration.Order + 1, new List<Core.Cluster>());
 
             // Create empty clusters
             foreach (KMeansCluster cluster in previousIteration.Clusters)
@@ -77,7 +77,7 @@ namespace Clustering.KMeans
             // Find for each item the cluster it belongs to
             foreach (Item item in _Items)
             {
-                Core.Cluster cluster = FindClosestCluster(item, iteration.Clusters);
+                Cluster cluster = FindClosestCluster(item, iteration.Clusters);
                 cluster.Items.Add(item);
             }
 
@@ -105,7 +105,7 @@ namespace Clustering.KMeans
                 return null;
 
             // Set the first cluster as the closest cluster by default
-            Core.Cluster closestCluster = clusters[0];
+            Cluster closestCluster = clusters[0];
             float closestDistance = ComputeDistance(item, (KMeansCluster)closestCluster);
 
             // Go through each cluster and find if it is closer
