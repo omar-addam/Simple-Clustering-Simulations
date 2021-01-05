@@ -95,12 +95,14 @@ The core contains 4 classes as shown in the figure below.
     * **Iterations**: list of all computed iterations. Gets populated upon calling the *Compute* method.
   * Methods
     * **Compute**: a public method that uses the two other methods to generate the iterations.
-    * **InitializeClusters**: an abstract method that gets implemented by the different clustering algorithms. This method is used to initialize the first set of clusters used.
+    * **InitializeClusters**: an abstract method that gets implemented by the different clustering algorithms. This method is used to initialize the first set of clusters used in the first iteration.
     * **ComputeNextIteration**: an abstract method that gets implemented by the different clustering algorithms. Tries to compute the next iteration. If there are no changes to the clusters, the method will return null, identifying the end.
 
-* **Iteration**
-* **Cluster**
-* **Item**
+* **Iteration**: represents a single state in an algorithm. It stores all the clusters with their items at a specific snapshot.
+
+* **Cluster**: represents a list of items grouped by their similarities. In the case of this implementation, they are grouped by their physical location's cohesion.
+  
+* **Item**: represents a single point in a 2D graph.
 
 ### KMeans
 
