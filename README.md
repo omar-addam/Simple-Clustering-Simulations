@@ -127,8 +127,21 @@ This algorithm is very similar to the k-means algorithm. However, rather than ha
     * **Centroid**: the item representing the center of the cluster.
   * Methods
     * **RecomputeCenter**: finds the item that represents the center of the cluster.
+  
+* **KMedoidsAlgorithm**: implements the *AbstractAlgorithm* class to perform the k-medoids approach.
 
 ### DBScan
+
+In a DB-Scan algorithm, clusters are not predefined. Instead they are created arbitrary.
+
+* **DBScanCluster**: extends the *Cluster* class to reference items added from the previous iteration. Those items are use in the next iteration to scan for their neighbors.
+
+* **DBScanIteration**: extends the *Iteration* class to include two additional properties.
+  * Properties
+    * Pending: list of items pending to be clustered. Unlike the previous implemented algorithms, not all items get clustered every iteration, instead they are clustered incrementally.
+    * Noise: list of items that were processed and found not to belong to any cluster.
+
+* **DBScanAlgorithm**: implements the *AbstractAlgorithm* class to perform the db-scan approach.
 
 ## Assets / Grid
 
