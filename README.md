@@ -106,6 +106,17 @@ The core contains 4 classes as shown in the figure below.
 
 ### KMeans
 
+In a KMeans algorithm, the initial set of clusters is defined by either creating the centers of the clusters randomly or predefining them.
+
+* **KMeansCluster**: extends the *Cluster* class to include two additional properties and one method.
+  * Properties
+    * **CenterX**: the x position of the center of the cluster.
+    * **CenterY**: the y position of the center of the cluster.
+  * Methods
+    * **RecomputeCenter**: recomputes the center of the cluster to set it at an average distance from all items in that cluster.
+
+* **KMeansAlgorithm**: implements the *AbstractAlgorithm* class to perform the k-means approach.
+
 ### KMedoids
 
 ### DBScan
