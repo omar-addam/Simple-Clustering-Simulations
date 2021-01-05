@@ -145,4 +145,17 @@ In a DB-Scan algorithm, clusters are not predefined. Instead they are created ar
 
 ## Assets / Grid
 
+This folder contains a grid system that allows us to visualize all the clustering algorithms. The system consists of three components.
+
+### GridEntity
+
+A *GridEntity* represents a 2D point on a graph. It is used as a template by the grid component when displaying the items.
+* Prefab: Assets/Grid/Prefabs/GridEntity.prefab
+* Script: Assets/Grid/Scripts/GridEntity.cs
+  * SetColor: sets the color of the represented point. Used to set the color of the point to show the cluster it belongs to.
+
+### GridPath
+
+### Grid
+
 ## Assets / App
