@@ -85,6 +85,21 @@ This folder contains all the scripts for the clustering component. The scripts a
 
 ### Core
 
+The core contains 4 classes:
+
+* **AbstractAlgorithm** is an abstract class that defines the flow of all the implemented algorithms.
+  * Properties
+    * Items: list of all items that are to be clustered.
+    * Iterations: list of all computed iterations. Gets populated upon calling the *Compute* method.
+  * Methods
+    * Compute
+    * InitializeClusters
+    * ComputeNextIteration
+
+* **Iteration**
+* **Cluster**
+* **Item**
+
 ### KMeans
 
 ### KMedoids
