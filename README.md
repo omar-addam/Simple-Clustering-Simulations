@@ -156,6 +156,12 @@ A *GridEntity* represents a 2D point on a graph. It is used as a template by the
 
 ### GridPath
 
+A *GridPath* is used to to draw lines and circles.. It is used as a template by the grid component when displaying the trail of the center of the clusters, the scaning circle for nearby neighbors, etc.
+* Prefab: Assets/Grid/Prefabs/GridPath.prefab
+* Script: Assets/Grid/Scripts/GridPath.cs
+  * SetPath: draws a line between two points.
+  * SetCircle: draws a circle around a point.
+
 ### Grid
 
 ## Assets / App
