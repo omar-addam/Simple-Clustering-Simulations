@@ -21,7 +21,7 @@ namespace Clustering.DBScan
         }
 
         /// <summary>
-        /// Copy constructor.
+        /// Clone constructor.
         /// </summary>
         public DBScanIteration(int order, DBScanIteration iteration)
             : this(order, new List<Cluster>())
