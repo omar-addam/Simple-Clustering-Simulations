@@ -164,4 +164,10 @@ A *GridPath* is used to to draw lines and circles.. It is used as a template by 
 
 ### Grid
 
-## Assets / App
+A grid system that uses the two prefabs; *GridEntity* and *GridPath*; to visualize the iterations of the clustering algorithms.
+* Prefab: Assets/Grid/Prefabs/Grid.prefab
+* Script: Assets/Grid/Scripts/Grid.cs
+  * Clear: deletes all entities and paths in the grid.
+  * DisplayEntities: displays entities on the grid.
+  * DisplayPaths: displays paths on the grid.
+  * DisplayCircularBoundary: displays circular boundaries.
