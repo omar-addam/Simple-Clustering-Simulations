@@ -81,6 +81,16 @@ git flow init
 
 ## Assets / Clustering
 
+This folder contains all the scripts for the clustering component. The scripts are classified into four folders.
+
+### Core
+
+### KMeans
+
+### KMedoids
+
+### DBScan
+
 ## Assets / Grid
 
 ## Assets / App
