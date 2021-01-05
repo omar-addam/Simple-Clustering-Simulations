@@ -24,7 +24,7 @@ These instructions will get you a copy of the project on your local machine for 
 
 The things you need to install before you proceed with development:
 
-1) [Unity3d (2020.1.10f1)](https://unity3d.com/get-unity/download/archive) [required].
+1) [Unity3d (2020.2.0f1)](https://unity3d.com/get-unity/download/archive) [required].
 
 ### Installing
 
