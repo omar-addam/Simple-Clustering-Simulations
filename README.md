@@ -67,7 +67,7 @@ git flow init
 
 ### Assets / App
 
-* Contains scripts that define the flow of the application.
+* Contains scripts, scenes, and all resources used to create the demo application.
 * Scripts are created under Assets/App/Scripts folder.
 
 ### Assets / Others
@@ -76,3 +76,11 @@ git flow init
 * Each component should be isolated and under **NO CIRCUMSTANCES** referencing or using another component's scripts.
 * Components are **NOT** allowed to reference or call application scripts.
 * Components are allowed to reference and use ThirdParty scripts.
+
+# Code Based Documentation
+
+## Assets / Clustering
+
+## Assets / Grid
+
+## Assets / App
