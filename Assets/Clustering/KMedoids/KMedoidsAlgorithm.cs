@@ -21,7 +21,7 @@ namespace Clustering.KMedoids
         }
 
         /// <summary>
-        /// Minimal constructor.
+        /// Default constructor.
         /// </summary>
         public KMedoidsAlgorithm(List<Item> items, List<Guid> clusters)
             : base("K-Medoids", items)
@@ -113,7 +113,7 @@ namespace Clustering.KMedoids
                 return null;
 
             // Set the first cluster as the closest cluster by default
-            Core.Cluster closestCluster = clusters[0];
+            Cluster closestCluster = clusters[0];
             float closestDistance = ComputeDistance(item, (KMedoidsCluster)closestCluster);
 
             // Go through each cluster and find if it is closer
