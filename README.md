@@ -81,7 +81,7 @@ git flow init
 
 ## Assets / Clustering
 
-This folder contains all the scripts for the clustering component. The scripts are classified into four folders.
+This folder contains all the scripts of the clustering component. The core scripts are in the *Core* folder while the rest of the scripts are in their proper implementation folders.
 
 ### Core
 
@@ -91,12 +91,12 @@ The core contains 4 classes as shown in the figure below.
 
 * **AbstractAlgorithm** is an abstract class that defines the flow of all the implemented algorithms.
   * Properties
-    * Items: list of all items that are to be clustered.
-    * Iterations: list of all computed iterations. Gets populated upon calling the *Compute* method.
+    * **Items**: list of all items that are to be clustered.
+    * **Iterations**: list of all computed iterations. Gets populated upon calling the *Compute* method.
   * Methods
-    * Compute
-    * InitializeClusters
-    * ComputeNextIteration
+    * **Compute**: a public method that uses the two other methods to generate the iterations.
+    * **InitializeClusters**: an abstract method that gets implemented by the different clustering algorithms. This method is used to initialize the first set of clusters used.
+    * **ComputeNextIteration**: an abstract method that gets implemented by the different clustering algorithms. Tries to compute the next iteration. If there are no changes to the clusters, the method will return null, identifying the end.
 
 * **Iteration**
 * **Cluster**
