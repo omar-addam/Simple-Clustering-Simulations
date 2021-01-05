@@ -85,7 +85,9 @@ This folder contains all the scripts for the clustering component. The scripts a
 
 ### Core
 
-The core contains 4 classes:
+The core contains 4 classes as shown in the figure below.
+
+![Simulation](docs/ClusteringCore.png)
 
 * **AbstractAlgorithm** is an abstract class that defines the flow of all the implemented algorithms.
   * Properties
