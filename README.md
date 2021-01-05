@@ -119,6 +119,15 @@ In a KMeans algorithm, the initial set of clusters is defined by either creating
 
 ### KMedoids
 
+This algorithm is very similar to the k-means algorithm. However, rather than having an average floating point represent a cluster, one of the cluster's items is set as the centroid.
+
+* **KMedoidsCluster**: extends the *Cluster* class to include two additional properties and one method.
+  * Properties
+    * **CenterId**: the id of the item representing the center of the cluster.
+    * **Centroid**: the item representing the center of the cluster.
+  * Methods
+    * **RecomputeCenter**: finds the item that represents the center of the cluster.
+
 ### DBScan
 
 ## Assets / Grid
